@@ -1,0 +1,171 @@
+﻿<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Open Social Brain</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <nav class="program-tabs" aria-label="Temáticas del atlas">
+        <div id="theme-tabs-bar" class="program-tab-list"></div>
+        <div class="language-switch" role="group" aria-label="Idioma">
+          <button data-lang="es" class="active">ES</button>
+          <button data-lang="en">EN</button>
+        </div>
+      </nav>
+      <section class="viewer" aria-label="Atlas cerebral tridimensional">
+        <div id="scene"></div>
+        <div class="topbar">
+          <div>
+            <p class="eyebrow">Atlas neuroanatómico interactivo</p>
+            <h1 class="brand-title"><span class="brain-logo" aria-hidden="true"></span>Open Social Brain</h1>
+            <p class="creator-credit">Creado por Felipe Rojas-Thomas, PhD. Neurociencia</p>
+          </div>
+          <div class="view-actions" role="group" aria-label="Vistas del cerebro">
+            <button class="icon-button" data-view="lateral" title="Vista lateral">LAT</button>
+            <button class="icon-button wide-icon" data-view="medial-left" title="Corte medial del hemisferio izquierdo">MED-I</button>
+            <button class="icon-button wide-icon" data-view="medial-right" title="Corte medial del hemisferio derecho">MED-D</button>
+            <button class="center-button" data-view="center" title="Centralizar cerebro">Centrar</button>
+            <button class="icon-button" data-view="reset" title="Reiniciar vista">RST</button>
+          </div>
+        </div>
+        <label class="model-loader" title="Importar modelo neuroanatómico GLB o GLTF">
+          <input id="model-input" type="file" accept=".glb,.gltf,model/gltf-binary,model/gltf+json" />
+          <span>Cargar modelo 3D</span>
+        </label>
+        <div class="legend" aria-label="Leyenda de capas">
+          <span><i class="dot cortex"></i>Corteza</span>
+          <span><i class="dot network"></i>Redes</span>
+          <span><i class="dot subcortex"></i>Subcorteza</span>
+          <span id="model-status">Modelo procedural activo</span>
+        </div>
+      </section>
+
+      <aside class="panel" aria-label="Panel del atlas">
+        <section class="panel-section">
+          <p class="eyebrow">Estructura seleccionada</p>
+          <h2 id="region-title">Corteza dorsolateral prefrontal</h2>
+          <p id="region-summary">
+            Nodo frontal de control ejecutivo: memoria de trabajo, selección de metas, control inhibitorio y ajuste flexible de la conducta.
+          </p>
+          <dl class="facts">
+            <div>
+              <dt>Localización</dt>
+              <dd id="region-location">Giro frontal medio/superior, BA 9/46.</dd>
+            </div>
+            <div>
+              <dt>Funciones</dt>
+              <dd id="region-functions">Memoria de trabajo, planificación, atención ejecutiva.</dd>
+            </div>
+            <div>
+              <dt>Redes</dt>
+              <dd id="region-network">Red frontoparietal de control; saliencia cognitiva.</dd>
+            </div>
+            <div>
+              <dt>Etiqueta CerebrA</dt>
+              <dd id="region-label">Rostral/Caudal middle frontal y superior frontal bilateral.</dd>
+            </div>
+          </dl>
+        </section>
+
+        <section class="panel-section">
+          <p class="eyebrow">Neurociencia social y cognitiva</p>
+          <h3 id="social-title">Control cognitivo en contexto social</h3>
+          <p id="social-summary">
+            Participa en mantener metas, inhibir respuestas impulsivas y ajustar decisiones cuando hay reglas sociales cambiantes.
+          </p>
+          <dl class="facts compact-facts">
+            <div>
+              <dt>Áreas de la red</dt>
+              <dd id="social-concepts">Control ejecutivo, toma de perspectiva, regulación conductual.</dd>
+            </div>
+          </dl>
+        </section>
+
+        <section class="panel-section">
+          <div class="section-title">
+            <p class="eyebrow">Saber mas</p>
+            <span id="deep-source">Gazzaniga et al. + clase</span>
+          </div>
+          <div class="deep-dive">
+            <article>
+              <h3 id="deep-title">Control ejecutivo aplicado</h3>
+              <p id="deep-copy">
+                Esta zona se puede conectar con procesos de control, decision y regulacion de la conducta en escenarios sociales.
+              </p>
+            </article>
+            <dl class="deep-grid">
+              <div>
+                <dt>Experimento sugerido</dt>
+                <dd id="deep-experiment">Comparar respuestas automaticas y reguladas en una tarea breve de conflicto.</dd>
+              </div>
+              <div>
+                <dt>Pregunta para discutir</dt>
+                <dd id="deep-question">Que cambia cuando una misma tarea se interpreta como una interaccion social?</dd>
+              </div>
+            </dl>
+          </div>
+        </section>
+
+        <section class="panel-section theme-section">
+          <div class="section-title">
+            <p class="eyebrow">Explorar por sistema</p>
+            <span id="region-count">10 regiones</span>
+          </div>
+          <div id="region-list" class="region-list"></div>
+        </section>
+        <section class="panel-section compact-zone-section">
+          <details class="zone-drawer">
+            <summary>
+              <span>
+                <p class="eyebrow">Zonas anatómicas</p>
+                <small>Buscar una región específica del atlas</small>
+              </span>
+              <span id="zone-count">102 zonas</span>
+            </summary>
+            <div class="zone-drawer-body">
+              <div class="zone-filter">
+                <input id="zone-search" type="search" placeholder="Buscar zona anatómica..." aria-label="Buscar zona anatómica" />
+                <div class="side-tabs" role="group" aria-label="Filtrar hemisferio">
+                  <button data-side="all" class="active">Ambos</button>
+                  <button data-side="RH">Der.</button>
+                  <button data-side="LH">Izq.</button>
+                </div>
+              </div>
+              <div class="zone-groups" role="group" aria-label="Filtrar sistema anatómico">
+                <button data-group="all" class="active">Todo</button>
+                <button data-group="frontal">Frontal</button>
+                <button data-group="temporal">Temporal</button>
+                <button data-group="parietal">Parietal</button>
+                <button data-group="occipital">Occipital</button>
+                <button data-group="limbic">Límbico</button>
+                <button data-group="subcortex">Subcorteza</button>
+                <button data-group="cerebellum">Cerebelo</button>
+              </div>
+              <div id="zone-list" class="zone-list"></div>
+            </div>
+          </details>
+        </section>
+
+        <section class="panel-section principal-function">
+          <p class="eyebrow">Función principal</p>
+          <h3 id="experiment-title">Control social dirigido a metas</h3>
+          <p id="experiment-copy">Mantiene reglas sociales activas, inhibe respuestas impulsivas y ajusta la conducta según metas, normas y contexto interpersonal.</p>
+        </section>
+      </aside>
+    </main>
+
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.163.0/build/three.module.js",
+          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.163.0/examples/jsm/"
+        }
+      }
+    </script>
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
+
