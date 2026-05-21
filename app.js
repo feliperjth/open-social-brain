@@ -4270,14 +4270,14 @@ responseTask?.addEventListener("click", () => {
 
 function animate() {
   requestAnimationFrame(animate);
-  const canAutoRotate = !userInteracting && !targetCamera && performance.now() - lastInteractionAt > 1200;
+  const canAutoRotate = !userInteracting && !targetCamera && performance.now() - lastInteractionAt > 600;
   const viewIsLocked = performance.now() < viewLockedUntil;
   if (canAutoRotate && !viewIsLocked) {
     if (importedBrain) {
-      modelRotation.yaw += 0.0011;
+      modelRotation.yaw += 0.003;
       applyModelRotation();
     } else {
-      brain.rotation.y += 0.0011;
+      brain.rotation.y += 0.003;
     }
   }
   regionMeshes.forEach((mesh, id) => {
@@ -4359,6 +4359,10 @@ function isMobileSheet() {
   return window.matchMedia("(max-width: 940px)").matches;
 }
 
+const PEEK_PX = 76;
+function sheetHeight() { return window.innerHeight * 0.80; }
+function closedTranslate() { return sheetHeight() - PEEK_PX; }
+
 function openSheet() {
   if (!isMobileSheet()) return;
   panelEl?.classList.add("sheet-open");
@@ -4370,23 +4374,62 @@ function closeSheet() {
   sheetIsOpen = false;
 }
 
-panelHandle?.addEventListener("click", () => {
-  if (sheetIsOpen) closeSheet(); else openSheet();
+// Handle: drag follows finger, snap on release
+let hdragStartY = 0;
+let hdragStartTranslate = 0;
+let hdragging = false;
+
+panelHandle?.addEventListener("touchstart", (e) => {
+  if (!isMobileSheet() || !panelEl) return;
+  hdragStartY = e.touches[0].clientY;
+  hdragStartTranslate = sheetIsOpen ? 0 : closedTranslate();
+  hdragging = true;
+  panelEl.style.transition = "none";
+}, { passive: true });
+
+panelHandle?.addEventListener("touchmove", (e) => {
+  if (!hdragging || !panelEl) return;
+  const dy = e.touches[0].clientY - hdragStartY;
+  const next = Math.max(0, Math.min(closedTranslate(), hdragStartTranslate + dy));
+  panelEl.style.transform = `translateY(${next}px)`;
+}, { passive: true });
+
+panelHandle?.addEventListener("touchend", (e) => {
+  if (!hdragging || !panelEl) return;
+  hdragging = false;
+  panelEl.style.transition = "";
+  const dy = e.changedTouches[0].clientY - hdragStartY;
+  let target = sheetIsOpen;
+  if (dy > 60) target = false;
+  else if (dy < -40) target = true;
+  else if (Math.abs(dy) < 10) target = !sheetIsOpen;
+  if (target) {
+    panelEl.classList.add("sheet-open");
+    sheetIsOpen = true;
+  } else {
+    panelEl.classList.remove("sheet-open");
+    sheetIsOpen = false;
+  }
+  requestAnimationFrame(() => { if (panelEl) panelEl.style.transform = ""; });
 });
 
-let touchStartY = 0;
+// Body: swipe down from scroll-top also closes
+let bodyTouchY = 0;
+let bodyTouchX = 0;
 panelEl?.addEventListener("touchstart", (e) => {
-  touchStartY = e.touches[0].clientY;
+  bodyTouchY = e.touches[0].clientY;
+  bodyTouchX = e.touches[0].clientX;
 }, { passive: true });
 
 panelEl?.addEventListener("touchend", (e) => {
-  if (!isMobileSheet()) return;
-  const dy = e.changedTouches[0].clientY - touchStartY;
-  if (dy > 64 && panelEl.scrollTop <= 2) closeSheet();
+  if (!isMobileSheet() || hdragging) return;
+  const dy = e.changedTouches[0].clientY - bodyTouchY;
+  const dx = e.changedTouches[0].clientX - bodyTouchX;
+  if (dy > 48 && Math.abs(dx) < 40 && panelEl.scrollTop <= 2) closeSheet();
 }, { passive: true });
 
 window.addEventListener("resize", () => {
-  if (!isMobileSheet()) closeSheet();
+  if (!isMobileSheet()) { closeSheet(); if (panelEl) panelEl.style.transform = ""; }
 });
 
 applyLanguage("es");
