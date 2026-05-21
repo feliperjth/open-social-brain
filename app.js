@@ -3661,6 +3661,7 @@ function selectTheme(sectionId, options = {}) {
   renderZoneList();
   resetTask();
   updateURL();
+  openSheet();
 }
 
 function selectRegion(id, options = {}) {
@@ -3746,6 +3747,7 @@ function selectRegion(id, options = {}) {
   renderZoneList();
   resetTask();
   updateURL();
+  openSheet();
 }
 
 function selectZone(label) {
@@ -3803,6 +3805,7 @@ function selectZone(label) {
   setMedialCut(medialHemisphere);
   renderZoneList();
   updateURL();
+  openSheet();
 }
 
 function updateSelectionHalo(meshes, color) {
@@ -4345,6 +4348,45 @@ aboutOverlay?.addEventListener("click", (e) => {
 });
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape" && aboutOverlay?.classList.contains("open")) closeAbout();
+});
+
+// ── Mobile bottom sheet ─────────────────────────────────
+const panelEl = document.querySelector(".panel");
+const panelHandle = document.querySelector(".panel-handle");
+let sheetIsOpen = false;
+
+function isMobileSheet() {
+  return window.matchMedia("(max-width: 940px)").matches;
+}
+
+function openSheet() {
+  if (!isMobileSheet()) return;
+  panelEl?.classList.add("sheet-open");
+  sheetIsOpen = true;
+}
+
+function closeSheet() {
+  panelEl?.classList.remove("sheet-open");
+  sheetIsOpen = false;
+}
+
+panelHandle?.addEventListener("click", () => {
+  if (sheetIsOpen) closeSheet(); else openSheet();
+});
+
+let touchStartY = 0;
+panelEl?.addEventListener("touchstart", (e) => {
+  touchStartY = e.touches[0].clientY;
+}, { passive: true });
+
+panelEl?.addEventListener("touchend", (e) => {
+  if (!isMobileSheet()) return;
+  const dy = e.changedTouches[0].clientY - touchStartY;
+  if (dy > 64 && panelEl.scrollTop <= 2) closeSheet();
+}, { passive: true });
+
+window.addEventListener("resize", () => {
+  if (!isMobileSheet()) closeSheet();
 });
 
 applyLanguage("es");
