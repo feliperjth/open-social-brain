@@ -2842,12 +2842,12 @@ function literalQuote(key) {
 }
 
 function deepNarrativeTitle(label) {
-  if (!label) return currentLang === "en" ? "Why this matters" : "Por qué importa";
-  return currentLang === "en" ? `Why ${label} matters` : `Por qué importa ${label}`;
+  if (!label) return currentLang === "en" ? "The social brain" : "El cerebro social";
+  return label;
 }
 
 function quoteLabel() {
-  return currentLang === "en" ? "Reference anchor" : "Anclaje en referencias";
+  return currentLang === "en" ? "From the literature" : "En la literatura";
 }
 
 function asSentence(text) {
@@ -2866,26 +2866,28 @@ function listPreview(items, max = 4) {
   return items.slice(0, max).join(", ");
 }
 
-function buildDeepNarrative(quote, selectedImportance, label) {
+function buildDeepNarrative(quote, phenomSummary, label, phenomDeep = "") {
   const baseImportance = currentLang === "en" ? quote.importance : (quote.importanceEs ?? quote.importance);
-  const selected = asSentence(selectedImportance);
+  const core = asSentence(phenomSummary);
+  const extra = asSentence(phenomDeep);
   const base = asSentence(baseImportance);
   if (currentLang === "en") {
-    if (!label) return `${base} The atlas uses this reference as an entry point for reading social life as a coordination between body, attention, memory, value and action.`;
-    return `${selected} In the atlas, ${label.toLowerCase()} is not treated as a loose label or a single brain spot. It is read as a social capacity that coordinates body signals, attention, memory, valuation and control so that a person can interpret what is happening with others and choose a response. ${base}`;
+    if (!label) return `${base} The atlas reads social life as a coordination between body, attention, memory, value and action — each function is a node in that network.`;
+    return extra ? `${core} ${extra} ${base}` : `${core} ${base}`;
   }
-  if (!label) return `${base} El atlas usa esta referencia como una puerta de entrada para leer la vida social como una coordinación entre cuerpo, atención, memoria, valor y acción.`;
-  return `${selected} En el atlas, ${label.toLowerCase()} no se trata como una etiqueta suelta ni como un punto único del cerebro. Se lee como una capacidad social que coordina cuerpo, atención, memoria, valoración y control para interpretar lo que ocurre con otros y elegir una respuesta. ${base}`;
+  if (!label) return `${base} El atlas lee la vida social como coordinación entre cuerpo, atención, memoria, valor y acción — cada función es un nodo de esa red.`;
+  return extra ? `${core} ${extra} ${base}` : `${core} ${base}`;
 }
 
 function showLiteralQuote(key, options = {}) {
   const quote = literalQuote(key);
   const baseImportance = currentLang === "en" ? quote.importance : (quote.importanceEs ?? quote.importance);
-  const selectedImportance = options.importance ?? baseImportance;
+  const phenomSummary = options.importance ?? baseImportance;
   const label = options.label ?? "";
+  const phenomDeep = options.deepExtra ?? "";
   const visibleQuote = currentLang === "en" ? quote.copy : (quote.copyEs ?? quote.copy);
   deepTitleEl.textContent = deepNarrativeTitle(label);
-  deepCopyEl.textContent = buildDeepNarrative(quote, selectedImportance, label);
+  deepCopyEl.textContent = buildDeepNarrative(quote, phenomSummary, label, phenomDeep);
   if (deepPurposeEl) deepPurposeEl.textContent = `${quoteLabel()}: ${visibleQuote}`;
   deepSourceEl.textContent = quote.source;
 }
@@ -3304,9 +3306,14 @@ function updateSocialContent(regionId, zone = null) {
 function updateDeepDive(regionId, zone = null) {
   const region = regions.find((item) => item.id === regionId) ?? regions[0];
   const copy = getRegionCopy(region);
+  const profile = socialFunctionProfiles[regionId];
+  const phenomSummary = zone
+    ? (zoneContentOverrides[zone.displayName]?.[1] ?? profile?.summary ?? copy.summary)
+    : (profile?.summary ?? copy.summary);
   showLiteralQuote(quoteKeyForRegion(regionId), {
-    label: zone ? zone.displayName : copy.name,
-    importance: zone ? zoneContentOverrides[zone.displayName]?.[1] ?? copy.summary : copy.summary
+    label: zone ? zone.displayName : (profile?.title ?? copy.name),
+    importance: phenomSummary,
+    deepExtra: zone ? "" : (profile?.deep ?? "")
   });
 }
 
