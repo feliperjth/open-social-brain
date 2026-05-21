@@ -3006,11 +3006,12 @@ function showSocialGroupOverview(group) {
     ? `${group.themes.length} specific functions; ${regionIds.length} associated atlas systems.`
     : `${group.themes.length} funciones específicas; ${regionIds.length} sistemas del atlas asociados.`;
   socialTitleEl.textContent = groupCopy.title;
-  socialSummaryEl.textContent = groupNarrative;
+  socialSummaryEl.textContent = groupCopy.description ?? groupNarrative;
   socialConceptsEl.textContent = themeCopies.map((theme) => theme.title).join(" · ");
   showLiteralQuote(literalQuoteBySocialGroup[group.id] ?? "socialSpecies", {
     label: groupCopy.title,
-    importance: groupNarrative
+    importance: themeCopies.map((theme) => theme.hint).join(". "),
+    deepExtra: groupCopy.description ?? ""
   });
   experimentTitle.textContent = groupCopy.title;
   experimentCopy.textContent = currentLang === "en"
@@ -3582,8 +3583,13 @@ function selectTheme(sectionId, options = {}) {
   labelEl.textContent = currentLang === "en"
     ? `${section.regions.length} associated atlas systems.`
     : `${section.regions.length} sistemas del atlas asociados.`;
-  experimentTitle.textContent = themeCopy.title;
-  experimentCopy.textContent = buildTeachingNarrative(themeCopy);
+  const themeDeep = getThemeDeepExtra(section, themeCopy);
+  experimentTitle.textContent = themeDeep.question
+    ? (currentLang === "en" ? "Reflection question" : "Pregunta de reflexión")
+    : themeCopy.title;
+  experimentCopy.textContent = themeDeep.question
+    ? `${themeDeep.question} ${asSentence(section.experiment ?? themeCopy.guide)}`
+    : buildTeachingNarrative(themeCopy);
 
   socialTitleEl.textContent = themeCopy.title;
   socialSummaryEl.textContent = buildThemeNetworkDescription(section);
@@ -3592,8 +3598,8 @@ function selectTheme(sectionId, options = {}) {
     .join(" · ");
   if (socialExampleEl) socialExampleEl.textContent = themeCopy.guide ?? "";
   showLiteralQuote(quoteKeyForTheme(section.id), {
-    label: themeCopy.title,
-    importance: buildTeachingNarrative(themeCopy)
+    label: themeDeep.title,
+    importance: themeDeep.copy
   });
 
   const themeRegionIds = new Set(section.regions);
