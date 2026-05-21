@@ -3587,9 +3587,7 @@ function selectTheme(sectionId, options = {}) {
   experimentTitle.textContent = themeDeep.question
     ? (currentLang === "en" ? "Reflection question" : "Pregunta de reflexión")
     : themeCopy.title;
-  experimentCopy.textContent = themeDeep.question
-    ? `${themeDeep.question} ${asSentence(section.experiment ?? themeCopy.guide)}`
-    : buildTeachingNarrative(themeCopy);
+  experimentCopy.textContent = themeDeep.question ?? buildTeachingNarrative(themeCopy);
 
   socialTitleEl.textContent = themeCopy.title;
   socialSummaryEl.textContent = buildThemeNetworkDescription(section);
