@@ -275,6 +275,28 @@ const regionSections = [
     regions: ["insula", "acc", "ventralAttention", "parietal", "vmPfc", "dmn"]
   },
   {
+    id: "social-anger",
+    icon: "RA",
+    title: "Rabia",
+    hint: "Amenaza, frustración, injusticia y preparación de respuesta",
+    description: "Integra sistemas que transforman una amenaza social, una frustración interpersonal o una injusticia percibida en activación corporal, saliencia, evaluación de daño y control de la respuesta. Participan amígdala, ínsula, cíngulo anterior, red de saliencia y control prefrontal.",
+    guide: "Permite diferenciar rabia defensiva, rabia moral y regulación de la agresión: no es solo emoción intensa, también implica interpretación social, norma y control.",
+    experiment: "Escenarios breves de ofensa, bloqueo de meta o trato injusto; comparar intensidad de rabia, deseo de confrontar y posibilidad de regular la respuesta.",
+    handbook: "Guía: Emotion, Consciousness, and Social Behavior; Social Threat; Staying in Control; Ethical, Legal, and Societal Issues.",
+    regions: ["amygdala", "insula", "acc", "salience", "dlpfc", "vmPfc"]
+  },
+  {
+    id: "shame-social",
+    icon: "VG",
+    title: "Vergüenza",
+    hint: "Evaluación pública, self, norma y deseo de reparación",
+    description: "Agrupa procesos de autoevaluación ante la mirada de otros: exposición pública, error social, pérdida de estatus, norma vulnerada y necesidad de ocultarse, reparar o regular la conducta.",
+    guide: "Ayuda a mostrar que la vergüenza combina cuerpo, self y contexto social: depende de cómo una persona cree que está siendo vista y evaluada por otros.",
+    experiment: "Comparar errores privados versus errores observados por otros, con ratings de vergüenza, deseo de ocultamiento, reparación y control emocional.",
+    handbook: "Guía: Self-Awareness and the Brain; Emotion and Social Behavior; Staying in Control; Ethical, Legal, and Societal Issues.",
+    regions: ["vmPfc", "dmn", "insula", "acc", "amygdala", "dlpfc"]
+  },
+  {
     id: "regulation-control",
     icon: "RC",
     title: "Regulación y control social",
@@ -506,15 +528,48 @@ const regionSections = [
     regions: ["amygdala", "fusiformFace", "acc", "dlpfc", "vmPfc", "salience"]
   },
   {
-    id: "moral-emotions",
-    icon: "MV",
-    title: "Emociones morales",
-    hint: "Culpa, vergüenza, orgullo, indignación y reparación",
-    description: "Integra emociones que dependen de normas, reputación y evaluación del self frente a otros: culpa, vergüenza, orgullo, indignación o arrepentimiento.",
-    guide: "Muestra que muchas emociones sociales son evaluaciones relacionales: qué hice, cómo me ven, qué norma se rompió y cómo reparar.",
-    experiment: "Escenarios de transgresión propia/ajena con ratings de culpa, vergüenza, enojo moral y deseo de reparación.",
-    handbook: "Guía: Emotion and Social Behavior; Ethical, Legal, and Societal Issues; Self-Awareness and the Brain.",
-    regions: ["vmPfc", "acc", "insula", "dmn", "amygdala"]
+    id: "guilt-repair",
+    icon: "CU",
+    title: "Culpa",
+    hint: "Responsabilidad, daño causado, norma y reparación",
+    description: "Representa la evaluación de una acción propia como dañina, injusta o contraria a una norma. Integra responsabilidad, malestar, memoria del episodio y motivación para reparar o pedir disculpas.",
+    guide: "Permite distinguir culpa de vergüenza: la culpa se centra más en lo que hice y cómo repararlo; la vergüenza se centra más en cómo soy visto por otros.",
+    experiment: "Escenarios de daño accidental versus intencional, con ratings de culpa, responsabilidad, disculpa y deseo de reparar.",
+    handbook: "Guía: Emotion and Social Behavior; Self-Awareness and the Brain; Ethical, Legal, and Societal Issues.",
+    regions: ["vmPfc", "acc", "insula", "dmn", "hippocampus", "dlpfc"]
+  },
+  {
+    id: "social-pride",
+    icon: "OR",
+    title: "Orgullo",
+    hint: "Logro, reconocimiento, autoestima y estatus social",
+    description: "Agrupa procesos que valoran logros propios ante otros, reconocimiento social, autoestima, reputación y aumento de estatus dentro de un grupo.",
+    guide: "Ayuda a mostrar que el orgullo no es solo placer individual: depende de evaluación social, pertenencia, comparación y significado personal del logro.",
+    experiment: "Feedback de desempeño privado versus público, con ratings de orgullo, motivación, autoestima y deseo de compartir el resultado.",
+    handbook: "Guía: Self-Awareness and the Brain; Self-Esteem Maintenance; Social Hierarchy; Processing Social and Nonsocial Rewards.",
+    regions: ["vmPfc", "thalamostriatal", "dmn", "hippocampus", "acc"]
+  },
+  {
+    id: "social-repair",
+    icon: "RS",
+    title: "Reparación social",
+    hint: "Disculpa, restitución, regulación y restauración del vínculo",
+    description: "Representa la tendencia a reparar después de una transgresión, error público o daño interpersonal. Integra culpa, vergüenza, regulación emocional, memoria del vínculo y decisión de disculparse, compensar o restaurar confianza.",
+    guide: "Permite distinguir reparación emocional de perdón: aquí el foco está en quien dañó o falló y busca restaurar una relación o norma.",
+    experiment: "Escenarios de transgresión con o sin disculpa, compensación o reconocimiento del daño; medir deseo de reparar y confianza esperada.",
+    handbook: "Guía: Emotion and Social Behavior; Social Bonding and Attachment; Strategic Thinking; Ethical, Legal, and Societal Issues.",
+    regions: ["vmPfc", "dlpfc", "acc", "insula", "hippocampus", "dmn"]
+  },
+  {
+    id: "moral-indignation",
+    icon: "IM",
+    title: "Indignación moral",
+    hint: "Injusticia, daño ajeno, norma vulnerada y castigo",
+    description: "Integra la respuesta afectiva ante daño injusto, abuso, traición o violación de normas. Combina saliencia emocional, evaluación moral, rabia social y decisión de confrontar o castigar.",
+    guide: "Permite diferenciar rabia general de indignación moral: aquí la emoción se organiza alrededor de una norma vulnerada o de daño injusto hacia alguien.",
+    experiment: "Escenarios de trato injusto hacia uno mismo o hacia terceros, con ratings de indignación, castigo, reparación y confianza futura.",
+    handbook: "Guía: Emotion and Social Behavior; Altruism; Strategic Thinking; Ethical, Legal, and Societal Issues.",
+    regions: ["insula", "acc", "amygdala", "dlpfc", "vmPfc", "salience"]
   },
   {
     id: "envy-social-comparison",
@@ -572,6 +627,72 @@ const regionSections = [
     regions: ["dlpfc", "acc", "salience", "vmPfc", "hippocampus", "amygdala"]
   },
   {
+    id: "social-decision-choice",
+    icon: "DS",
+    title: "Decisión social",
+    hint: "Preferencias, alternativas, consecuencias y elección interpersonal",
+    description: "Organiza procesos que permiten elegir en contextos donde las consecuencias afectan a otras personas o dependen de sus respuestas. Integra valoración, control, memoria de experiencias previas e incertidumbre.",
+    guide: "Conecta teoría de decisión con cerebro social: decidir no es solo escoger una opción, sino anticipar consecuencias, preferencias ajenas, reputación y normas del contexto.",
+    experiment: "Presentar elecciones entre beneficio propio, beneficio compartido y costo social; comparar decisión privada versus observada.",
+    handbook: "Referencia: Decision Theory and Rationality; Game Theory and Political Theory; Rational Choice and Judgment.",
+    regions: ["vmPfc", "dlpfc", "acc", "thalamostriatal", "hippocampus"]
+  },
+  {
+    id: "strategic-interaction",
+    icon: "TG",
+    title: "Interacción estratégica",
+    hint: "Teoría de juegos, predicción del otro, cooperación y competencia",
+    description: "Representa situaciones en que el resultado depende simultáneamente de mi acción y de la acción esperada de otra persona o grupo. Combina mentalización, memoria de reputación, valoración y control.",
+    guide: "Permite trabajar dilemas sociales, juegos de confianza, negociación, reciprocidad y competencia como problemas de predicción interpersonal.",
+    experiment: "Juego del prisionero, confianza repetida o coordinación con información incompleta sobre la estrategia del otro.",
+    handbook: "Referencia: Behavioral Game Theory; Game Theory and Political Theory; Foundations of Cooperation in Economic Life.",
+    regions: ["dmn", "vmPfc", "dlpfc", "hippocampus", "thalamostriatal", "acc"]
+  },
+  {
+    id: "risk-ambiguity-social",
+    icon: "RI",
+    title: "Riesgo y ambigüedad social",
+    hint: "Prospect theory, pérdida, ganancia, incertidumbre y contexto social",
+    description: "Agrupa procesos para decidir cuando hay riesgo conocido o ambigüedad sobre probabilidades, especialmente cuando las pérdidas, ganancias o consecuencias son sociales.",
+    guide: "Ayuda a explicar por qué una misma opción cambia de valor si implica pérdida de estatus, posibilidad de rechazo, ganancia compartida o incertidumbre sobre la reacción de otros.",
+    experiment: "Elecciones con ganancias/pérdidas sociales bajo riesgo explícito versus ambigüedad, midiendo aversión a la pérdida y confianza.",
+    handbook: "Referencia: Prospect Theory for Risk and Ambiguity; Decision Theory and Rationality.",
+    regions: ["vmPfc", "salience", "amygdala", "acc", "dlpfc", "thalamostriatal"]
+  },
+  {
+    id: "bounded-rationality-bias",
+    icon: "RL",
+    title: "Racionalidad limitada y sesgos",
+    hint: "Heurísticos, sesgos, emoción, carga cognitiva y decisión social",
+    description: "Integra límites de atención, memoria, control y emoción que hacen que las decisiones sociales no siempre sigan una racionalidad ideal. Incluye sesgos, atajos, framing y presión contextual.",
+    guide: "Muestra que muchas decisiones sociales son razonables dentro de límites reales: poco tiempo, información incompleta, emociones activas y normas del grupo.",
+    experiment: "Comparar una elección social con información completa versus presión de tiempo, marco de pérdida/ganancia o feedback grupal.",
+    handbook: "Referencia: Bounded Rationality and Politics; Predictably Irrational; Rational Choice and Judgment.",
+    regions: ["dlpfc", "acc", "salience", "vmPfc", "hippocampus"]
+  },
+  {
+    id: "choice-architecture-nudge",
+    icon: "NU",
+    title: "Arquitectura de elección y nudge",
+    hint: "Contexto, default, influencia, diseño de opciones y conducta social",
+    description: "Representa cómo el modo en que se presentan las alternativas puede cambiar decisiones sin prohibir opciones. Conecta atención, valor, norma, hábito y susceptibilidad a señales del contexto.",
+    guide: "Permite discutir cómo pequeños cambios del entorno social o institucional guían elecciones sobre salud, cooperación, consumo, ayuda o participación.",
+    experiment: "Modificar orden, opción por defecto o norma descriptiva en una decisión social y medir cambio de elección.",
+    handbook: "Referencia: Nudge; Handbook on Decision Making; Behavioral Game Theory.",
+    regions: ["ventralAttention", "vmPfc", "dlpfc", "thalamostriatal", "salience"]
+  },
+  {
+    id: "collective-choice",
+    icon: "EL",
+    title: "Elección colectiva",
+    hint: "Preferencias grupales, votación, justicia y decisión pública",
+    description: "Agrupa procesos que permiten pasar de preferencias individuales a decisiones compartidas. Incluye negociación, votación, justicia distributiva, legitimidad y conflicto entre intereses.",
+    guide: "Conecta cerebro social con política y vida institucional: vivir en grupo exige transformar preferencias individuales en reglas y decisiones colectivas aceptables.",
+    experiment: "Simular votación con preferencias individuales divergentes, cambio de agenda y evaluación de justicia del resultado.",
+    handbook: "Referencia: A Primer in Social Choice Theory; Game Theory and Public Policy; The Handbook of Rational and Social Choice.",
+    regions: ["dlpfc", "vmPfc", "acc", "dmn", "parietal", "thalamostriatal"]
+  },
+  {
     id: "interpersonal-synchrony",
     icon: "SI",
     title: "Sincronía interpersonal",
@@ -592,6 +713,17 @@ const regionSections = [
     experiment: "Historias breves con emoción implícita; pedir identificar sentimiento, causa y respuesta adecuada.",
     handbook: "Guía: Social Neuroscience of Empathy; Theory of Mind Deficits; Emotion Recognition; Person Perception.",
     regions: ["dmn", "insula", "amygdala", "ventralAttention", "vmPfc", "acc"]
+  },
+  {
+    id: "intercorporeality-interaffectivity",
+    icon: "IC",
+    title: "Intercorporeidad e interafectividad",
+    hint: "Cuerpo compartido, resonancia afectiva, presencia y coordinación",
+    description: "Integra la idea de que la vida social no parte de mentes aisladas, sino de cuerpos que se afectan, se sincronizan y se regulan mutuamente en la interacción.",
+    guide: "Refuerza una lectura encarnada del atlas: emoción, postura, ritmo, mirada y tono no son adornos de la cognición social, sino parte de cómo se construye significado con otros.",
+    experiment: "Comparar conversación cara a cara, interacción por audio y texto, midiendo sincronía, afecto percibido y comprensión interpersonal.",
+    handbook: "Referencia: Intercorporeality and Interaffectivity; Radical Embodiment; Empathy bodyssence.",
+    regions: ["insula", "premotor", "parietal", "cerebellum", "auditory", "salience"]
   },
   {
     id: "dominance-hierarchy",
@@ -647,6 +779,92 @@ const regionSections = [
     experiment: "Prosodia emocional + tarea de amenaza social breve + autorreporte de apoyo o rechazo percibido.",
     handbook: "Guía: Hearing Voices; Social Regulation of Emotion; Perceived Social Isolation; Social Support to Health; Social Threat.",
     regions: ["auditory", "insula", "acc", "dlpfc", "salience"]
+  },
+  {
+    id: "social-metacognition",
+    icon: "MC",
+    title: "Metacognición social",
+    hint: "Confianza, monitoreo del propio juicio y aprendizaje interpersonal",
+    description: "Representa la capacidad de evaluar qué tan seguros estamos de una interpretación social, reconocer errores, revisar creencias y aprender de la retroalimentación de otros.",
+    guide: "Permite explicar por qué no basta con inferir una intención: también necesitamos saber cuánta confianza tenemos en esa inferencia y cuándo corregirla.",
+    experiment: "Juicios sobre intención o emoción ajena con rating de confianza, feedback posterior y actualización de la interpretación.",
+    handbook: "Referencia: Metacognición: las diferentes vertientes de una teoría; Social Cognition; Cognitive control.",
+    regions: ["dlpfc", "acc", "dmn", "parietal", "vmPfc", "hippocampus"]
+  }
+];
+
+const socialThemeGroups = [
+  {
+    id: "social-perception",
+    icon: "PS",
+    title: "Percepción social",
+    hint: "Rostros, mirada, identidad, perspectiva e impresión",
+    description: "Reúne funciones que permiten extraer significado social desde rostros, mirada, señales corporales, perspectiva y reputación.",
+    themes: ["person-perception", "first-impressions", "joint-attention-gaze", "perspective-taking", "reputation-impression"]
+  },
+  {
+    id: "social-emotions",
+    icon: "ES",
+    title: "Emociones Sociales",
+    hint: "Cuerpo, empatía, rabia, vergüenza, culpa y orgullo",
+    description: "Agrupa funciones afectivas que dan significado corporal y relacional a la interacción social: empatía, rabia, vergüenza, culpa, orgullo, reparación, indignación, cuerpo compartido, rechazo y compasión.",
+    themes: ["emotion-empathy", "empathy-compassion", "social-anger", "shame-social", "guilt-repair", "social-pride", "social-repair", "moral-indignation", "affective-mentalizing", "intercorporeality-interaffectivity", "rejection-exclusion"]
+  },
+  {
+    id: "social-communication",
+    icon: "CS",
+    title: "Comunicación Social",
+    hint: "Lenguaje pragmático, prosodia, sincronía y salud social",
+    description: "Organiza funciones de intercambio comunicativo: intención verbal, prosodia, coordinación interpersonal y señales de apoyo o amenaza.",
+    themes: ["pragmatic-language", "communication-health", "interpersonal-synchrony"]
+  },
+  {
+    id: "social-learning",
+    icon: "AS",
+    title: "Aprendizaje social",
+    hint: "Memoria social, imitación, agencia e incertidumbre",
+    description: "Integra aprendizaje por observación, memoria de personas y contextos, atribución de intención y actualización de modelos sociales ambiguos.",
+    themes: ["social-learning-memory", "action-imitation", "agency-intention", "social-uncertainty"]
+  },
+  {
+    id: "control-norms-morality",
+    icon: "CM",
+    title: "Control: normas sociales y moral",
+    hint: "Regulación, norma, justicia, engaño y reparación",
+    description: "Conecta control ejecutivo, normas sociales, juicio moral, justicia, castigo, engaño, perdón y regulación de la conducta apropiada.",
+    themes: ["regulation-control", "moral-ethics", "social-norms-conformity", "fairness-punishment", "deception-trust-violation", "forgiveness-reconciliation"]
+  },
+  {
+    id: "social-decision-rationality",
+    icon: "DR",
+    title: "Decisión social y racionalidad",
+    hint: "Elección, riesgo, estrategia, sesgos, nudge y decisión colectiva",
+    description: "Integra funciones que explican cómo elegimos en contextos sociales: preferencias, riesgo, ambigüedad, interacción estratégica, racionalidad limitada, arquitectura de elección y decisiones colectivas.",
+    themes: ["social-decision-choice", "strategic-interaction", "risk-ambiguity-social", "bounded-rationality-bias", "choice-architecture-nudge", "collective-choice"]
+  },
+  {
+    id: "bonding-cooperation",
+    icon: "VC",
+    title: "Vínculo y Cooperación",
+    hint: "Apego, recompensa, altruismo y confianza",
+    description: "Presenta las funciones motivacionales que sostienen apego, cooperación, ayuda, confianza, recompensa social y reciprocidad.",
+    themes: ["reward-bonding", "attachment-bond", "altruism-prosocial", "trust-cooperation"]
+  },
+  {
+    id: "group-culture-status",
+    icon: "GE",
+    title: "Grupos, cultura y estatus",
+    hint: "Identidad grupal, jerarquía, comparación y sesgos",
+    description: "Explora cómo el cerebro procesa pertenencia grupal, normas culturales, prejuicio, estigma, dominancia, jerarquía, comparación social y estatus.",
+    themes: ["culture-social-cognition", "ingroup-outgroup", "prejudice-stigma", "dominance-hierarchy", "envy-social-comparison"]
+  },
+  {
+    id: "social-cognition-mental-health",
+    icon: "SM",
+    title: "Yo social y Salud Mental",
+    hint: "Self, teoría de la mente, amenaza, soledad y apoyo",
+    description: "Reúne funciones del yo social y salud mental: self, teoría de la mente, metacognición social, amenaza evaluativa, soledad, apoyo social y bienestar.",
+    themes: ["self-mentalizing", "self-representation", "theory-of-mind", "social-metacognition", "social-threat-stress", "loneliness-isolation", "support-health"]
   }
 ];
 
@@ -666,15 +884,20 @@ const uiText = {
     keyConcepts: "Áreas de la red",
     teachingExample: "Ejemplo docente",
     learnMore: "Saber más",
-    suggestedExperiment: "Experimento sugerido",
-    discussionQuestion: "Pregunta para discutir",
-    activeTheme: "Pestaña activa",
+    activeTheme: "Explorar función social",
     anatomicalZones: "Zonas anatómicas",
     functionalExperiment: "Experimento funcional",
     themeIntro: "Selecciona una pestaña superior para explorar las redes y áreas asociadas a ese sistema.",
-    themeFocus: "Enfoque docente",
-    themeExperiment: "Experimento recomendado",
     regions: "regiones",
+    themes: "funciones",
+    mainDomains: "Categorías sociales principales",
+    chooseMainDomain: "Elige una categoría social principal para desplegar sus funciones específicas.",
+    specificFunctions: "Funciones específicas",
+    involvedAreas: "Áreas cerebrales involucradas",
+    noActiveDomain: "Sin categoría activa",
+    cleanStart: "Ventana inicial limpia: el cerebro queda sin una función marcada hasta que selecciones una categoría y luego una función específica.",
+    domainSelected: "Categoría social seleccionada",
+    chooseSpecificFunction: "Selecciona una función específica para resaltar en el cerebro las áreas corticales y subcorticales asociadas.",
     approximation: "Aproximación funcional; carga el GLB CerebrA para ver etiquetas anatómicas."
   },
   en: {
@@ -692,15 +915,20 @@ const uiText = {
     keyConcepts: "Network areas",
     teachingExample: "Teaching example",
     learnMore: "Learn more",
-    suggestedExperiment: "Suggested experiment",
-    discussionQuestion: "Discussion question",
-    activeTheme: "Active tab",
+    activeTheme: "Explore social function",
     anatomicalZones: "Anatomical zones",
     functionalExperiment: "Functional experiment",
     themeIntro: "Choose a top tab to explore the networks and areas associated with that system.",
-    themeFocus: "Teaching focus",
-    themeExperiment: "Recommended experiment",
     regions: "regions",
+    themes: "functions",
+    mainDomains: "Main social categories",
+    chooseMainDomain: "Choose a main social category to reveal its specific functions.",
+    specificFunctions: "Specific functions",
+    involvedAreas: "Involved brain areas",
+    noActiveDomain: "No active category",
+    cleanStart: "Clean initial window: the brain remains unmarked until you choose a category and then a specific function.",
+    domainSelected: "Selected social category",
+    chooseSpecificFunction: "Choose a specific function to highlight the associated cortical and subcortical areas in the brain.",
     approximation: "Functional approximation; load the CerebrA GLB to inspect anatomical labels."
   }
 };
@@ -737,6 +965,22 @@ const themeTextEn = {
     guide: "Separates affective empathy, cognitive empathy and compassion: feeling with another, understanding their mental state and orienting prosocial response.",
     experiment: "Observed pain, affective perspective judgment and empathy for friend versus stranger.",
     handbook: "Guide: Social Neuroscience of Empathy; Emotion Recognition; Altruism; Mirror Neuron System and Social Cognition."
+  },
+  "social-anger": {
+    title: "Anger",
+    hint: "Threat, frustration, injustice and response preparation",
+    description: "Integrates systems that turn social threat, interpersonal frustration or perceived injustice into bodily activation, salience, harm evaluation and response control.",
+    guide: "Use it to separate defensive anger, moral anger and aggression regulation: anger is intense affect plus social interpretation, norm and control.",
+    experiment: "Brief offense, goal-blocking or unfair-treatment scenarios; compare anger intensity, confrontation tendency and regulation.",
+    handbook: "Guide: Emotion, Consciousness, and Social Behavior; Social Threat; Staying in Control; Ethical, Legal, and Societal Issues."
+  },
+  "shame-social": {
+    title: "Shame",
+    hint: "Public evaluation, self, norm and repair",
+    description: "Groups self-evaluative processes under others' gaze: public exposure, social error, status loss, norm violation and the urge to hide, repair or regulate behavior.",
+    guide: "Shows that shame combines body, self and social context: it depends on how a person believes they are being seen and evaluated by others.",
+    experiment: "Compare private errors versus errors observed by others, with ratings of shame, hiding, repair and emotional control.",
+    handbook: "Guide: Self-Awareness and the Brain; Emotion and Social Behavior; Staying in Control; Ethical, Legal, and Societal Issues."
   },
   "regulation-control": {
     title: "Social regulation and control",
@@ -906,13 +1150,37 @@ const themeTextEn = {
     experiment: "Simplified implicit association task or rapid trait judgment with explicit norm manipulation.",
     handbook: "Guide: Cultural Neuroscience; Person Perception; Social Threat; Staying in Control."
   },
-  "moral-emotions": {
-    title: "Moral emotions",
-    hint: "Guilt, shame, pride, indignation and repair",
-    description: "Integrates emotions that depend on norms, reputation and self-evaluation before others.",
-    guide: "Many social emotions are relational evaluations: what I did, how others see me, which norm broke and how to repair it.",
-    experiment: "Self/other transgression scenarios with guilt, shame, moral anger and repair ratings.",
-    handbook: "Guide: Emotion and Social Behavior; Ethical, Legal, and Societal Issues; Self-Awareness and the Brain."
+  "guilt-repair": {
+    title: "Guilt",
+    hint: "Responsibility, caused harm, norm and repair",
+    description: "Represents the evaluation of one's own action as harmful, unfair or norm-violating. It integrates responsibility, distress, episode memory and motivation to repair or apologize.",
+    guide: "Use it to distinguish guilt from shame: guilt focuses more on what I did and how to repair it; shame focuses more on how I am seen by others.",
+    experiment: "Accidental versus intentional harm scenarios, with guilt, responsibility, apology and repair ratings.",
+    handbook: "Guide: Emotion and Social Behavior; Self-Awareness and the Brain; Ethical, Legal, and Societal Issues."
+  },
+  "social-pride": {
+    title: "Pride",
+    hint: "Achievement, recognition, self-esteem and social status",
+    description: "Groups processes that value one's achievements before others, social recognition, self-esteem, reputation and increased status within a group.",
+    guide: "Shows that pride is not only individual pleasure: it depends on social evaluation, belonging, comparison and the personal meaning of achievement.",
+    experiment: "Private versus public performance feedback, with pride, motivation, self-esteem and sharing-intention ratings.",
+    handbook: "Guide: Self-Awareness and the Brain; Self-Esteem Maintenance; Social Hierarchy; Processing Social and Nonsocial Rewards."
+  },
+  "social-repair": {
+    title: "Social repair",
+    hint: "Apology, restitution, regulation and restored bonding",
+    description: "Represents the tendency to repair after a transgression, public error or interpersonal harm. It integrates guilt, shame, emotion regulation, bond memory and the decision to apologize, compensate or restore trust.",
+    guide: "Use it to distinguish emotional repair from forgiveness: here the focus is on the person who harmed or failed and tries to restore a relationship or norm.",
+    experiment: "Transgression scenarios with or without apology, compensation or acknowledgment of harm; measure repair motivation and expected trust.",
+    handbook: "Guide: Emotion and Social Behavior; Social Bonding and Attachment; Strategic Thinking; Ethical, Legal, and Societal Issues."
+  },
+  "moral-indignation": {
+    title: "Moral indignation",
+    hint: "Injustice, harm to others, violated norm and punishment",
+    description: "Integrates the affective response to unfair harm, abuse, betrayal or norm violation. It combines emotional salience, moral evaluation, social anger and decisions to confront or punish.",
+    guide: "Separates general anger from moral indignation: here the emotion is organized around a violated norm or unjust harm to someone.",
+    experiment: "Unfair-treatment scenarios toward oneself or third parties, with indignation, punishment, repair and future-trust ratings.",
+    handbook: "Guide: Emotion and Social Behavior; Altruism; Strategic Thinking; Ethical, Legal, and Societal Issues."
   },
   "envy-social-comparison": {
     title: "Social comparison and envy",
@@ -954,6 +1222,54 @@ const themeTextEn = {
     experiment: "Ambiguous social scenarios with gradual new information; measure interpretation and confidence change.",
     handbook: "Guide: Strategic Thinking; Social Threat; Goal-Directed Social Behavior; Impression Formation."
   },
+  "social-decision-choice": {
+    title: "Social decision-making",
+    hint: "Preferences, alternatives, consequences and interpersonal choice",
+    description: "Organizes processes for choosing when consequences affect other people or depend on their responses.",
+    guide: "Connect decision theory with the social brain: deciding means anticipating consequences, others' preferences, reputation and contextual norms.",
+    experiment: "Choices between self-benefit, shared benefit and social cost; compare private versus observed decisions.",
+    handbook: "Reference: Decision Theory and Rationality; Game Theory and Political Theory; Rational Choice and Judgment."
+  },
+  "strategic-interaction": {
+    title: "Strategic interaction",
+    hint: "Game theory, prediction of others, cooperation and competition",
+    description: "Represents situations where the outcome depends on both one's own action and another person or group's expected action.",
+    guide: "Use it for social dilemmas, trust games, negotiation, reciprocity and competition as interpersonal prediction problems.",
+    experiment: "Prisoner's dilemma, repeated trust or coordination game with incomplete information about the other's strategy.",
+    handbook: "Reference: Behavioral Game Theory; Game Theory and Political Theory; Foundations of Cooperation in Economic Life."
+  },
+  "risk-ambiguity-social": {
+    title: "Social risk and ambiguity",
+    hint: "Prospect theory, loss, gain, uncertainty and social context",
+    description: "Groups processes for deciding under known risk or ambiguous probabilities when gains, losses or consequences are social.",
+    guide: "Shows why an option changes value when it involves status loss, rejection risk, shared gain or uncertainty about others' reactions.",
+    experiment: "Social gains/losses under explicit risk versus ambiguity, measuring loss aversion and confidence.",
+    handbook: "Reference: Prospect Theory for Risk and Ambiguity; Decision Theory and Rationality."
+  },
+  "bounded-rationality-bias": {
+    title: "Bounded rationality and bias",
+    hint: "Heuristics, bias, emotion, cognitive load and social decision",
+    description: "Integrates limits of attention, memory, control and emotion that make social decisions depart from ideal rationality.",
+    guide: "Many social decisions are reasonable under real limits: little time, incomplete information, active emotion and group norms.",
+    experiment: "Compare a social choice with complete information versus time pressure, gain/loss framing or group feedback.",
+    handbook: "Reference: Bounded Rationality and Politics; Predictably Irrational; Rational Choice and Judgment."
+  },
+  "choice-architecture-nudge": {
+    title: "Choice architecture and nudge",
+    hint: "Context, defaults, influence, option design and social behavior",
+    description: "Represents how the presentation of alternatives can change decisions without forbidding options.",
+    guide: "Small changes in social or institutional environments can guide choices about health, cooperation, consumption, helping or participation.",
+    experiment: "Modify order, default option or descriptive norm in a social decision and measure choice change.",
+    handbook: "Reference: Nudge; Handbook on Decision Making; Behavioral Game Theory."
+  },
+  "collective-choice": {
+    title: "Collective choice",
+    hint: "Group preferences, voting, justice and public decision",
+    description: "Groups processes that transform individual preferences into shared decisions, including negotiation, voting and distributive justice.",
+    guide: "Living in groups requires transforming individual preferences into acceptable shared rules and collective decisions.",
+    experiment: "Simulate voting with divergent preferences, agenda change and fairness evaluation.",
+    handbook: "Reference: A Primer in Social Choice Theory; Game Theory and Public Policy; The Handbook of Rational and Social Choice."
+  },
   "interpersonal-synchrony": {
     title: "Interpersonal synchrony",
     hint: "Shared rhythm, coordination, conversation and affiliation",
@@ -969,6 +1285,14 @@ const themeTextEn = {
     guide: "Separate reading a belief from understanding an affective state; real social inference is often emotional as well as cognitive.",
     experiment: "Brief stories with implicit emotion; identify feeling, cause and appropriate response.",
     handbook: "Guide: Social Neuroscience of Empathy; Theory of Mind Deficits; Emotion Recognition; Person Perception."
+  },
+  "intercorporeality-interaffectivity": {
+    title: "Intercorporeality and interaffectivity",
+    hint: "Shared body, affective resonance, presence and coordination",
+    description: "Integrates the idea that social life does not start from isolated minds, but from bodies that affect, synchronize and regulate one another.",
+    guide: "Emotion, posture, rhythm, gaze and tone are part of how social meaning is built with others.",
+    experiment: "Compare face-to-face conversation, audio interaction and text interaction, measuring synchrony, perceived affect and interpersonal understanding.",
+    handbook: "Reference: Intercorporeality and Interaffectivity; Radical Embodiment; Empathy bodyssence."
   },
   "dominance-hierarchy": {
     title: "Dominance and hierarchy",
@@ -1009,6 +1333,14 @@ const themeTextEn = {
     guide: "A strong closing theme: communication, support, evaluative threat, rejection, stress biology and well-being.",
     experiment: "Emotional prosody + brief social threat task + perceived support/rejection report.",
     handbook: "Guide: Hearing Voices; Social Regulation of Emotion; Social Isolation; Social Support and Health; Social Threat."
+  },
+  "social-metacognition": {
+    title: "Social metacognition",
+    hint: "Confidence, monitoring one's own judgment and interpersonal learning",
+    description: "Represents the capacity to evaluate confidence in a social interpretation, recognize errors, revise beliefs and learn from others' feedback.",
+    guide: "It is not enough to infer another person's intention; we also need to know how confident we are and when to correct the inference.",
+    experiment: "Judgments about intention or emotion with confidence rating, later feedback and interpretation updating.",
+    handbook: "Reference: Metacognition; Social Cognition; Cognitive control."
   }
 };
 const regionTextEn = {
@@ -1378,8 +1710,7 @@ const socialConceptsEl = document.querySelector("#social-concepts");
 const socialExampleEl = document.querySelector("#social-example");
 const deepTitleEl = document.querySelector("#deep-title");
 const deepCopyEl = document.querySelector("#deep-copy");
-const deepExperimentEl = document.querySelector("#deep-experiment");
-const deepQuestionEl = document.querySelector("#deep-question");
+const deepPurposeEl = document.querySelector("#deep-purpose");
 const deepSourceEl = document.querySelector("#deep-source");
 const experimentTitle = document.querySelector("#experiment-title");
 const experimentCopy = document.querySelector("#experiment-copy");
@@ -1391,6 +1722,7 @@ const modelStatus = document.querySelector("#model-status");
 const zoneList = document.querySelector("#zone-list");
 const zoneSearch = document.querySelector("#zone-search");
 const zoneCount = document.querySelector("#zone-count");
+const tooltipEl = document.querySelector("#brain-tooltip");
 let activeSide = "all";
 let activeGroup = "all";
 let currentLang = "es";
@@ -1640,6 +1972,54 @@ const socialCognitiveContent = {
   }
 };
 
+const socialThemeGroupTextEn = {
+  "social-perception": {
+    title: "Social perception",
+    hint: "Faces, gaze, identity, perspective and impression",
+    description: "Groups functions that extract social meaning from faces, gaze, body cues, perspective and reputation."
+  },
+  "social-emotions": {
+    title: "Social emotions",
+    hint: "Body, empathy, anger, shame, guilt and pride",
+    description: "Collects affective functions that give bodily and relational meaning to social interaction: empathy, anger, shame, guilt, pride, repair, indignation, shared body, rejection and compassion."
+  },
+  "social-communication": {
+    title: "Social communication",
+    hint: "Pragmatic language, prosody, synchrony and social health",
+    description: "Organizes communicative exchange: verbal intention, prosody, interpersonal coordination and cues of support or threat."
+  },
+  "social-learning": {
+    title: "Social learning",
+    hint: "Social memory, imitation, agency and uncertainty",
+    description: "Integrates observational learning, memory for people and contexts, intention attribution and updating ambiguous social models."
+  },
+  "control-norms-morality": {
+    title: "Control: social norms and morality",
+    hint: "Regulation, norms, justice, deception and repair",
+    description: "Links executive control, social norms, moral judgment, justice, punishment, deception, forgiveness and appropriate conduct regulation."
+  },
+  "social-decision-rationality": {
+    title: "Social decision and rationality",
+    hint: "Choice, risk, strategy, bias, nudge and collective decision",
+    description: "Integrates functions that explain how people choose in social contexts: preferences, risk, ambiguity, strategic interaction, bounded rationality, choice architecture and collective decisions."
+  },
+  "bonding-cooperation": {
+    title: "Bonding and Cooperation",
+    hint: "Attachment, reward, altruism and trust",
+    description: "Presents motivational functions that support attachment, cooperation, helping, trust, social reward and reciprocity."
+  },
+  "group-culture-status": {
+    title: "Groups, culture and status",
+    hint: "Group identity, hierarchy, comparison and bias",
+    description: "Explores how the brain processes group belonging, cultural norms, prejudice, stigma, dominance, hierarchy, social comparison and status."
+  },
+  "social-cognition-mental-health": {
+    title: "Social self and Mental health",
+    hint: "Self, theory of mind, threat, loneliness and support",
+    description: "Brings together the social self and mental health: self, theory of mind, social metacognition, evaluative threat, loneliness, social support and wellbeing."
+  }
+};
+
 const zoneContentOverrides = {
   "Cíngulo anterior caudal": ["Monitoreo de conflicto", "Evalúa conflicto entre respuestas y ayuda a ajustar control cuando una tarea social exige corregir errores o inhibir impulsos."],
   "Cíngulo anterior rostral": ["Regulación afectiva", "Conecta evaluación emocional y control, útil para discutir dolor social, monitoreo afectivo y regulación."],
@@ -1660,6 +2040,360 @@ const zoneContentOverrides = {
   "Parietal inferior": ["Atención social", "Integra atención, acción y significado de claves visuales como mirada, gestos o dirección."],
   "Precentral / motora primaria": ["Ejecución de acción", "Permite contrastar preparación/observación de acciones con ejecución motora directa."],
   "Postcentral / somatosensorial": ["Cuerpo percibido", "Base para discutir tacto, cuerpo y representación somatosensorial en cognición social."]
+};
+
+const literalQuoteLibrary = {
+  socialSpecies: {
+    copy: "\"create emergent organizations beyond the individual\"",
+    copyEs: "\"crean organizaciones emergentes más allá del individuo\"",
+    importance: "Social life builds dyads, families, groups and cultures; each function helps the person move inside those levels.",
+    importanceEs: "La vida social organiza díadas, familias, grupos y culturas; cada función ayuda a moverse dentro de esos niveles.",
+    source: "Cacioppo & Decety, The Oxford Handbook of Social Neuroscience, Ch. 1"
+  },
+  socialBrain: {
+    copy: "\"not solitary information processors\"",
+    copyEs: "\"no son procesadores solitarios de información\"",
+    importance: "The function matters because the brain constantly interprets action, timing and meaning with other people.",
+    importanceEs: "La función importa porque el cerebro interpreta acción, tiempo y significado junto con otras personas.",
+    source: "Cacioppo & Decety, The Oxford Handbook of Social Neuroscience, Ch. 1"
+  },
+  socialCognition: {
+    copy: "\"human social behavior\"",
+    copyEs: "\"conducta social humana\"",
+    importance: "This links the selected function to real social behavior rather than to an isolated cognitive skill.",
+    importanceEs: "Esto vincula la función seleccionada con conducta social real, no solo con una habilidad cognitiva aislada.",
+    source: "Gazzaniga, Ivry & Mangun, Cognitive Neuroscience, Ch. Social Cognition"
+  },
+  mentalStates: {
+    copy: "\"understanding the mental states of others\"",
+    copyEs: "\"comprender los estados mentales de otros\"",
+    importance: "It is essential for predicting beliefs, intentions and needs when another person sees the world differently.",
+    importanceEs: "Es esencial para predecir creencias, intenciones y necesidades cuando otra persona ve el mundo de otra manera.",
+    source: "Gazzaniga, Ivry & Mangun, Cognitive Neuroscience, Ch. Social Cognition"
+  },
+  selfReference: {
+    copy: "\"process it in relation to themselves\"",
+    copyEs: "\"procesarlo en relación con ellos mismos\"",
+    importance: "Self-reference helps organize memory, identity and social meaning around what matters personally.",
+    importanceEs: "La autorreferencia ayuda a organizar memoria, identidad y significado social alrededor de lo personalmente relevante.",
+    source: "Gazzaniga, Ivry & Mangun, Cognitive Neuroscience, Ch. Social Cognition"
+  },
+  personCues: {
+    copy: "\"facial expressions, body movements, clothes, actions, and words\"",
+    copyEs: "\"expresiones faciales, movimientos corporales, ropa, acciones y palabras\"",
+    importance: "Person perception turns visible and audible cues into identity, emotion and social expectation.",
+    importanceEs: "La percepción de personas transforma señales visibles y audibles en identidad, emoción y expectativa social.",
+    source: "Gazzaniga, Ivry & Mangun, Cognitive Neuroscience, Ch. Social Cognition"
+  },
+  friendFoe: {
+    copy: "\"identify friend from foe and trustworthy from untrustworthy\"",
+    copyEs: "\"identificar amigo de enemigo y confiable de no confiable\"",
+    importance: "This supports fast social orientation: whom to approach, avoid, trust or evaluate more carefully.",
+    importanceEs: "Esto sostiene la orientación social rápida: a quién acercarse, evitar, confiar o evaluar con más cuidado.",
+    source: "Gazzaniga, Ivry & Mangun, Cognitive Neuroscience, Ch. Social Cognition"
+  },
+  jointAttention: {
+    copy: "\"share joint attention\"",
+    copyEs: "\"compartir atención conjunta\"",
+    importance: "Joint attention lets people coordinate attention around the same object, event or intention.",
+    importanceEs: "La atención conjunta permite coordinar la atención alrededor de un mismo objeto, evento o intención.",
+    source: "Gazzaniga, Ivry & Mangun, Cognitive Neuroscience, Ch. Social Cognition"
+  },
+  intentions: {
+    copy: "\"goals and intentions\"",
+    copyEs: "\"metas e intenciones\"",
+    importance: "Interpreting agency helps decide whether an act was accidental, deliberate, cooperative or harmful.",
+    importanceEs: "Interpretar agencia ayuda a decidir si una acción fue accidental, deliberada, cooperativa o dañina.",
+    source: "Gazzaniga, Ivry & Mangun, Cognitive Neuroscience, Ch. Social Cognition"
+  },
+  wordsMentalStates: {
+    copy: "\"words don’t match their mental states\"",
+    copyEs: "\"las palabras no coinciden con sus estados mentales\"",
+    importance: "Communication requires reading intention, tone and context, especially when literal words are not enough.",
+    importanceEs: "La comunicación requiere leer intención, tono y contexto, especialmente cuando las palabras literales no bastan.",
+    source: "Gazzaniga, Ivry & Mangun, Cognitive Neuroscience, Ch. Social Cognition"
+  },
+  emotionBehavior: {
+    copy: "\"emotional impact on social behavior\"",
+    copyEs: "\"impacto emocional en la conducta social\"",
+    importance: "Emotion guides priority, bodily readiness and social interpretation before a deliberate response appears.",
+    importanceEs: "La emoción guía prioridad, preparación corporal e interpretación social antes de una respuesta deliberada.",
+    source: "Winkielman, Berridge & Sher, The Oxford Handbook of Social Neuroscience, Ch. 12"
+  },
+  empathyCapacity: {
+    copy: "\"empathy is our capacity to understand and respond\"",
+    copyEs: "\"la empatía es nuestra capacidad de comprender y responder\"",
+    importance: "Empathy is important because it connects another person's state with care, help or regulation.",
+    importanceEs: "La empatía importa porque conecta el estado de otra persona con cuidado, ayuda o regulación.",
+    source: "Gazzaniga, Ivry & Mangun, Cognitive Neuroscience, Ch. Social Cognition"
+  },
+  guiltAmends: {
+    copy: "\"pangs of guilt propel us to make amends\"",
+    copyEs: "\"los remordimientos de culpa nos impulsan a reparar\"",
+    importance: "Guilt and repair convert social error into apology, compensation and restoration of trust.",
+    importanceEs: "La culpa y la reparación convierten el error social en disculpa, compensación y restauración de confianza.",
+    source: "Winkielman, Berridge & Sher, The Oxford Handbook of Social Neuroscience, Ch. 12"
+  },
+  moralSentiments: {
+    copy: "\"pride, guilt, shame, embarrassment, or indignation\"",
+    copyEs: "\"orgullo, culpa, vergüenza, embarazo o indignación\"",
+    importance: "These emotions evaluate the self and others through norms, reputation and social consequences.",
+    importanceEs: "Estas emociones evalúan al yo y a otros mediante normas, reputación y consecuencias sociales.",
+    source: "Zahn, de Oliveira-Souza & Moll, The Oxford Handbook of Social Neuroscience, Ch. 32"
+  },
+  moralNorms: {
+    copy: "\"right\" or \"wrong\" based on socio-cultural norm",
+    copyEs: "\"correcto\" o \"incorrecto\" según una norma sociocultural",
+    importance: "Moral cognition lets people evaluate harm, responsibility and acceptable conduct in shared life.",
+    importanceEs: "La cognición moral permite evaluar daño, responsabilidad y conducta aceptable en la vida compartida.",
+    source: "Zahn, de Oliveira-Souza & Moll, The Oxford Handbook of Social Neuroscience, Ch. 32"
+  },
+  socialNorms: {
+    copy: "\"behavior counter to moral and social norms\"",
+    copyEs: "\"conducta contraria a normas morales y sociales\"",
+    importance: "Norm control helps adapt behavior to expectations, roles and consequences in a group.",
+    importanceEs: "El control normativo ayuda a adaptar la conducta a expectativas, roles y consecuencias dentro de un grupo.",
+    source: "Zahn, de Oliveira-Souza & Moll, The Oxford Handbook of Social Neuroscience, Ch. 32"
+  },
+  indignationAnger: {
+    copy: "\"Indignation/anger and contempt/disgust towards others\"",
+    copyEs: "\"indignación/rabia y desprecio/asco hacia otros\"",
+    importance: "Moral anger marks a perceived violation and can motivate confrontation, punishment or repair.",
+    importanceEs: "La rabia moral marca una violación percibida y puede motivar confrontación, castigo o reparación.",
+    source: "Zahn, de Oliveira-Souza & Moll, The Oxford Handbook of Social Neuroscience, Ch. 32"
+  },
+  fairnessEmpathy: {
+    copy: "\"fairness in social relations also affects empathy\"",
+    copyEs: "\"la justicia en las relaciones sociales también afecta la empatía\"",
+    importance: "Fairness shapes how much people care, punish, cooperate and restore balance after inequity.",
+    importanceEs: "La justicia modula cuánto cuidamos, castigamos, cooperamos y restauramos equilibrio tras la inequidad.",
+    source: "Gazzaniga, Ivry & Mangun, Cognitive Neuroscience, Ch. Social Cognition"
+  },
+  trustCooperation: {
+    copy: "\"unconditional trust in economic cooperation\"",
+    copyEs: "\"confianza incondicional en la cooperación económica\"",
+    importance: "Trust allows people to take social risks when future cooperation may benefit both sides.",
+    importanceEs: "La confianza permite asumir riesgos sociales cuando la cooperación futura puede beneficiar a ambos.",
+    source: "Zahn, de Oliveira-Souza & Moll, The Oxford Handbook of Social Neuroscience, Ch. 32"
+  },
+  reputationTrust: {
+    copy: "\"Reputation and trust in a two-person economic exchange\"",
+    copyEs: "\"reputación y confianza en un intercambio económico de dos personas\"",
+    importance: "Reputation stores social history so later decisions can use memory of reliability or betrayal.",
+    importanceEs: "La reputación guarda historia social para que decisiones posteriores usen memoria de confiabilidad o traición.",
+    source: "Zahn, de Oliveira-Souza & Moll, The Oxford Handbook of Social Neuroscience, Ch. 32"
+  },
+  vicariousReward: {
+    copy: "\"rewards being delivered to themselves or a stranger\"",
+    copyEs: "\"recompensas entregadas a ellos mismos o a un desconocido\"",
+    importance: "Social reward matters because another person's outcome can influence motivation, empathy and prosocial action.",
+    importanceEs: "La recompensa social importa porque el resultado de otra persona puede influir en motivación, empatía y ayuda.",
+    source: "Contreras-Huerta et al., Neural representations of vicarious rewards"
+  },
+  socialConnectedness: {
+    copy: "\"social connectedness serves as a scaffold\"",
+    copyEs: "\"la conexión social sirve como andamiaje\"",
+    importance: "Connectedness supports regulation, optimism, stress buffering and a sense of safety in everyday life.",
+    importanceEs: "La conexión sostiene regulación, optimismo, amortiguación del estrés y sensación de seguridad cotidiana.",
+    source: "Hawkley & Cacioppo, Loneliness Matters"
+  },
+  lonelinessThreat: {
+    copy: "\"increase vigilance for threat\"",
+    copyEs: "\"aumenta la vigilancia ante amenazas\"",
+    importance: "Loneliness changes social prediction, making ambiguous cues feel more threatening or rejecting.",
+    importanceEs: "La soledad cambia la predicción social y hace que señales ambiguas parezcan más amenazantes o rechazantes.",
+    source: "Hawkley & Cacioppo, Loneliness Matters"
+  },
+  socialIsolationUnsafe: {
+    copy: "\"perceived social isolation is tantamount to feeling unsafe\"",
+    copyEs: "\"el aislamiento social percibido equivale a sentirse inseguro\"",
+    importance: "Social threat and stress show why evaluation or exclusion can recruit bodily defense systems.",
+    importanceEs: "La amenaza y el estrés social muestran por qué evaluación o exclusión pueden activar defensas corporales.",
+    source: "Hawkley & Cacioppo, Loneliness Matters"
+  },
+  supportHealth: {
+    copy: "\"safe, secure social surround to survive and thrive\"",
+    copyEs: "\"entorno social seguro para sobrevivir y prosperar\"",
+    importance: "Support is important because relationships can regulate stress, health, pain and recovery.",
+    importanceEs: "El apoyo importa porque las relaciones pueden regular estrés, salud, dolor y recuperación.",
+    source: "Hawkley & Cacioppo, Loneliness Matters"
+  },
+  cultureValues: {
+    copy: "\"values and preferences shaped by culture\"",
+    copyEs: "\"valores y preferencias moldeados por la cultura\"",
+    importance: "Culture changes which cues, norms and identities become socially meaningful.",
+    importanceEs: "La cultura cambia qué señales, normas e identidades se vuelven socialmente significativas.",
+    source: "Zahn, de Oliveira-Souza & Moll, The Oxford Handbook of Social Neuroscience, Ch. 32"
+  },
+  dominanceHierarchy: {
+    copy: "\"social structure, including the stability of hierarchies\"",
+    copyEs: "\"estructura social, incluida la estabilidad de las jerarquías\"",
+    importance: "Hierarchy affects access, threat, status, alliance and how people interpret dominance cues.",
+    importanceEs: "La jerarquía afecta acceso, amenaza, estatus, alianza y cómo se interpretan señales de dominancia.",
+    source: "Czoty, Morgan & Nader, The Oxford Handbook of Social Neuroscience, Ch. Group Processes"
+  },
+  supportSubordinates: {
+    copy: "\"social support to subordinates\"",
+    copyEs: "\"apoyo social a subordinados\"",
+    importance: "Group position is buffered by support, changing stress, cooperation and social safety.",
+    importanceEs: "La posición grupal se amortigua con apoyo, cambiando estrés, cooperación y seguridad social.",
+    source: "Czoty, Morgan & Nader, The Oxford Handbook of Social Neuroscience, Ch. Group Processes"
+  },
+  automaticImitation: {
+    copy: "\"automatic imitation\"",
+    copyEs: "\"imitación automática\"",
+    importance: "Imitation links observation to action, supporting learning, coordination and shared routines.",
+    importanceEs: "La imitación vincula observación y acción, sosteniendo aprendizaje, coordinación y rutinas compartidas.",
+    source: "Gazzaniga, Ivry & Mangun, Cognitive Neuroscience, Ch. Social Cognition"
+  },
+  cooperationTechnology: {
+    copy: "\"cooperation involved with creating complex technologies\"",
+    copyEs: "\"cooperación implicada en crear tecnologías complejas\"",
+    importance: "Social learning and cooperation allow skills, rules and culture to accumulate across people.",
+    importanceEs: "El aprendizaje social y la cooperación permiten acumular habilidades, reglas y cultura entre personas.",
+    source: "Gazzaniga, Ivry & Mangun, Cognitive Neuroscience, Ch. Social Cognition"
+  },
+  decisionTheory: {
+    copy: "\"Individual preference and individual choice\"",
+    copyEs: "\"preferencia individual y elección individual\"",
+    importance: "Decision theory helps connect preferences, alternatives and consequences with social action.",
+    importanceEs: "La teoría de decisión ayuda a conectar preferencias, alternativas y consecuencias con la acción social.",
+    source: "Ordeshook, Game Theory and Political Theory; Bermúdez, Decision Theory and Rationality"
+  },
+  gameTheory: {
+    copy: "\"Behavioral Game Theory: Thinking, Learning, and Teaching\"",
+    copyEs: "\"teoría de juegos conductual: pensar, aprender y enseñar\"",
+    importance: "Strategic interaction matters because people adapt to what they expect others will do.",
+    importanceEs: "La interacción estratégica importa porque las personas ajustan su conducta a lo que esperan que otros hagan.",
+    source: "Camerer, Behavioral Game Theory; Ordeshook, Game Theory and Political Theory"
+  },
+  prospectTheory: {
+    copy: "\"decisions are made ... under risk and ambiguity\"",
+    copyEs: "\"las decisiones se toman ... bajo riesgo y ambigüedad\"",
+    importance: "Risk and ambiguity shape social choices when outcomes involve loss, status, trust or rejection.",
+    importanceEs: "El riesgo y la ambigüedad moldean decisiones sociales cuando los resultados implican pérdida, estatus, confianza o rechazo.",
+    source: "Wakker, Prospect Theory for Risk and Ambiguity"
+  },
+  boundedRationality: {
+    copy: "\"accounts for bounded rationality\"",
+    copyEs: "\"toma en cuenta la racionalidad limitada\"",
+    importance: "Bounded rationality explains why social decisions depend on time, attention, emotion and available information.",
+    importanceEs: "La racionalidad limitada explica por qué las decisiones sociales dependen de tiempo, atención, emoción e información disponible.",
+    source: "Camerer, Behavioral Game Theory; Bounded Rationality and Politics"
+  },
+  choiceArchitecture: {
+    copy: "\"Choice Architecture\"",
+    copyEs: "\"arquitectura de elección\"",
+    importance: "Choice architecture shows how context, defaults and presentation can guide social behavior.",
+    importanceEs: "La arquitectura de elección muestra cómo contexto, opciones por defecto y presentación pueden guiar la conducta social.",
+    source: "Thaler & Sunstein, Nudge"
+  },
+  socialChoice: {
+    copy: "\"aggregating individual preferences\"",
+    copyEs: "\"agregar preferencias individuales\"",
+    importance: "Collective choice matters because groups must transform individual preferences into shared decisions.",
+    importanceEs: "La elección colectiva importa porque los grupos deben transformar preferencias individuales en decisiones compartidas.",
+    source: "Gaertner, A Primer in Social Choice Theory"
+  },
+  intercorporeality: {
+    copy: "\"human sociality does not start from isolated individuals\"",
+    copyEs: "\"la socialidad humana no parte de individuos aislados\"",
+    importance: "Intercorporeality highlights how bodies, rhythms and affective signals co-create social meaning.",
+    importanceEs: "La intercorporeidad destaca cómo cuerpos, ritmos y señales afectivas co-crean significado social.",
+    source: "Fuchs, Intercorporeality and Interaffectivity"
+  },
+  metacognition: {
+    copy: "\"metacognition\"",
+    copyEs: "\"metacognición\"",
+    importance: "Social metacognition helps monitor confidence, revise interpretations and learn from interpersonal feedback.",
+    importanceEs: "La metacognición social ayuda a monitorear confianza, revisar interpretaciones y aprender de la retroalimentación interpersonal.",
+    source: "Crespo, La metacognición: las diferentes vertientes de una teoría"
+  }
+};
+
+const literalQuoteBySocialGroup = {
+  "social-perception": "personCues",
+  "social-emotions": "emotionBehavior",
+  "social-communication": "wordsMentalStates",
+  "social-learning": "cooperationTechnology",
+  "control-norms-morality": "moralNorms",
+  "social-decision-rationality": "decisionTheory",
+  "bonding-cooperation": "trustCooperation",
+  "group-culture-status": "dominanceHierarchy",
+  "social-cognition-mental-health": "selfReference"
+};
+
+const literalQuoteByTheme = {
+  "self-mentalizing": "mentalStates",
+  "self-representation": "selfReference",
+  "theory-of-mind": "mentalStates",
+  "perspective-taking": "mentalStates",
+  "agency-intention": "intentions",
+  "affective-mentalizing": "empathyCapacity",
+  "person-perception": "personCues",
+  "first-impressions": "friendFoe",
+  "joint-attention-gaze": "jointAttention",
+  "pragmatic-language": "wordsMentalStates",
+  "communication-health": "socialConnectedness",
+  "emotion-empathy": "emotionBehavior",
+  "empathy-compassion": "empathyCapacity",
+  "social-anger": "indignationAnger",
+  "shame-social": "moralSentiments",
+  "guilt-repair": "guiltAmends",
+  "social-pride": "moralSentiments",
+  "social-repair": "guiltAmends",
+  "moral-indignation": "indignationAnger",
+  "rejection-exclusion": "lonelinessThreat",
+  "forgiveness-reconciliation": "guiltAmends",
+  "regulation-control": "socialNorms",
+  "moral-ethics": "moralNorms",
+  "social-norms-conformity": "socialNorms",
+  "fairness-punishment": "fairnessEmpathy",
+  "social-uncertainty": "socialIsolationUnsafe",
+  "social-decision-choice": "decisionTheory",
+  "strategic-interaction": "gameTheory",
+  "risk-ambiguity-social": "prospectTheory",
+  "bounded-rationality-bias": "boundedRationality",
+  "choice-architecture-nudge": "choiceArchitecture",
+  "collective-choice": "socialChoice",
+  "deception-trust-violation": "reputationTrust",
+  "reward-bonding": "vicariousReward",
+  "attachment-bond": "supportHealth",
+  "altruism-prosocial": "empathyCapacity",
+  "trust-cooperation": "trustCooperation",
+  "reputation-impression": "reputationTrust",
+  "culture-social-cognition": "socialSpecies",
+  "ingroup-outgroup": "friendFoe",
+  "prejudice-stigma": "friendFoe",
+  "dominance-hierarchy": "dominanceHierarchy",
+  "envy-social-comparison": "vicariousReward",
+  "action-imitation": "automaticImitation",
+  "intercorporeality-interaffectivity": "intercorporeality",
+  "interpersonal-synchrony": "socialBrain",
+  "social-learning-memory": "cooperationTechnology",
+  "social-metacognition": "metacognition",
+  "social-threat-stress": "socialIsolationUnsafe",
+  "loneliness-isolation": "lonelinessThreat",
+  "support-health": "supportHealth"
+};
+
+const literalQuoteByRegion = {
+  dlpfc: "socialNorms",
+  premotor: "socialBrain",
+  auditory: "wordsMentalStates",
+  dmn: "selfReference",
+  visual: "personCues",
+  hippocampus: "socialCognition",
+  insula: "emotionBehavior",
+  parietal: "mentalStates",
+  amygdala: "emotionBehavior",
+  cerebellum: "socialBrain",
+  salience: "emotionBehavior",
+  ventralAttention: "jointAttention",
+  vmPfc: "vicariousReward",
+  acc: "socialNorms",
+  thalamostriatal: "vicariousReward",
+  fusiformFace: "personCues"
 };
 
 const deepDiveContent = {
@@ -2052,8 +2786,9 @@ function meshesForRegion(regionId) {
   return allAtlasMeshes.filter((mesh) => labels.has(mesh.userData.cerebraLabel?.label));
 }
 
-regionCountEl.textContent = `${regions.length} regiones`;
+regionCountEl.textContent = `${socialThemeGroups.length} categorías`;
 let activeThemeId = null;
+let activeSocialGroupId = null;
 
 function makeRegionButton(region) {
   const copy = getRegionCopy(region);
@@ -2078,6 +2813,111 @@ function getRegionCopy(region) {
     task: en[6],
     taskCopy: en[7]
   };
+}
+
+function getThemeCopy(section) {
+  if (!section) return null;
+  return currentLang === "en" ? (themeTextEn[section.id] ?? section) : section;
+}
+
+function getSocialGroupCopy(group) {
+  if (!group) return null;
+  return currentLang === "en" ? { ...group, ...(socialThemeGroupTextEn[group.id] ?? {}) } : group;
+}
+
+function socialGroupForTheme(themeId) {
+  return socialThemeGroups.find((group) => group.themes.includes(themeId)) ?? null;
+}
+
+function themeById(themeId) {
+  return regionSections.find((section) => section.id === themeId) ?? null;
+}
+
+function uniqueGroupRegionIds(group) {
+  return [...new Set(group.themes.flatMap((themeId) => themeById(themeId)?.regions ?? []))];
+}
+
+function literalQuote(key) {
+  return literalQuoteLibrary[key] ?? literalQuoteLibrary.socialSpecies;
+}
+
+function deepNarrativeTitle(label) {
+  if (!label) return currentLang === "en" ? "Why this matters" : "Por qué importa";
+  return currentLang === "en" ? `Why ${label} matters` : `Por qué importa ${label}`;
+}
+
+function quoteLabel() {
+  return currentLang === "en" ? "Reference anchor" : "Anclaje en referencias";
+}
+
+function asSentence(text) {
+  const clean = `${text ?? ""}`.trim();
+  if (!clean) return "";
+  return /[.!?]$/.test(clean) ? clean : `${clean}.`;
+}
+
+function lowerFirst(text) {
+  const clean = `${text ?? ""}`.trim();
+  if (!clean) return "";
+  return `${clean.charAt(0).toLowerCase()}${clean.slice(1)}`;
+}
+
+function listPreview(items, max = 4) {
+  return items.slice(0, max).join(", ");
+}
+
+function buildDeepNarrative(quote, selectedImportance, label) {
+  const baseImportance = currentLang === "en" ? quote.importance : (quote.importanceEs ?? quote.importance);
+  const selected = asSentence(selectedImportance);
+  const base = asSentence(baseImportance);
+  if (currentLang === "en") {
+    if (!label) return `${base} The atlas uses this reference as an entry point for reading social life as a coordination between body, attention, memory, value and action.`;
+    return `${selected} In the atlas, ${label.toLowerCase()} is not treated as a loose label or a single brain spot. It is read as a social capacity that coordinates body signals, attention, memory, valuation and control so that a person can interpret what is happening with others and choose a response. ${base}`;
+  }
+  if (!label) return `${base} El atlas usa esta referencia como una puerta de entrada para leer la vida social como una coordinación entre cuerpo, atención, memoria, valor y acción.`;
+  return `${selected} En el atlas, ${label.toLowerCase()} no se trata como una etiqueta suelta ni como un punto único del cerebro. Se lee como una capacidad social que coordina cuerpo, atención, memoria, valoración y control para interpretar lo que ocurre con otros y elegir una respuesta. ${base}`;
+}
+
+function showLiteralQuote(key, options = {}) {
+  const quote = literalQuote(key);
+  const baseImportance = currentLang === "en" ? quote.importance : (quote.importanceEs ?? quote.importance);
+  const selectedImportance = options.importance ?? baseImportance;
+  const label = options.label ?? "";
+  const visibleQuote = currentLang === "en" ? quote.copy : (quote.copyEs ?? quote.copy);
+  deepTitleEl.textContent = deepNarrativeTitle(label);
+  deepCopyEl.textContent = buildDeepNarrative(quote, selectedImportance, label);
+  if (deepPurposeEl) deepPurposeEl.textContent = `${quoteLabel()}: ${visibleQuote}`;
+  deepSourceEl.textContent = quote.source;
+}
+
+function quoteKeyForTheme(sectionId) {
+  return literalQuoteByTheme[sectionId] ?? literalQuoteBySocialGroup[socialGroupForTheme(sectionId)?.id] ?? "socialSpecies";
+}
+
+function quoteKeyForRegion(regionId) {
+  return literalQuoteByRegion[regionId] ?? "socialSpecies";
+}
+
+function buildGroupNarrative(group, groupCopy, themeCopies, regionIds) {
+  const names = listPreview(themeCopies.map((theme) => theme.title), 5);
+  if (currentLang === "en") {
+    return `${asSentence(groupCopy.description)} This category opens a route through ${group.themes.length} related functions, including ${names}. Together they show how ${groupCopy.title.toLowerCase()} depends on coordinated activity across ${regionIds.length} atlas systems rather than on a single isolated area.`;
+  }
+  return `${asSentence(groupCopy.description)} Esta categoría abre una ruta por ${group.themes.length} funciones relacionadas, como ${names}. En conjunto muestran que ${groupCopy.title.toLowerCase()} depende de la coordinación de ${regionIds.length} sistemas del atlas, no de una sola zona aislada.`;
+}
+
+function buildThemeLead(section, themeCopy) {
+  if (currentLang === "en") {
+    return `When you explore ${themeCopy.title.toLowerCase()}, the atlas highlights ${section.regions.length} associated systems and follows how they work together in social life. ${asSentence(themeCopy.description)}`;
+  }
+  return `Al explorar ${themeCopy.title.toLowerCase()}, el atlas ilumina ${section.regions.length} sistemas asociados y permite seguir cómo se coordinan en la vida social. ${asSentence(themeCopy.description)}`;
+}
+
+function buildTeachingNarrative(themeCopy) {
+  if (currentLang === "en") {
+    return `${asSentence(themeCopy.guide ?? themeCopy.description)} This gives the function a concrete role in everyday interaction instead of leaving it as an abstract label.`;
+  }
+  return `${asSentence(themeCopy.guide ?? themeCopy.description)} Así la función queda ubicada en situaciones concretas de interacción, y no solo como una etiqueta abstracta.`;
 }
 
 function applyLanguage(lang) {
@@ -2110,9 +2950,6 @@ function applyLanguage(lang) {
   if (socialLabels[0]) socialLabels[0].textContent = t.keyConcepts;
   if (socialLabels[1]) socialLabels[1].textContent = t.teachingExample;
   setText(".panel-section:nth-of-type(3) .eyebrow", t.learnMore);
-  const deepLabels = document.querySelectorAll(".deep-grid dt");
-  if (deepLabels[0]) deepLabels[0].textContent = t.suggestedExperiment;
-  if (deepLabels[1]) deepLabels[1].textContent = t.discussionQuestion;
   setText(".panel-section:nth-of-type(4) .eyebrow", t.activeTheme);
   setText(".panel-section:nth-of-type(5) .eyebrow", t.anatomicalZones);
   setText(".experiment .eyebrow", t.functionalExperiment);
@@ -2128,56 +2965,173 @@ function applyLanguage(lang) {
   renderZoneList();
 }
 
+function showInitialOverviewCopy() {
+  const groupTitles = socialThemeGroups.map((group) => getSocialGroupCopy(group).title);
+  title.textContent = "Open Social Brain";
+  summary.textContent = uiText[currentLang].cleanStart;
+  locationEl.textContent = currentLang === "en" ? "Whole-brain social atlas." : "Atlas social de cerebro completo.";
+  functionsEl.textContent = uiText[currentLang].mainDomains;
+  networkEl.textContent = groupTitles.join(", ");
+  labelEl.textContent = currentLang === "en"
+    ? `${regionSections.length} social functions organized into ${socialThemeGroups.length} categories.`
+    : `${regionSections.length} funciones sociales organizadas en ${socialThemeGroups.length} categorías.`;
+  socialTitleEl.textContent = currentLang === "en" ? "Exploration by social category" : "Exploración por categoría social";
+  socialSummaryEl.textContent = currentLang === "en"
+    ? "The first layer is intentionally clean: choose a main category, then a specific function to highlight its brain network."
+    : "La primera capa queda limpia: elige una categoría principal y luego una función específica para iluminar su red cerebral.";
+  socialConceptsEl.textContent = groupTitles.join(" · ");
+  showLiteralQuote("socialSpecies", {
+    label: currentLang === "en" ? "the social brain" : "el cerebro social",
+    importance: currentLang === "en"
+      ? "The first view is intentionally open: before choosing a function, the atlas frames the brain as a system prepared for life with others."
+      : "La primera vista queda abierta a propósito: antes de elegir una función, el atlas presenta el cerebro como un sistema preparado para vivir con otros."
+  });
+  experimentTitle.textContent = currentLang === "en" ? "Guided social exploration" : "Exploración social guiada";
+  experimentCopy.textContent = uiText[currentLang].chooseMainDomain;
+}
+
+function showSocialGroupOverview(group) {
+  const groupCopy = getSocialGroupCopy(group);
+  const themeCopies = group.themes.map(themeById).filter(Boolean).map(getThemeCopy);
+  const regionIds = uniqueGroupRegionIds(group);
+  const groupNarrative = buildGroupNarrative(group, groupCopy, themeCopies, regionIds);
+  title.textContent = groupCopy.title;
+  summary.textContent = groupNarrative;
+  locationEl.textContent = currentLang === "en" ? "Main social category." : "Categoría social principal.";
+  functionsEl.textContent = groupCopy.hint;
+  networkEl.textContent = themeCopies.map((theme) => theme.title).join(", ");
+  labelEl.textContent = currentLang === "en"
+    ? `${group.themes.length} specific functions; ${regionIds.length} associated atlas systems.`
+    : `${group.themes.length} funciones específicas; ${regionIds.length} sistemas del atlas asociados.`;
+  socialTitleEl.textContent = groupCopy.title;
+  socialSummaryEl.textContent = groupNarrative;
+  socialConceptsEl.textContent = themeCopies.map((theme) => theme.title).join(" · ");
+  showLiteralQuote(literalQuoteBySocialGroup[group.id] ?? "socialSpecies", {
+    label: groupCopy.title,
+    importance: groupNarrative
+  });
+  experimentTitle.textContent = groupCopy.title;
+  experimentCopy.textContent = currentLang === "en"
+    ? "Choose one of the specific functions to turn this broad category into a concrete brain network."
+    : "Elige una de las funciones específicas para convertir esta categoría amplia en una red cerebral concreta.";
+}
+
+function selectMainThemeGroup(groupId, options = {}) {
+  const { renderTabs = true } = options;
+  const group = socialThemeGroups.find((item) => item.id === groupId);
+  if (!group) return;
+  activeSocialGroupId = group.id;
+  activeThemeId = null;
+  selectedZoneLabel = null;
+  selectionMode = "none";
+  if (renderTabs) renderThemeTabs(null);
+  clearSelectionDisplay({ updateCopy: false });
+  showSocialGroupOverview(group);
+  document.querySelectorAll("[data-theme]").forEach((button) => button.classList.remove("active"));
+}
+
 function renderThemeTabs(sectionId = activeThemeId) {
   const section = regionSections.find((item) => item.id === sectionId) ?? null;
-  const themeCopy = section
-    ? (currentLang === "en" ? (themeTextEn[section.id] ?? section) : section)
-    : null;
+  const sectionGroup = section ? socialGroupForTheme(section.id) : null;
+  if (sectionGroup) activeSocialGroupId = sectionGroup.id;
+  const activeGroup = socialThemeGroups.find((group) => group.id === activeSocialGroupId) ?? null;
+  const themeCopy = getThemeCopy(section);
+  const groupCopy = getSocialGroupCopy(activeGroup);
   activeThemeId = section?.id ?? null;
+  if (!activeGroup) {
+    regionCountEl.textContent = currentLang === "en"
+      ? `${socialThemeGroups.length} categories`
+      : `${socialThemeGroups.length} categorías`;
+  } else if (!section) {
+    regionCountEl.textContent = currentLang === "en"
+      ? `${activeGroup.themes.length} functions`
+      : `${activeGroup.themes.length} funciones`;
+  } else {
+    regionCountEl.textContent = currentLang === "en"
+      ? `${section.regions.length} areas`
+      : `${section.regions.length} áreas`;
+  }
   regionList.className = "theme-detail";
   regionList.innerHTML = "";
   if (themeTabsBar) themeTabsBar.innerHTML = "";
 
-  regionSections.forEach((item) => {
-    const itemCopy = currentLang === "en" ? (themeTextEn[item.id] ?? item) : item;
+  socialThemeGroups.forEach((group) => {
+    const copy = getSocialGroupCopy(group);
     const tab = document.createElement("button");
     tab.type = "button";
-    tab.className = "program-tab";
-    tab.dataset.theme = item.id;
+    tab.className = "program-tab main-social-tab";
+    tab.dataset.themeGroup = group.id;
     tab.setAttribute("role", "tab");
-    tab.setAttribute("aria-selected", String(item.id === section?.id));
-    tab.classList.toggle("active", item.id === section?.id);
-    tab.innerHTML = `<span class="tab-icon">${item.icon ?? "OS"}</span><strong>${itemCopy.title}</strong><span class="tab-count">${item.regions.length}</span>`;
-    tab.addEventListener("click", () => selectTheme(item.id));
+    tab.setAttribute("aria-selected", String(group.id === activeGroup?.id));
+    tab.classList.toggle("active", group.id === activeGroup?.id);
+    tab.title = copy.hint;
+    tab.innerHTML = `<span class="tab-icon">${group.icon}</span><strong>${copy.title}</strong><span class="tab-count">${group.themes.length}</span>`;
+    tab.addEventListener("click", () => selectMainThemeGroup(group.id));
     themeTabsBar?.appendChild(tab);
+  });
+
+  themeTabsBar?.querySelector(".program-tab.active")?.scrollIntoView({
+    block: "nearest",
+    inline: "nearest"
   });
 
   const intro = document.createElement("p");
   intro.className = "theme-intro";
-  intro.textContent = section
-    ? uiText[currentLang].themeIntro
-    : (currentLang === "en"
-      ? "Choose a social function above to highlight all involved areas."
-      : "Elige una función social arriba para marcar todas sus áreas involucradas.");
+  intro.textContent = activeGroup
+    ? (section ? uiText[currentLang].chooseSpecificFunction : uiText[currentLang].domainSelected)
+    : uiText[currentLang].chooseMainDomain;
   regionList.appendChild(intro);
 
   const header = document.createElement("div");
   header.className = "theme-window-header";
   header.innerHTML = `
     <div>
-      <strong>${section ? themeCopy.title : (currentLang === "en" ? "No active function" : "Sin función activa")}</strong>
-      <span>${section ? themeCopy.hint : (currentLang === "en" ? "The atlas starts unmarked." : "El atlas inicia sin áreas marcadas.")}</span>
+      <strong>${section ? themeCopy.title : (groupCopy?.title ?? uiText[currentLang].mainDomains)}</strong>
+      <span>${section ? themeCopy.hint : (groupCopy?.hint ?? uiText[currentLang].noActiveDomain)}</span>
     </div>
   `;
   regionList.appendChild(header);
 
   const body = document.createElement("div");
   body.className = "theme-window-body";
+  const handbook = section?.handbook ? `<p class="theme-handbook">${themeCopy.handbook}</p>` : "";
   body.innerHTML = `
-    <p>${section ? themeCopy.description : (currentLang === "en" ? "This keeps the first view clean. When you select a social function, every associated cortical and subcortical area is highlighted together." : "Esto deja la primera vista limpia. Al seleccionar una función social, se resaltan juntas todas las áreas corticales y subcorticales asociadas.")}</p>
-    <p class="theme-handbook">${section ? (themeCopy.handbook ?? "") : ""}</p>
+    <p>${section ? themeCopy.description : (groupCopy?.description ?? uiText[currentLang].cleanStart)}</p>
+    ${handbook}
   `;
   regionList.appendChild(body);
+
+  if (!activeGroup) return;
+
+  const functionTitle = document.createElement("div");
+  functionTitle.className = "theme-area-title";
+  functionTitle.innerHTML = `<strong>${uiText[currentLang].specificFunctions}</strong><span>${activeGroup.themes.length}</span>`;
+  regionList.appendChild(functionTitle);
+
+  const functionList = document.createElement("div");
+  functionList.className = "social-function-list";
+  activeGroup.themes
+    .map(themeById)
+    .filter(Boolean)
+    .forEach((theme) => {
+      const copy = getThemeCopy(theme);
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "social-function-card";
+      button.dataset.theme = theme.id;
+      button.classList.toggle("active", theme.id === section?.id);
+      button.innerHTML = `
+        <span class="function-icon">${theme.icon ?? "OS"}</span>
+        <span>
+          <strong>${copy.title}</strong>
+          <small>${copy.hint}</small>
+        </span>
+        <span class="function-count">${theme.regions.length}</span>
+      `;
+      button.addEventListener("click", () => selectTheme(theme.id));
+      functionList.appendChild(button);
+    });
+  regionList.appendChild(functionList);
 
   if (!section) return;
 
@@ -2185,7 +3139,7 @@ function renderThemeTabs(sectionId = activeThemeId) {
   group.className = "region-group theme-region-group";
   const groupTitle = document.createElement("div");
   groupTitle.className = "theme-area-title";
-  groupTitle.innerHTML = `<strong>${currentLang === "en" ? "Involved areas" : "Áreas involucradas"}</strong><span>${section.regions.length}</span>`;
+  groupTitle.innerHTML = `<strong>${uiText[currentLang].involvedAreas}</strong><span>${section.regions.length}</span>`;
   regionList.appendChild(groupTitle);
   section.regions
     .map((id) => regions.find((region) => region.id === id))
@@ -2348,32 +3302,12 @@ function updateSocialContent(regionId, zone = null) {
 }
 
 function updateDeepDive(regionId, zone = null) {
-  if (currentLang === "en") {
-    const region = regions.find((item) => item.id === regionId) ?? regions[0];
-    const copy = getRegionCopy(region);
-    deepTitleEl.textContent = zone ? `${zone.displayName}: classroom extension` : `${copy.name}: classroom extension`;
-    deepCopyEl.textContent = `${copy.summary} In a social neuroscience class, this can be linked to behavior, context, interaction and individual differences.`;
-    deepExperimentEl.textContent = copy.taskCopy;
-    deepQuestionEl.textContent = "How does the interpretation of this process change when the stimulus or task becomes social?";
-    deepSourceEl.textContent = "Synthesis: Gazzaniga et al. + Oxford handbook";
-    return;
-  }
-  const profile = socialFunctionProfiles[regionId];
-  if (profile && !zone) {
-    deepTitleEl.textContent = profile.title;
-    deepCopyEl.textContent = profile.deep;
-    deepExperimentEl.textContent = profile.experiment;
-    deepQuestionEl.textContent = profile.question;
-    deepSourceEl.textContent = "Oxford Handbook + Gazzaniga et al.";
-    return;
-  }
-  const zoneContent = zone ? deepDiveByZoneKey.get(contentKey(zone.displayName)) : null;
-  const content = zoneContent ?? deepDiveContent[regionId] ?? deepDiveContent.dlpfc;
-  deepTitleEl.textContent = content.title;
-  deepCopyEl.textContent = content.copy;
-  deepExperimentEl.textContent = content.experiment;
-  deepQuestionEl.textContent = content.question;
-  deepSourceEl.textContent = content.source;
+  const region = regions.find((item) => item.id === regionId) ?? regions[0];
+  const copy = getRegionCopy(region);
+  showLiteralQuote(quoteKeyForRegion(regionId), {
+    label: zone ? zone.displayName : copy.name,
+    importance: zone ? zoneContentOverrides[zone.displayName]?.[1] ?? copy.summary : copy.summary
+  });
 }
 
 const themeDeepExtrasEs = {
@@ -2453,12 +3387,17 @@ const themeNetworkDescriptionsEs = {
   "perspective-taking": "TPJ/atención ventral ayuda a desplazar la atención desde la posición propia hacia la del otro, la red por defecto simula la escena desde una narrativa alternativa, el parietal transforma coordenadas espaciales y corporales, DLPFC inhibe el punto de vista propio cuando interfiere, y vmPFC integra cercanía, valor y relevancia interpersonal. Tomar perspectiva exige cambiar de marco, no solo imaginar.",
   "agency-intention": "La corteza premotora representa la acción posible, el parietal compara cuerpo propio y acción observada, la red por defecto permite inferir intención, vmPFC evalúa significado y responsabilidad, el cíngulo anterior detecta conflicto entre accidente y propósito, y DLPFC sostiene la regla del juicio. La agencia social aparece cuando una acción se interpreta como propia, ajena, accidental o deliberada.",
   "empathy-compassion": "La ínsula representa el componente corporal del estado ajeno, el cíngulo anterior aporta dolor, conflicto y motivación para responder, TPJ/parietal ayuda a distinguir yo/otro y tomar perspectiva, vmPFC integra valor social y decisión de ayuda, y la red por defecto aporta contexto autobiográfico y significado interpersonal.",
+  "social-anger": "La rabia social combina detección de amenaza o daño en la amígdala, malestar corporal en la ínsula, conflicto y preparación de respuesta en el cíngulo anterior, y priorización del evento en la red de saliencia. DLPFC y vmPFC permiten regular la reacción, reinterpretar intención y decidir si confrontar, inhibir o reparar según la norma social.",
+  "shame-social": "La vergüenza emerge cuando la red por defecto representa el yo bajo la mirada de otros, vmPFC asigna valor personal y reputacional al error, la ínsula aporta malestar corporal, el cíngulo anterior detecta conflicto o necesidad de ajuste, y DLPFC ayuda a regular la conducta posterior. Es una emoción social porque depende de evaluación pública, norma y self.",
   "theory-of-mind": "La red por defecto sostiene simulación narrativa e inferencia de estados internos; TPJ/atención ventral actualiza lo que otra persona sabe o cree; vmPFC integra significado social y valor personal; hipocampo aporta contexto episódico; y parietal contribuye a separar perspectivas espaciales y mentales.",
   "pragmatic-language": "La corteza auditiva analiza tono y ritmo de la voz; regiones temporoparietales vinculan la frase con intención comunicativa; la red por defecto permite inferir creencias e ironía; DLPFC mantiene contexto y regla conversacional; e ínsula aporta saliencia afectiva cuando el tono cambia el significado social.",
   "deception-trust-violation": "DLPFC sostiene la estrategia y el control necesarios para mentir o detectar inconsistencias, vmPFC actualiza valor de confianza, el cíngulo anterior registra conflicto y sospecha, la amígdala responde a traición o amenaza interpersonal, el hipocampo recupera antecedentes de la persona, y el estriado ajusta expectativas de recompensa o pérdida social.",
   "ingroup-outgroup": "El fusiforme procesa identidad visible, la amígdala puede aumentar alerta ante diferencia o amenaza aprendida, vmPFC asigna valor y cercanía al grupo, la red por defecto integra identidad social, el cíngulo anterior detecta conflicto entre norma e impulso, y el estriado refuerza pertenencia o cooperación selectiva. La pertenencia grupal cambia percepción, memoria y valor.",
   "prejudice-stigma": "La amígdala y la saliencia priorizan señales socialmente cargadas, el fusiforme organiza categorización visual, el cíngulo anterior detecta conflicto cuando una respuesta automática choca con una norma, DLPFC permite regular sesgos, y vmPFC reevalúa significado personal o moral. El prejuicio se entiende mejor como interacción entre aprendizaje cultural, emoción y control.",
-  "moral-emotions": "vmPFC relaciona una acción con valor personal y norma, el cíngulo anterior registra conflicto, culpa o necesidad de reparación, la ínsula aporta vergüenza o malestar corporal, la red por defecto permite verse desde la mirada de otros, y la amígdala responde ante daño, amenaza o indignación. Culpa, vergüenza y orgullo son emociones que dependen de contexto social y evaluación del self.",
+  "guilt-repair": "La culpa combina vmPFC para valorar daño, responsabilidad y norma; cíngulo anterior para detectar conflicto y necesidad de ajuste; ínsula para el malestar corporal; red por defecto para reconstruir el self en la historia social; hipocampo para recordar el episodio; y DLPFC para sostener la decisión de reparar. Su foco principal es la acción: qué hice, a quién dañé y cómo puedo responder.",
+  "social-pride": "El orgullo integra vmPFC para asignar valor personal al logro, circuitos tálamo-estriatales para recompensa social, red por defecto para autoestima e identidad narrativa, hipocampo para situar el logro en una historia personal, y cíngulo anterior para monitorear esfuerzo o comparación. El orgullo social aparece cuando el logro adquiere reconocimiento, estatus o significado ante otros.",
+  "social-repair": "La reparación social usa vmPFC para valorar el daño y la relación, DLPFC para sostener una respuesta regulada, cíngulo anterior para monitorear conflicto y costo, ínsula para el malestar asociado a culpa o vergüenza, hipocampo para recuperar la historia del vínculo, y red por defecto para reconstruir la narrativa interpersonal. Su función es transformar emoción social en una acción de restauración.",
+  "moral-indignation": "La indignación moral combina ínsula y cíngulo anterior para registrar aversión ante injusticia, amígdala para responder ante daño o amenaza social, DLPFC para sostener la norma vulnerada, vmPFC para valorar daño e intención, y red de saliencia para priorizar la violación. A diferencia de la rabia general, aquí la emoción se organiza alrededor de una regla social o daño injusto.",
   "envy-social-comparison": "vmPFC calcula valor relativo del self, el estriado responde a logro propio o ajeno según contexto, la red por defecto sostiene autoestima e identidad narrativa, el cíngulo anterior detecta discrepancia o frustración, y la ínsula aporta malestar asociado a inequidad. La comparación social convierte la recompensa en algo relacional, no absoluto.",
   "forgiveness-reconciliation": "vmPFC reevalúa intención, daño y posibilidad de restaurar valor social; DLPFC sostiene control sobre impulso de castigo; el cíngulo anterior registra conflicto entre reparación y defensa; la amígdala mantiene memoria afectiva de la ofensa; el hipocampo aporta detalles del episodio; y la red por defecto permite reconstruir la historia de la relación.",
   "reputation-impression": "El fusiforme identifica a la persona, el hipocampo conserva acciones previas asociadas a ese rostro, vmPFC estima valor social y confiabilidad, la red por defecto integra rasgos en una impresión narrativa, y el estriado aprende qué personas predicen cooperación o beneficio. La reputación funciona como memoria social con consecuencias para decisiones futuras.",
@@ -2494,12 +3433,17 @@ const themeNetworkDescriptionsEn = {
   "perspective-taking": "TPJ/ventral attention helps shift attention from one's own position to another person's, the default mode network simulates the scene from an alternative narrative, parietal cortex transforms spatial and bodily coordinates, DLPFC inhibits one's own point of view when it interferes, and vmPFC integrates closeness, value and interpersonal relevance.",
   "agency-intention": "Premotor cortex represents possible action, parietal cortex compares one's own body with observed action, the default mode network supports intention inference, vmPFC evaluates meaning and responsibility, anterior cingulate detects conflict between accident and purpose, and DLPFC maintains the rule used for judgment.",
   "empathy-compassion": "Insula represents the bodily component of another person's state, anterior cingulate contributes pain, conflict and response motivation, TPJ/parietal regions separate self from other and support perspective, vmPFC integrates social value and helping choice, and the default mode network adds autobiographical context and interpersonal meaning.",
+  "social-anger": "Social anger combines threat or harm detection in amygdala, bodily distress in insula, conflict and response preparation in anterior cingulate, and event prioritization in the salience network. DLPFC and vmPFC help regulate the reaction, reinterpret intention and decide whether to confront, inhibit or repair according to the social norm.",
+  "shame-social": "Shame emerges when the default mode network represents the self under others' gaze, vmPFC assigns personal and reputational value to the error, insula adds bodily discomfort, anterior cingulate detects conflict or need for adjustment, and DLPFC helps regulate later behavior.",
   "theory-of-mind": "The default mode network supports narrative simulation and internal-state inference; TPJ/ventral attention updates what another person knows or believes; vmPFC integrates social meaning and personal value; hippocampus adds episodic context; and parietal cortex helps separate spatial and mental perspectives.",
   "pragmatic-language": "Auditory cortex analyzes tone and voice rhythm; temporoparietal regions link the utterance to communicative intention; the default mode network supports belief and irony inference; DLPFC maintains conversational context and rules; and insula adds affective salience when tone changes social meaning.",
   "deception-trust-violation": "DLPFC maintains strategy and control needed to lie or detect inconsistency, vmPFC updates trust value, anterior cingulate registers conflict and suspicion, amygdala responds to betrayal or interpersonal threat, hippocampus retrieves the person's history, and striatal circuits adjust reward or loss expectations.",
   "ingroup-outgroup": "Fusiform cortex processes visible identity, amygdala can increase alertness to learned difference or threat, vmPFC assigns value and closeness to the group, the default mode network integrates social identity, anterior cingulate detects conflict between norm and impulse, and striatal circuits reinforce belonging or selective cooperation.",
   "prejudice-stigma": "Amygdala and salience networks prioritize socially loaded cues, fusiform cortex organizes visual categorization, anterior cingulate detects conflict when an automatic response clashes with a norm, DLPFC supports bias regulation, and vmPFC reevaluates personal or moral meaning.",
-  "moral-emotions": "vmPFC relates an action to personal value and norm, anterior cingulate registers conflict, guilt or need for repair, insula adds shame or bodily discomfort, the default mode network allows seeing oneself from others' perspective, and amygdala responds to harm, threat or indignation.",
+  "guilt-repair": "Guilt combines vmPFC for harm, responsibility and norm value; anterior cingulate for conflict and need for adjustment; insula for bodily discomfort; the default mode network for reconstructing the self within the social story; hippocampus for episode memory; and DLPFC for maintaining the decision to repair.",
+  "social-pride": "Pride integrates vmPFC for the personal value of achievement, thalamo-striatal circuits for social reward, the default mode network for self-esteem and narrative identity, hippocampus for placing the achievement in a personal story, and anterior cingulate for effort or comparison monitoring.",
+  "social-repair": "Social repair uses vmPFC to value harm and relationship meaning, DLPFC to maintain a regulated response, anterior cingulate to monitor conflict and cost, insula for guilt- or shame-related discomfort, hippocampus to retrieve bond history, and the default mode network to rebuild the interpersonal narrative.",
+  "moral-indignation": "Moral indignation combines insula and anterior cingulate to register aversion to injustice, amygdala to respond to harm or social threat, DLPFC to maintain the violated norm, vmPFC to evaluate harm and intention, and the salience network to prioritize the violation.",
   "envy-social-comparison": "vmPFC computes relative self-value, striatal circuits respond to one's own or another person's success depending on context, the default mode network supports self-esteem and narrative identity, anterior cingulate detects discrepancy or frustration, and insula adds distress linked to inequity.",
   "forgiveness-reconciliation": "vmPFC reevaluates intention, harm and the possibility of restoring social value; DLPFC controls the impulse to punish; anterior cingulate registers conflict between repair and defense; amygdala preserves affective memory of the offense; hippocampus adds episode details; and the default mode network reconstructs the relationship story.",
   "reputation-impression": "Fusiform cortex identifies the person, hippocampus stores previous actions associated with that face, vmPFC estimates social value and trustworthiness, the default mode network integrates traits into a narrative impression, and striatal circuits learn which people predict cooperation or benefit.",
@@ -2576,7 +3520,8 @@ function buildThemeNetworkDescription(section) {
   return `Esta red puede leerse como una ruta coordinada para ${section.title.toLowerCase()}: ${items.join("; ")}. Lo importante es que la función no está guardada en una sola zona; aparece cuando percepción, emoción, memoria, valoración y control se combinan según el contexto social.`;
 }
 
-function clearSelectionDisplay() {
+function clearSelectionDisplay(options = {}) {
+  const { updateCopy = true } = options;
   selectionMode = "none";
   selectedZoneLabel = null;
 
@@ -2597,6 +3542,14 @@ function clearSelectionDisplay() {
 
   updateSelectionHalo([], selected.color);
   setMedialCut(medialHemisphere);
+  if (updateCopy) {
+    const group = socialThemeGroups.find((item) => item.id === activeSocialGroupId);
+    if (group) {
+      showSocialGroupOverview(group);
+    } else {
+      showInitialOverviewCopy();
+    }
+  }
   renderZoneList();
 }
 
@@ -2608,14 +3561,12 @@ function selectTheme(sectionId, options = {}) {
   selectionMode = "theme";
   selectedZoneLabel = null;
   activeThemeId = section.id;
+  activeSocialGroupId = socialGroupForTheme(section.id)?.id ?? activeSocialGroupId;
   if (renderTabs) renderThemeTabs(section.id);
 
   const themeCopy = currentLang === "en" ? (themeTextEn[section.id] ?? section) : section;
-  const themeExtra = getThemeDeepExtra(section, themeCopy);
   title.textContent = themeCopy.title;
-  summary.textContent = currentLang === "en"
-    ? `Selected social function: ${section.regions.length} associated atlas systems are highlighted in the brain.`
-    : `Función social seleccionada: se marcaron ${section.regions.length} sistemas asociados en el cerebro.`;
+  summary.textContent = buildThemeLead(section, themeCopy);
   locationEl.textContent = currentLang === "en" ? "Distributed social network." : "Red social distribuida.";
   functionsEl.textContent = themeCopy.hint;
   networkEl.textContent = section.regions
@@ -2625,7 +3576,7 @@ function selectTheme(sectionId, options = {}) {
     ? `${section.regions.length} associated atlas systems.`
     : `${section.regions.length} sistemas del atlas asociados.`;
   experimentTitle.textContent = themeCopy.title;
-  experimentCopy.textContent = themeCopy.guide ?? themeCopy.hint;
+  experimentCopy.textContent = buildTeachingNarrative(themeCopy);
 
   socialTitleEl.textContent = themeCopy.title;
   socialSummaryEl.textContent = buildThemeNetworkDescription(section);
@@ -2633,13 +3584,10 @@ function selectTheme(sectionId, options = {}) {
     .map((id) => getRegionCopy(regions.find((region) => region.id === id) ?? regions[0]).name)
     .join(" · ");
   if (socialExampleEl) socialExampleEl.textContent = themeCopy.guide ?? "";
-  deepTitleEl.textContent = themeExtra.title;
-  deepCopyEl.textContent = themeExtra.copy;
-  deepExperimentEl.textContent = themeExtra.experiment;
-  deepQuestionEl.textContent = themeExtra.question;
-  deepSourceEl.textContent = currentLang === "en"
-    ? "Synthesis: Gazzaniga et al. + Oxford handbook"
-    : "Oxford Handbook + Gazzaniga et al.";
+  showLiteralQuote(quoteKeyForTheme(section.id), {
+    label: themeCopy.title,
+    importance: buildTeachingNarrative(themeCopy)
+  });
 
   const themeRegionIds = new Set(section.regions);
   const selectedAtlasMeshes = [];
@@ -2671,6 +3619,7 @@ function selectTheme(sectionId, options = {}) {
   setMedialCut(medialHemisphere);
   renderZoneList();
   resetTask();
+  updateURL();
 }
 
 function selectRegion(id, options = {}) {
@@ -2700,35 +3649,62 @@ function selectRegion(id, options = {}) {
   });
   if (revealMenu) revealRegionInMenu(id);
 
+  const relatedRegionIds = new Set(
+    regionSections
+      .filter((s) => s.regions.includes(id))
+      .flatMap((s) => s.regions)
+      .filter((rid) => rid !== id)
+  );
+
   regionMeshes.forEach((mesh, regionId) => {
-    mesh.material.opacity = regionId === id ? 1 : 0.42;
+    if (regionId === id) {
+      mesh.material.opacity = 1;
+    } else if (relatedRegionIds.has(regionId)) {
+      mesh.material.opacity = 0.56;
+      mesh.material.emissiveIntensity = 0.10;
+    } else {
+      mesh.material.opacity = 0.12;
+    }
     mesh.scale.set(...regions.find((region) => region.id === regionId).scale);
   });
   const mesh = regionMeshes.get(id);
   mesh.scale.multiplyScalar(1.18);
 
+  const relatedAtlasMeshes = new Set([...relatedRegionIds].flatMap((rid) => meshesForRegion(rid)));
+
   atlasMeshes.forEach((meshes, regionId) => {
     meshes.forEach((atlasMesh) => {
-      const selectedMesh = regionId === id;
+      const isSelected = regionId === id;
+      const isRelated = !isSelected && relatedRegionIds.has(regionId);
       const baseColor = originalAtlasColors.get(atlasMesh.uuid);
       if (baseColor) atlasMesh.material.color.copy(baseColor);
       stabilizeMaterial(atlasMesh, true);
-      applyContextMaterial(atlasMesh, selectedMesh, selected.color);
+      applyContextMaterial(atlasMesh, isSelected, selected.color);
+      if (isRelated && atlasMesh.material) {
+        atlasMesh.material.opacity = 0.38;
+        atlasMesh.material.needsUpdate = true;
+      }
     });
   });
   const selectedSet = new Set(selectedAtlasMeshes);
   allAtlasMeshes.forEach((atlasMesh) => {
-    const selectedMesh = selectedSet.has(atlasMesh);
+    const isSelected = selectedSet.has(atlasMesh);
+    const isRelated = !isSelected && relatedAtlasMeshes.has(atlasMesh);
     const baseColor = originalAtlasColors.get(atlasMesh.uuid);
     if (baseColor) atlasMesh.material.color.copy(baseColor);
     stabilizeMaterial(atlasMesh, true);
-    applyContextMaterial(atlasMesh, selectedMesh, selected.color);
+    applyContextMaterial(atlasMesh, isSelected, selected.color);
+    if (isRelated && atlasMesh.material) {
+      atlasMesh.material.opacity = 0.38;
+      atlasMesh.material.needsUpdate = true;
+    }
   });
 
   updateSelectionHalo(selectedAtlasMeshes, selected.color);
   setMedialCut(medialHemisphere);
   renderZoneList();
   resetTask();
+  updateURL();
 }
 
 function selectZone(label) {
@@ -2785,6 +3761,7 @@ function selectZone(label) {
   updateSelectionHalo(mesh ? [mesh] : [], selected.color);
   setMedialCut(medialHemisphere);
   renderZoneList();
+  updateURL();
 }
 
 function updateSelectionHalo(meshes, color) {
@@ -2843,6 +3820,40 @@ document.querySelectorAll("[data-view]").forEach((button) => {
   button.addEventListener("click", () => setView(button.dataset.view));
 });
 
+function updateHoverTooltip(event) {
+  if (!tooltipEl) return;
+  if (!event) {
+    tooltipEl.classList.remove("visible");
+    return;
+  }
+  const rect = renderer.domElement.getBoundingClientRect();
+  const hoverPointer = new THREE.Vector2(
+    ((event.clientX - rect.left) / rect.width) * 2 - 1,
+    -((event.clientY - rect.top) / rect.height) * 2 + 1
+  );
+  raycaster.setFromCamera(hoverPointer, camera);
+  const atlasTargets = [...atlasMeshes.values()].flat();
+  const hoverHits = raycaster.intersectObjects([...atlasTargets, ...regionMeshes.values()], false);
+  const hit = hoverHits.find((h) => h.object.userData.regionId);
+  if (hit) {
+    const cerebraLabel = hit.object.userData.cerebraLabel;
+    const regionId = hit.object.userData.regionId;
+    const region = regions.find((r) => r.id === regionId);
+    const name = cerebraLabel ? cerebraLabel.displayName : (region ? getRegionCopy(region).name : "");
+    const tag = cerebraLabel
+      ? ({ frontal: "Lóbulo frontal", temporal: "Lóbulo temporal", parietal: "Lóbulo parietal", occipital: "Lóbulo occipital", limbic: "Sistema límbico", subcortex: "Subcorteza", cerebellum: "Cerebelo" }[cerebraLabel.group] ?? cerebraLabel.group)
+      : (region ? getRegionCopy(region).tag : "");
+    tooltipEl.innerHTML = `<strong>${name}</strong>${tag}`;
+    const tipX = Math.min(event.clientX + 16, window.innerWidth - 200);
+    const tipY = Math.max(event.clientY - 12, 8);
+    tooltipEl.style.left = `${tipX}px`;
+    tooltipEl.style.top = `${tipY}px`;
+    tooltipEl.classList.add("visible");
+  } else {
+    tooltipEl.classList.remove("visible");
+  }
+}
+
 renderer.domElement.addEventListener("pointerdown", (event) => {
   if (event.button !== 0) return;
   pointerDown = { x: event.clientX, y: event.clientY, time: performance.now() };
@@ -2854,7 +3865,11 @@ renderer.domElement.addEventListener("pointerdown", (event) => {
 });
 
 renderer.domElement.addEventListener("pointermove", (event) => {
-  if (!dragState) return;
+  if (!dragState) {
+    updateHoverTooltip(event);
+    return;
+  }
+  updateHoverTooltip(null);
   const dx = event.clientX - dragState.x;
   const dy = event.clientY - dragState.y;
   if (Math.abs(dx) + Math.abs(dy) > 2) dragState.moved = true;
@@ -2901,6 +3916,8 @@ renderer.domElement.addEventListener("pointerup", (event) => {
     }
   }
 });
+
+renderer.domElement.addEventListener("pointerleave", () => updateHoverTooltip(null));
 
 controls.addEventListener("start", () => {
   userInteracting = true;
@@ -3242,9 +4259,57 @@ document.querySelectorAll("[data-lang]").forEach((button) => {
   button.addEventListener("click", () => applyLanguage(button.dataset.lang));
 });
 
+function updateURL() {
+  const params = new URLSearchParams();
+  if (currentLang !== "es") params.set("lang", currentLang);
+  if (selectionMode === "region" && selected) params.set("region", selected.id);
+  else if (selectionMode === "theme" && activeThemeId) params.set("theme", activeThemeId);
+  const query = params.toString();
+  history.replaceState(null, "", query ? `?${query}` : location.pathname);
+}
+
+function restoreFromURL() {
+  const params = new URLSearchParams(location.search);
+  const lang = params.get("lang");
+  if (lang === "en") applyLanguage("en");
+  const region = params.get("region");
+  if (region && regions.find((r) => r.id === region)) {
+    selectRegion(region);
+    return;
+  }
+  const theme = params.get("theme");
+  if (theme) selectTheme(theme);
+}
+
+const aboutOverlay = document.querySelector("#about-overlay");
+const aboutBtn = document.querySelector("#about-btn");
+const aboutClose = document.querySelector("#about-close");
+
+function openAbout() {
+  if (!aboutOverlay) return;
+  aboutOverlay.classList.add("open");
+  aboutOverlay.removeAttribute("aria-hidden");
+}
+
+function closeAbout() {
+  if (!aboutOverlay) return;
+  aboutOverlay.classList.remove("open");
+  aboutOverlay.setAttribute("aria-hidden", "true");
+}
+
+aboutBtn?.addEventListener("click", openAbout);
+aboutClose?.addEventListener("click", closeAbout);
+aboutOverlay?.addEventListener("click", (e) => {
+  if (e.target === aboutOverlay) closeAbout();
+});
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && aboutOverlay?.classList.contains("open")) closeAbout();
+});
+
 applyLanguage("es");
 loadAtlasUrl("./assets/brain_atlas.glb", "brain_atlas.glb");
 centerBrain();
 animate();
+restoreFromURL();
 
 

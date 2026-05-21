@@ -2,7 +2,12 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="description" content="Atlas neuroanatómico interactivo del cerebro social. Explora 102 regiones y sus funciones en neurociencia social y cognitiva." />
+    <meta property="og:title" content="Open Social Brain — Atlas Neuroanatómico Interactivo" />
+    <meta property="og:description" content="Explora el cerebro social en 3D: percepción, emociones, decisión, vínculo y más. Por Felipe Rojas-Thomas, PhD." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
     <title>Open Social Brain</title>
     <link rel="stylesheet" href="./styles.css" />
   </head>
@@ -11,6 +16,7 @@
       <nav class="program-tabs" aria-label="Temáticas del atlas">
         <div id="theme-tabs-bar" class="program-tab-list"></div>
         <div class="language-switch" role="group" aria-label="Idioma">
+          <button id="about-btn" class="about-btn" type="button" title="Acerca del proyecto">ⓘ</button>
           <button data-lang="es" class="active">ES</button>
           <button data-lang="en">EN</button>
         </div>
@@ -46,26 +52,26 @@
       <aside class="panel" aria-label="Panel del atlas">
         <section class="panel-section">
           <p class="eyebrow">Estructura seleccionada</p>
-          <h2 id="region-title">Corteza dorsolateral prefrontal</h2>
+          <h2 id="region-title">Open Social Brain</h2>
           <p id="region-summary">
-            Nodo frontal de control ejecutivo: memoria de trabajo, selección de metas, control inhibitorio y ajuste flexible de la conducta.
+            Selecciona una categoría social principal y luego una función específica para resaltar su red cerebral.
           </p>
           <dl class="facts">
             <div>
               <dt>Localización</dt>
-              <dd id="region-location">Giro frontal medio/superior, BA 9/46.</dd>
+              <dd id="region-location">Atlas social de cerebro completo.</dd>
             </div>
             <div>
               <dt>Funciones</dt>
-              <dd id="region-functions">Memoria de trabajo, planificación, atención ejecutiva.</dd>
+              <dd id="region-functions">Categorías sociales principales.</dd>
             </div>
             <div>
               <dt>Redes</dt>
-              <dd id="region-network">Red frontoparietal de control; saliencia cognitiva.</dd>
+              <dd id="region-network">Percepción social, emociones sociales, comunicación social, aprendizaje social, control, decisión social, vínculo, grupos, yo social y salud mental.</dd>
             </div>
             <div>
               <dt>Etiqueta CerebrA</dt>
-              <dd id="region-label">Rostral/Caudal middle frontal y superior frontal bilateral.</dd>
+              <dd id="region-label">Funciones sociales organizadas por categorías.</dd>
             </div>
           </dl>
         </section>
@@ -86,33 +92,26 @@
 
         <section class="panel-section">
           <div class="section-title">
-            <p class="eyebrow">Saber mas</p>
+            <p class="eyebrow">Saber más</p>
             <span id="deep-source">Gazzaniga et al. + clase</span>
           </div>
           <div class="deep-dive">
             <article>
-              <h3 id="deep-title">Control ejecutivo aplicado</h3>
+              <h3 id="deep-title">Por qué importa el cerebro social</h3>
               <p id="deep-copy">
-                Esta zona se puede conectar con procesos de control, decision y regulacion de la conducta en escenarios sociales.
+                La vida social no ocurre en una sola región del cerebro. El atlas parte de una idea simple: percibir, sentir, recordar, regular y decidir se combinan para que podamos vivir con otros.
+              </p>
+              <p id="deep-purpose">
+                Cita del texto: "crean organizaciones emergentes más allá del individuo"
               </p>
             </article>
-            <dl class="deep-grid">
-              <div>
-                <dt>Experimento sugerido</dt>
-                <dd id="deep-experiment">Comparar respuestas automaticas y reguladas en una tarea breve de conflicto.</dd>
-              </div>
-              <div>
-                <dt>Pregunta para discutir</dt>
-                <dd id="deep-question">Que cambia cuando una misma tarea se interpreta como una interaccion social?</dd>
-              </div>
-            </dl>
           </div>
         </section>
 
         <section class="panel-section theme-section">
           <div class="section-title">
             <p class="eyebrow">Explorar por sistema</p>
-            <span id="region-count">10 regiones</span>
+            <span id="region-count">9 categorías</span>
           </div>
           <div id="region-list" class="region-list"></div>
         </section>
@@ -155,6 +154,22 @@
           <p id="experiment-copy">Mantiene reglas sociales activas, inhibe respuestas impulsivas y ajusta la conducta según metas, normas y contexto interpersonal.</p>
         </section>
       </aside>
+      <div id="brain-tooltip" class="brain-tooltip" aria-hidden="true"></div>
+
+      <div id="about-overlay" class="about-overlay" aria-hidden="true">
+        <div class="about-modal" role="dialog" aria-labelledby="about-modal-title">
+          <button id="about-close" class="about-close" type="button" aria-label="Cerrar">×</button>
+          <h2 id="about-modal-title">Open Social Brain</h2>
+          <p class="about-eyebrow">Atlas Neuroanatómico Interactivo</p>
+          <dl class="about-facts">
+            <div><dt>Autor</dt><dd>Felipe Rojas-Thomas, PhD en Neurociencia</dd></div>
+            <div><dt>Contenido</dt><dd>102 zonas anatómicas (atlas CerebrA), 16 regiones funcionales, 9 categorías de neurociencia social y cognitiva.</dd></div>
+            <div><dt>Fuentes principales</dt><dd>Gazzaniga, Ivry &amp; Mangun (Cognitive Neuroscience, 5ª ed.) · Cacioppo &amp; Decety (Oxford Handbook of Social Neuroscience)</dd></div>
+            <div><dt>Tecnología</dt><dd>Three.js r163 · Modelo 3D generado desde el atlas CerebrA (MNI ICBM 152)</dd></div>
+            <div><dt>Uso</dt><dd>Libre para docencia e investigación. Cita sugerida: Rojas-Thomas, F. Open Social Brain. Atlas neuroanatómico interactivo.</dd></div>
+          </dl>
+        </div>
+      </div>
     </main>
 
     <script type="importmap">
