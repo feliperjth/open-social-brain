@@ -418,16 +418,49 @@ button:active {
   bottom: 22px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 18px;
-  padding: 10px 12px;
+  gap: 4px;
+  padding: 5px 8px;
   border: 1px solid rgba(255, 255, 255, 0.14);
-  border-radius: 7px;
-  background: linear-gradient(180deg, rgba(18, 23, 29, 0.72), rgba(8, 10, 13, 0.54));
-  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.28);
+  border-radius: 8px;
+  background: linear-gradient(180deg, rgba(18, 23, 29, 0.78), rgba(8, 10, 13, 0.62));
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.32);
   backdrop-filter: blur(18px);
   color: var(--muted);
-  font-size: 0.82rem;
+  font-size: 0.8rem;
+}
+
+.layer-btn {
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  padding: 0 9px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 140ms ease, color 140ms ease, opacity 140ms ease;
+}
+
+.layer-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text);
+}
+
+.layer-btn.active {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.1);
+  color: var(--text);
+}
+
+.layer-btn:not(.active) {
+  opacity: 0.45;
+}
+
+.layer-btn:not(.active):hover {
+  opacity: 0.8;
 }
 
 #model-status {

@@ -69,14 +69,15 @@
               <div id="zone-list" class="zone-list"></div>
             </div>
           </div>
+        </div>
         <label class="model-loader" title="Importar modelo neuroanatómico GLB o GLTF">
           <input id="model-input" type="file" accept=".glb,.gltf,model/gltf-binary,model/gltf+json" />
           <span>Cargar modelo 3D</span>
         </label>
         <div class="legend" aria-label="Leyenda de capas">
-          <span><i class="dot cortex"></i>Corteza</span>
-          <span><i class="dot network"></i>Redes</span>
-          <span><i class="dot subcortex"></i>Subcorteza</span>
+          <button id="layer-cortex" class="layer-btn active" title="Mostrar / ocultar corteza"><i class="dot cortex"></i>Corteza</button>
+          <button id="layer-network" class="layer-btn active" title="Mostrar / ocultar redes"><i class="dot network"></i>Redes</button>
+          <button id="layer-subcortex" class="layer-btn active" title="Mostrar / ocultar subcorteza"><i class="dot subcortex"></i>Subcorteza</button>
           <span id="model-status">Modelo procedural activo</span>
         </div>
       </section>

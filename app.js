@@ -1941,6 +1941,13 @@ networkPairs.forEach(([a, b]) => {
 });
 
 const proceduralMeshes = brain.children.slice();
+const cortexShellMeshes = proceduralMeshes.filter((m) => m.name && /^(frontal|parietal|temporal|occipital|cerebellum)/.test(m.name));
+const structuralMeshes = proceduralMeshes.filter((m) => m.name === "" || m.type === "Line" || (!m.name.includes("frontal") && !m.name.includes("parietal") && !m.name.includes("temporal") && !m.name.includes("occipital") && !m.name.includes("cerebellum")));
+const networkLineMeshes = proceduralMeshes.filter((m) => m.type === "Line" && m.material?.color?.getHex() === 0x55c2b7);
+const subcortexRegionIds = new Set(["hippocampus", "amygdala", "thalamostriatal", "vmPfc", "acc", "insula", "salience"]);
+let layerCortexOn = true;
+let layerNetworkOn = true;
+let layerSubcortexOn = true;
 
 const raycaster = new THREE.Raycaster();
 const pointer = new THREE.Vector2();
@@ -4201,6 +4208,30 @@ if (spinToggleBtn) {
   });
 }
 
+function applyLayerVisibility() {
+  cortexShellMeshes.forEach((m) => { m.visible = layerCortexOn && proceduralVisible; });
+  networkLineMeshes.forEach((m) => { m.visible = layerNetworkOn && proceduralVisible; });
+  regionMeshes.forEach((mesh, id) => {
+    if (!proceduralVisible) { mesh.visible = false; return; }
+    const isSub = subcortexRegionIds.has(id);
+    mesh.visible = isSub ? layerSubcortexOn : layerCortexOn;
+  });
+}
+
+[
+  ["layer-cortex", () => { layerCortexOn = !layerCortexOn; }],
+  ["layer-network", () => { layerNetworkOn = !layerNetworkOn; }],
+  ["layer-subcortex", () => { layerSubcortexOn = !layerSubcortexOn; }]
+].forEach(([id, toggle]) => {
+  const btn = document.getElementById(id);
+  if (!btn) return;
+  btn.addEventListener("click", () => {
+    toggle();
+    btn.classList.toggle("active", id === "layer-cortex" ? layerCortexOn : id === "layer-network" ? layerNetworkOn : layerSubcortexOn);
+    applyLayerVisibility();
+  });
+});
+
 const zonesPanelEl = document.getElementById("zones-panel");
 const zonesToggleBtn = document.getElementById("zones-toggle");
 if (zonesToggleBtn && zonesPanelEl) {
@@ -4232,7 +4263,12 @@ function updateHoverTooltip(event) {
   );
   raycaster.setFromCamera(hoverPointer, camera);
   const atlasTargets = [...atlasMeshes.values()].flat();
-  const hoverHits = raycaster.intersectObjects([...atlasTargets, ...regionMeshes.values()], false);
+  const hoverHits = raycaster.intersectObjects([...atlasTargets, ...regionMeshes.values()], false)
+    .filter((h) => {
+      if (!h.face) return true;
+      const worldNormal = h.face.normal.clone().transformDirection(h.object.matrixWorld);
+      return worldNormal.dot(raycaster.ray.direction) < 0;
+    });
   const hit = hoverHits.find((h) => h.object.userData.regionId);
   if (hit) {
     const cerebraLabel = hit.object.userData.cerebraLabel;
@@ -4356,12 +4392,12 @@ function setMedialCut(hemisphere) {
 function setProceduralVisibility(visible) {
   proceduralVisible = visible;
   brain.visible = visible;
-  proceduralMeshes.forEach((mesh) => {
-    mesh.visible = visible;
-  });
-  regionMeshes.forEach((mesh) => {
-    mesh.visible = visible;
-  });
+  if (visible) {
+    applyLayerVisibility();
+  } else {
+    proceduralMeshes.forEach((mesh) => { mesh.visible = false; });
+    regionMeshes.forEach((mesh) => { mesh.visible = false; });
+  }
 }
 
 function regionForMeshName(name) {
