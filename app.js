@@ -856,6 +856,50 @@ const regionSections = [
     experiment: "Trust game clásico: discutir estudios con oxitocina intranasal versus placebo (Kosfeld et al. 2005). Registrar confianza percibida ante interacciones cálidas versus frías.",
     handbook: "Ref: Insel & Young (2001); Pinel Biopsicología.pdf; Damasio El extraño orden.pdf; Oxford Handbook 'Social Bonding'.",
     regions: ["thalamostriatal", "vmPfc", "amygdala", "hippocampus", "insula"]
+  },
+  {
+    id: "biological-motion",
+    icon: "BM",
+    title: "Percepción de movimiento biológico",
+    hint: "Punto de luz, STS, marcha e intención inferida",
+    description: "El sistema visual humano detecta movimiento biológico con extraordinaria sensibilidad: 12 puntos luminosos en articulaciones bastan para reconocer marcha, emoción, género e intención. El STS posterior integra información visual y motora para dar significado social al movimiento.",
+    guide: "Ilustra cómo la percepción social es activa e interpretativa desde el inicio: el cerebro no ve movimientos, ve agentes con intenciones. Útil para introducir la idea de que la percepción y la cognición social están integradas desde los primeros pasos del procesamiento.",
+    experiment: "Presentar displays de punto de luz (BM) versus movimiento aleatorio; medir reconocimiento de acción, emoción e intención. Comparar con movimiento de objetos sin forma humana.",
+    handbook: "Ref: Gazzaniga, Ivry & Mangun (2019) cap. 13; Johansson (1973); Pelphrey & Carter (2008); Cacioppo & Decety Oxford Handbook.",
+    regions: ["ventralAttention", "visual", "premotor", "dmn"]
+  },
+  {
+    id: "narrative-comprehension",
+    icon: "NC",
+    title: "Comprensión narrativa y simulación mental",
+    hint: "DMN, historia, personaje e identificación social",
+    description: "Comprender una historia no es decodificar texto: es simular un mundo posible con personajes, intenciones y consecuencias. La red por defecto coordina esta simulación, integrando memoria episódica, teoría de la mente e inferencia causal para construir el modelo mental del relato.",
+    guide: "Permite conectar neurociencia social con narrativa y literatura: la DMN que sustenta la simulación de historias es la misma que permite anticipar conducta social en la vida real. Las historias podrían ser un laboratorio natural para la mente social.",
+    experiment: "Presentar relatos cortos con coherencia narrativa variada; medir comprensión, identificación con personajes e inferencia de intenciones. Comparar historias con y sin agentes sociales explícitos.",
+    handbook: "Ref: Mar & Oatley (2008) Perspectives on Psychological Science; Hasson et al. (2008) Science; Gazzaniga cap. lenguaje y DMN.",
+    regions: ["dmn", "auditory", "hippocampus", "ventralAttention"]
+  },
+  {
+    id: "automatic-stereotypes",
+    icon: "EA",
+    title: "Estereotipos automáticos y control deliberado",
+    hint: "Amígdala, sesgo implícito, ACC y regulación social",
+    description: "Los estereotipos sociales se activan automáticamente en decenas de milisegundos, antes del control consciente. La amígdala responde a la categoría social del rostro; el cíngulo anterior detecta el conflicto entre el sesgo automático y las normas igualitarias explícitas; el DLPFC puede modular la expresión del sesgo si hay motivación y recursos cognitivos disponibles.",
+    guide: "Permite abordar el prejuicio desde la neurociencia: no es solo mala voluntad, sino activación automática de asociaciones aprendidas. Discutir bajo qué condiciones el control deliberado logra reducir la expresión del sesgo y cuándo fracasa.",
+    experiment: "Versión simplificada de tarea de asociación implícita (IAT): medir tiempos de respuesta ante pares congruentes e incongruentes con categoría social. Discutir diferencia entre sesgo implícito y creencias explícitas.",
+    handbook: "Ref: Amodio (2009) Nature Reviews Neuroscience; Greenwald & Banaji (1995); Gazzaniga cap. atención y control ejecutivo.",
+    regions: ["amygdala", "acc", "dlpfc", "visual", "insula"]
+  },
+  {
+    id: "cultural-transmission",
+    icon: "TC",
+    title: "Transmisión cultural e imitación fiel",
+    hint: "Imitación fiel, ratchet cultural y neuronas espejo",
+    description: "Los humanos son la única especie que imita fielmente la forma de hacer las cosas —incluyendo pasos arbitrarios— no solo el resultado final. Esta 'imitación fiel' permite la acumulación cultural: cada generación mejora sobre lo que la anterior transmitió. Los sistemas de neuronas espejo y la ToM aplicada a la acción sostienen este mecanismo.",
+    guide: "Permite discutir qué hace únicos a los humanos como animales culturales: no solo imitar, sino copiar la lógica y el procedimiento. Conecta con aprendizaje escolar, transmisión de habilidades, identidad cultural y cambio social.",
+    experiment: "Demostrar una tarea con pasos funcionales y pasos arbitrarios: observar si los participantes imitan los pasos irrelevantes (sobreimitación). Comparar con condición de solo resultado.",
+    handbook: "Ref: Tomasello (1999) The Cultural Origins of Human Cognition; Hurford & Studdert-Kennedy (IMITATION-PERSPECTIVES.pdf); Gazzaniga cap. cognición cultural.",
+    regions: ["premotor", "ventralAttention", "dmn", "hippocampus", "dlpfc"]
   }
 ];
 
@@ -866,7 +910,7 @@ const socialThemeGroups = [
     title: "Percepción social",
     hint: "Rostros, mirada, identidad, perspectiva e impresión",
     description: "Reúne funciones que permiten extraer significado social desde rostros, mirada, señales corporales, perspectiva y reputación.",
-    themes: ["person-perception", "first-impressions", "emotion-recognition", "joint-attention-gaze", "perspective-taking", "reputation-impression"]
+    themes: ["person-perception", "first-impressions", "emotion-recognition", "biological-motion", "joint-attention-gaze", "perspective-taking", "reputation-impression"]
   },
   {
     id: "social-emotions",
@@ -882,7 +926,7 @@ const socialThemeGroups = [
     title: "Comunicación Social",
     hint: "Lenguaje pragmático, prosodia, sincronía y salud social",
     description: "Organiza funciones de intercambio comunicativo: intención verbal, prosodia, coordinación interpersonal y señales de apoyo o amenaza.",
-    themes: ["pragmatic-language", "humor-irony", "communication-health", "interpersonal-synchrony"]
+    themes: ["pragmatic-language", "humor-irony", "narrative-comprehension", "communication-health", "interpersonal-synchrony"]
   },
   {
     id: "social-learning",
@@ -890,7 +934,7 @@ const socialThemeGroups = [
     title: "Aprendizaje social",
     hint: "Memoria social, imitación, agencia e incertidumbre",
     description: "Integra aprendizaje por observación, memoria de personas y contextos, atribución de intención y actualización de modelos sociales ambiguos.",
-    themes: ["social-learning-memory", "action-imitation", "agency-intention", "social-uncertainty"]
+    themes: ["social-learning-memory", "action-imitation", "cultural-transmission", "agency-intention", "social-uncertainty"]
   },
   {
     id: "control-norms-morality",
@@ -922,7 +966,7 @@ const socialThemeGroups = [
     title: "Grupos, cultura y estatus",
     hint: "Identidad grupal, jerarquía, comparación y sesgos",
     description: "Explora cómo el cerebro procesa pertenencia grupal, normas culturales, prejuicio, estigma, dominancia, jerarquía, comparación social y estatus.",
-    themes: ["culture-social-cognition", "ingroup-outgroup", "prejudice-stigma", "dominance-hierarchy", "envy-social-comparison"]
+    themes: ["culture-social-cognition", "ingroup-outgroup", "automatic-stereotypes", "prejudice-stigma", "dominance-hierarchy", "envy-social-comparison"]
   },
   {
     id: "social-cognition-mental-health",
@@ -3476,7 +3520,11 @@ const themeDeepExtrasEs = {
   "moral-dilemmas": ["La emoción en el centro del juicio moral", "Los dilemas morales muestran que el cerebro no tiene un único sistema de juicio: la emoción frena o acelera decisiones que la razón por sí sola resolvería de otra forma. Esto explica inconsistencias morales cotidianas y dilemas reales en medicina, justicia y liderazgo.", "Presentar dilema del tranvía en versiones personal e impersonal: anotar respuesta, tiempo y justificación. Discutir diferencias en grupo.", "Por qué la misma lógica produce respuestas distintas cuando hay contacto físico con la víctima?"],
   "social-preferences": ["El cerebro también calcula el bienestar ajeno", "Cuando una oferta económica parece injusta, la ínsula se activa como ante una señal de asco. El cerebro no solo computa ganancia propia: también pondera equidad, reciprocidad y la ganancia de otros. Esto revela que la conducta prosocial tiene bases neurales, no solo culturales.", "Juego del ultimátum entre pares: registrar respuesta a reparto justo versus injusto. ¿Qué cambia cuando el otro es amigo, desconocido o cuando hay reputación en juego?", "Preferirías menos dinero para ti con tal de que el reparto sea justo?"],
   "humor-irony": ["Cuando el cerebro entiende lo que no se dice", "Comprender ironía exige modelar lo que el hablante sabe que tú sabes: una cadena de estados mentales anidados. Esta red es la misma que sostiene la teoría de la mente, lo que explica por qué déficits en ToM afectan la comprensión del humor y el sarcasmo.", "Comparar comprensión de frases literales versus irónicas; registrar tiempo de reacción y errores de interpretación. ¿Cambia con contexto emocional ambiguo?", "Entender un chiste requiere leer la mente del que lo cuenta?"],
-  "oxytocin-bonding": ["La hormona que hace social al cerebro", "La oxitocina no produce amor sin contexto, pero sí amplifica la relevancia de las señales sociales positivas. En voles de pradera, pequeñas diferencias en receptores de oxitocina explican si un animal forma pareja de por vida o no. En humanos, modula confianza, generosidad y reconocimiento de familiares.", "Discutir el experimento de Kosfeld et al. (2005): oxitocina intranasal aumenta transferencia en juego de confianza. ¿Por qué se suspendieron estudios de uso masivo?", "Puede una hormona hacer que confiemos más en desconocidos?"]
+  "oxytocin-bonding": ["La hormona que hace social al cerebro", "La oxitocina no produce amor sin contexto, pero sí amplifica la relevancia de las señales sociales positivas. En voles de pradera, pequeñas diferencias en receptores de oxitocina explican si un animal forma pareja de por vida o no. En humanos, modula confianza, generosidad y reconocimiento de familiares.", "Discutir el experimento de Kosfeld et al. (2005): oxitocina intranasal aumenta transferencia en juego de confianza. ¿Por qué se suspendieron estudios de uso masivo?", "Puede una hormona hacer que confiemos más en desconocidos?"],
+  "biological-motion": ["El cerebro que ve agentes en el movimiento", "Doce puntos luminosos en articulaciones bastan para que el cerebro reconozca a otra persona, su emoción y su intención. El STS integra visión y motor porque para el cerebro social, el movimiento siempre tiene un autor con una meta.", "Mostrar un display de puntos luminosos en movimiento biológico versus movimiento aleatorio: registrar cuándo el cerebro ve una persona y cuándo ve solo ruido.", "Puedes ver la intención de alguien solo en la forma en que mueve el cuerpo?"],
+  "narrative-comprehension": ["La DMN como máquina de historias", "La red por defecto, activa cuando descansamos, es también la que nos permite seguir una historia, anticipar lo que harán los personajes e identificarnos con ellos. Las historias y la simulación social usan la misma maquinaria cerebral porque comprender a un personaje exige lo mismo que comprender a una persona real.", "Comparar comprensión y recuerdo ante una historia con agentes sociales versus una lista de hechos sin relación causal. ¿Cuánto más se recuerda la historia?", "Por qué es más fácil recordar una historia que una lista de datos equivalentes?"],
+  "automatic-stereotypes": ["Sesgos que actúan antes de que los veas", "La amígdala reacciona a categorías sociales en menos de 100 ms. Ese sesgo no implica mala intención: refleja aprendizajes implícitos del entorno cultural. Conocer el mecanismo abre la pregunta de cuándo y cómo el control deliberado puede reducir la respuesta automática.", "Discutir el IAT: ¿por qué personas con creencias igualitarias muestran sesgos implícitos? ¿Qué condiciones —tiempo, motivación, entrenamiento— permiten moderar el sesgo expresado?", "Tener un sesgo implícito que contradice tus valores conscientes te hace hipócrita o simplemente humano?"],
+  "cultural-transmission": ["La imitación que acumula cultura", "Los humanos imitan pasos arbitrarios incluso cuando no sirven para nada: sobreimitación. Esa tendencia, considerada un error en primates no humanos, es lo que permite que la cultura se acumule: copiamos el proceso completo, no solo el resultado. Esto convierte la imitación fiel en el motor de la herencia cultural acumulativa.", "Demostrar una tarea con pasos funcionales y pasos irrelevantes: observar si los participantes copian ambos. ¿Qué ocurre cuando se les dice explícitamente que pueden hacerlo como quieran?", "Copiar fielmente lo que hacen otros —incluso lo innecesario— es una limitación o la base de toda transmisión cultural?"]
 };
 
 const themeDeepExtrasEn = {
