@@ -1917,6 +1917,9 @@ const zoneList = document.querySelector("#zone-list");
 const zoneSearch = document.querySelector("#zone-search");
 const zoneCount = document.querySelector("#zone-count");
 const tooltipEl = document.querySelector("#brain-tooltip");
+const mobileCatsEl = document.querySelector("#mobile-cats");
+const panelEl = document.querySelector(".panel");
+const panelHandle = document.querySelector(".panel-handle");
 let activeSide = "all";
 let activeGroup = "all";
 let currentLang = "es";
@@ -4606,9 +4609,6 @@ document.addEventListener("keydown", (e) => {
 });
 
 // ── Mobile bottom sheet ─────────────────────────────────
-const panelEl = document.querySelector(".panel");
-const panelHandle = document.querySelector(".panel-handle");
-const mobileCatsEl = document.querySelector("#mobile-cats");
 let sheetIsOpen = false;
 
 function isMobileSheet() {
