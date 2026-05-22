@@ -3033,11 +3033,46 @@ function selectMainThemeGroup(groupId, options = {}) {
   document.querySelectorAll("[data-theme]").forEach((button) => button.classList.remove("active"));
 }
 
+const mobileCatShortLabel = {
+  "social-perception": "Percep.",
+  "social-emotions": "Emociones",
+  "social-communication": "Comunic.",
+  "social-learning": "Aprend.",
+  "control-norms-morality": "Control",
+  "social-decision-rationality": "Decisión",
+  "bonding-cooperation": "Vínculo",
+  "group-culture-status": "Grupos",
+  "social-cognition-mental-health": "Yo social"
+};
+
+function renderMobileCats() {
+  if (!mobileCatsEl) return;
+  mobileCatsEl.innerHTML = "";
+  socialThemeGroups.forEach((group) => {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "mobile-cat-btn";
+    btn.classList.toggle("active", group.id === activeSocialGroupId);
+    btn.dataset.themeGroup = group.id;
+    btn.setAttribute("role", "tab");
+    btn.setAttribute("aria-selected", String(group.id === activeSocialGroupId));
+    const label = mobileCatShortLabel[group.id] ?? group.title.split(" ")[0];
+    btn.innerHTML = `<span class="cat-icon">${group.icon}</span><span>${label}</span>`;
+    btn.addEventListener("click", () => {
+      selectMainThemeGroup(group.id);
+      openSheet();
+    });
+    mobileCatsEl.appendChild(btn);
+  });
+  mobileCatsEl.querySelector(".mobile-cat-btn.active")?.scrollIntoView({ block: "nearest", inline: "nearest" });
+}
+
 function renderThemeTabs(sectionId = activeThemeId) {
   const section = regionSections.find((item) => item.id === sectionId) ?? null;
   const sectionGroup = section ? socialGroupForTheme(section.id) : null;
   if (sectionGroup) activeSocialGroupId = sectionGroup.id;
   const activeGroup = socialThemeGroups.find((group) => group.id === activeSocialGroupId) ?? null;
+  renderMobileCats();
   const themeCopy = getThemeCopy(section);
   const groupCopy = getSocialGroupCopy(activeGroup);
   activeThemeId = section?.id ?? null;
@@ -4353,15 +4388,16 @@ document.addEventListener("keydown", (e) => {
 // ── Mobile bottom sheet ─────────────────────────────────
 const panelEl = document.querySelector(".panel");
 const panelHandle = document.querySelector(".panel-handle");
+const mobileCatsEl = document.querySelector("#mobile-cats");
 let sheetIsOpen = false;
 
 function isMobileSheet() {
   return window.matchMedia("(max-width: 940px)").matches;
 }
 
-const PEEK_PX = 76;
+function peekPx() { return isMobileSheet() ? 104 : 76; }
 function sheetHeight() { return window.innerHeight * 0.80; }
-function closedTranslate() { return sheetHeight() - PEEK_PX; }
+function closedTranslate() { return sheetHeight() - peekPx(); }
 
 function openSheet() {
   if (!isMobileSheet()) return;

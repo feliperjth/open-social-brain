@@ -1163,7 +1163,7 @@ dd {
     padding: 0 18px calc(env(safe-area-inset-bottom) + 24px);
     overflow-y: auto;
     overflow-x: hidden;
-    transform: translateY(calc(100% - 76px));
+    transform: translateY(calc(100% - 104px));
     transition: transform 340ms cubic-bezier(0.32, 0.72, 0, 1);
     overscroll-behavior: contain;
   }
@@ -1533,4 +1533,122 @@ dd {
   color: var(--muted);
   font-size: 0.84rem;
   line-height: 1.5;
+}
+
+/* ── Mobile category strip (hidden on desktop) ─────────── */
+.mobile-cats {
+  display: none;
+}
+
+@media (max-width: 940px) {
+  /* Hide tiny top category tabs — replaced by mobile strip */
+  .program-tab-list {
+    display: none;
+  }
+
+  /* Category strip inside the sheet */
+  .mobile-cats {
+    position: sticky;
+    top: 36px;
+    z-index: 1;
+    display: flex;
+    gap: 7px;
+    overflow-x: auto;
+    padding: 6px 18px 10px;
+    margin: 0 -18px;
+    background: var(--panel);
+    border-bottom: 1px solid var(--line);
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .mobile-cats::-webkit-scrollbar {
+    display: none;
+  }
+
+  .mobile-cat-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    flex: 0 0 auto;
+    min-width: 58px;
+    min-height: 52px;
+    padding: 6px 8px;
+    border-radius: 12px;
+    border: 1px solid var(--line);
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--muted);
+    font-size: 0.58rem;
+    font-weight: 800;
+    text-align: center;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: border-color 140ms, background 140ms;
+    line-height: 1.2;
+  }
+
+  .mobile-cat-btn .cat-icon {
+    display: block;
+    font-size: 0.76rem;
+    font-weight: 900;
+    letter-spacing: 0.04em;
+    color: var(--accent);
+  }
+
+  .mobile-cat-btn.active {
+    border-color: rgba(85, 194, 183, 0.85);
+    background: rgba(85, 194, 183, 0.18);
+    color: var(--text);
+  }
+
+  .mobile-cat-btn.active .cat-icon {
+    color: var(--text);
+  }
+
+  /* Sub-function cards: 2-column grid on mobile */
+  .social-function-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .social-function-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    min-height: 84px;
+    padding: 10px 6px;
+    text-align: center;
+  }
+
+  .social-function-card .function-count {
+    display: none;
+  }
+
+  .social-function-card strong {
+    font-size: 0.76rem;
+    line-height: 1.18;
+  }
+
+  .social-function-card small {
+    display: none;
+  }
+
+  .social-function-card .function-icon {
+    width: 28px;
+    height: 28px;
+    font-size: 0.64rem;
+  }
+
+  /* Hide verbose intro sections on mobile — navigation first */
+  .theme-intro,
+  .theme-window-header,
+  .theme-window-body,
+  .theme-area-title {
+    display: none;
+  }
 }
