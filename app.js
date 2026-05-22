@@ -1865,10 +1865,6 @@ networkPairs.forEach(([a, b]) => {
 });
 
 const proceduralMeshes = brain.children.slice();
-brain.visible = false;
-proceduralMeshes.forEach((mesh) => {
-  mesh.visible = false;
-});
 
 const raycaster = new THREE.Raycaster();
 const pointer = new THREE.Vector2();
@@ -4250,13 +4246,13 @@ function setMedialCut(hemisphere) {
 }
 
 function setProceduralVisibility(visible) {
-  proceduralVisible = false;
-  brain.visible = false;
+  proceduralVisible = visible;
+  brain.visible = visible;
   proceduralMeshes.forEach((mesh) => {
-    mesh.visible = false;
+    mesh.visible = visible;
   });
   regionMeshes.forEach((mesh) => {
-    mesh.visible = false;
+    mesh.visible = visible;
   });
 }
 
@@ -4424,16 +4420,18 @@ function prepareImportedAtlas(root, label) {
 
 function loadAtlasUrl(url, label) {
   const loader = new GLTFLoader();
-  modelStatus.textContent = "Cargando atlas CerebrA...";
-  setProceduralVisibility(false);
+  if (modelStatus) modelStatus.textContent = "Cargando atlas CerebrA...";
   loader.load(
     url,
-    (gltf) => prepareImportedAtlas(gltf.scene, label),
+    (gltf) => {
+      setProceduralVisibility(false);
+      prepareImportedAtlas(gltf.scene, label);
+    },
     undefined,
     (error) => {
       console.error("No se pudo cargar el GLB CerebrA", error);
-      modelStatus.textContent = "No se pudo cargar CerebrA. Revisa brain_atlas.glb";
-      setProceduralVisibility(false);
+      if (modelStatus) modelStatus.textContent = "Modelo procedural activo";
+      setProceduralVisibility(true);
     }
   );
 }
