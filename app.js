@@ -4597,8 +4597,14 @@ function loadAtlasUrl(url, label) {
   loader.load(
     url,
     (gltf) => {
-      setProceduralVisibility(false);
-      prepareImportedAtlas(gltf.scene, label);
+      try {
+        setProceduralVisibility(false);
+        prepareImportedAtlas(gltf.scene, label);
+      } catch (err) {
+        console.error("Error al preparar el atlas", err);
+        if (modelStatus) modelStatus.textContent = "Modelo procedural activo";
+        setProceduralVisibility(true);
+      }
     },
     undefined,
     (error) => {
@@ -4859,6 +4865,7 @@ window.addEventListener("resize", () => {
 });
 
 applyLanguage("es");
+setProceduralVisibility(true);
 loadAtlasUrl("./assets/brain_atlas.glb", "brain_atlas.glb");
 centerBrain();
 animate();
@@ -4868,16 +4875,16 @@ restoreFromURL();
 (function trackVisits() {
   const counterEl = document.getElementById("visit-counter");
   const aboutCountEl = document.getElementById("about-visit-count");
-  fetch("https://api.countapi.xyz/hit/open-social-brain/visits")
+  fetch("https://api.counterapi.dev/v1/open-social-brain/visits/up", { mode: "cors" })
     .then((r) => r.json())
-    .then(({ value }) => {
-      const formatted = value.toLocaleString("es");
+    .then((data) => {
+      const count = data?.count ?? data?.value;
+      if (count == null) return;
+      const formatted = Number(count).toLocaleString("es");
       if (counterEl) counterEl.textContent = `${formatted} visitas`;
       if (aboutCountEl) aboutCountEl.textContent = `${formatted} visitas totales`;
     })
-    .catch(() => {
-      // Silently ignore if API is unavailable
-    });
+    .catch(() => {});
 })();
 
 
