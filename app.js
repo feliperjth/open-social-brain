@@ -1874,6 +1874,7 @@ let userInteracting = false;
 let pointerDown = null;
 let dragState = null;
 let lastInteractionAt = 0;
+let spinPaused = false;
 let viewLockedUntil = 0;
 let medialCutEnabled = false;
 let medialHemisphere = null;
@@ -4114,6 +4115,16 @@ document.querySelectorAll("[data-view]").forEach((button) => {
   button.addEventListener("click", () => setView(button.dataset.view));
 });
 
+const spinToggleBtn = document.getElementById("spin-toggle");
+if (spinToggleBtn) {
+  spinToggleBtn.addEventListener("click", () => {
+    spinPaused = !spinPaused;
+    spinToggleBtn.dataset.spin = spinPaused ? "off" : "on";
+    spinToggleBtn.textContent = spinPaused ? "▶" : "⏸";
+    spinToggleBtn.title = spinPaused ? "Reanudar rotación" : "Pausar rotación automática";
+  });
+}
+
 function updateHoverTooltip(event) {
   if (!tooltipEl) return;
   if (!event) {
@@ -4522,7 +4533,7 @@ responseTask?.addEventListener("click", () => {
 
 function animate() {
   requestAnimationFrame(animate);
-  const canAutoRotate = !userInteracting && !targetCamera && performance.now() - lastInteractionAt > 600;
+  const canAutoRotate = !spinPaused && !userInteracting && !targetCamera && performance.now() - lastInteractionAt > 600;
   const viewIsLocked = performance.now() < viewLockedUntil;
   if (canAutoRotate && !viewIsLocked) {
     if (importedBrain) {

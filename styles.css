@@ -302,8 +302,76 @@ button:active {
 
 .view-actions {
   display: flex;
-  gap: 8px;
+  align-items: center;
+  gap: 5px;
   pointer-events: auto;
+  background: rgba(8, 10, 13, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 5px 6px;
+  backdrop-filter: blur(16px);
+}
+
+.view-btn {
+  min-height: 34px;
+  min-width: 44px;
+  padding: 0 10px;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  border-radius: 7px;
+  border: 1px solid transparent;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--muted);
+  transition: background 140ms ease, color 140ms ease, border-color 140ms ease, transform 100ms ease;
+}
+
+.view-btn:hover {
+  background: rgba(85, 194, 183, 0.14);
+  border-color: rgba(85, 194, 183, 0.5);
+  color: var(--text);
+}
+
+.view-btn:active {
+  transform: translateY(1px);
+}
+
+.view-btn--center {
+  min-width: 62px;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.09);
+}
+
+.view-divider {
+  width: 1px;
+  height: 22px;
+  background: rgba(255, 255, 255, 0.13);
+  margin: 0 2px;
+}
+
+.view-btn--spin {
+  font-size: 1rem;
+  min-width: 38px;
+  padding: 0;
+  color: var(--accent);
+  background: rgba(85, 194, 183, 0.08);
+  border-color: rgba(85, 194, 183, 0.2);
+}
+
+.view-btn--spin:hover {
+  background: rgba(85, 194, 183, 0.2);
+  border-color: rgba(85, 194, 183, 0.6);
+}
+
+.view-btn--spin[data-spin="off"] {
+  color: var(--gold);
+  background: rgba(217, 182, 111, 0.1);
+  border-color: rgba(217, 182, 111, 0.3);
+}
+
+.view-btn--spin[data-spin="off"]:hover {
+  background: rgba(217, 182, 111, 0.2);
+  border-color: rgba(217, 182, 111, 0.6);
 }
 
 .model-loader {
@@ -333,23 +401,6 @@ button:active {
   pointer-events: none;
 }
 
-.icon-button {
-  width: 44px;
-  padding: 0;
-  font-size: 0.72rem;
-  font-weight: 800;
-}
-
-.wide-icon {
-  width: 58px;
-}
-
-.center-button {
-  min-width: 72px;
-  padding: 0 12px;
-  font-size: 0.74rem;
-  font-weight: 900;
-}
 
 .legend {
   position: absolute;
@@ -1274,19 +1325,27 @@ dd {
 
   .view-actions {
     display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
+    grid-template-columns: repeat(5, minmax(0, 1fr)) auto auto;
     width: 100%;
-    gap: 6px;
+    gap: 4px;
+    padding: 4px 5px;
   }
 
-  .icon-button,
-  .wide-icon,
-  .center-button {
+  .view-divider {
+    display: none;
+  }
+
+  .view-btn {
     width: auto;
     min-width: 0;
-    min-height: 36px;
-    padding: 0 5px;
-    font-size: 0.62rem;
+    min-height: 34px;
+    padding: 0 4px;
+    font-size: 0.6rem;
+  }
+
+  .view-btn--spin {
+    min-width: 34px;
+    font-size: 0.9rem;
   }
 
   .viewer {

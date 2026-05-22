@@ -30,11 +30,13 @@
             <p class="creator-credit">Creado por Felipe Rojas-Thomas, PhD. Neurociencia</p>
           </div>
           <div class="view-actions" role="group" aria-label="Vistas del cerebro">
-            <button class="icon-button" data-view="lateral" title="Vista lateral">LAT</button>
-            <button class="icon-button wide-icon" data-view="medial-left" title="Corte medial del hemisferio izquierdo">MED-I</button>
-            <button class="icon-button wide-icon" data-view="medial-right" title="Corte medial del hemisferio derecho">MED-D</button>
-            <button class="center-button" data-view="center" title="Centralizar cerebro">Centrar</button>
-            <button class="icon-button" data-view="reset" title="Reiniciar vista">RST</button>
+            <button class="view-btn" data-view="lateral" title="Vista lateral">LAT</button>
+            <button class="view-btn" data-view="medial-left" title="Corte medial del hemisferio izquierdo">MED-I</button>
+            <button class="view-btn" data-view="medial-right" title="Corte medial del hemisferio derecho">MED-D</button>
+            <button class="view-btn view-btn--center" data-view="center" title="Centralizar cerebro">Centrar</button>
+            <button class="view-btn" data-view="reset" title="Reiniciar vista">RST</button>
+            <div class="view-divider" aria-hidden="true"></div>
+            <button class="view-btn view-btn--spin" id="spin-toggle" data-spin="on" title="Pausar rotación automática">⏸</button>
           </div>
         </div>
         <label class="model-loader" title="Importar modelo neuroanatómico GLB o GLTF">
