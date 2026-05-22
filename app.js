@@ -1652,7 +1652,7 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 renderer.setSize(container.clientWidth, container.clientHeight);
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure = 1.12;
+renderer.toneMappingExposure = 0.82;
 renderer.localClippingEnabled = true;
 container.appendChild(renderer.domElement);
 renderer.domElement.style.touchAction = "none";
@@ -1668,9 +1668,9 @@ const composer = new EffectComposer(renderer);
 composer.addPass(new RenderPass(scene, camera));
 const bloomPass = new UnrealBloomPass(
   new THREE.Vector2(container.clientWidth, container.clientHeight),
-  0.42,  // strength
-  0.48,  // radius
-  0.78   // threshold — sólo regiones con emissive alto superan esto
+  0.28,  // strength
+  0.45,  // radius
+  0.85   // threshold — sólo regiones con emissive alto superan esto
 );
 composer.addPass(bloomPass);
 
@@ -1841,11 +1841,11 @@ const cortexMaterial = new THREE.MeshPhysicalMaterial({
   map: tissueMap,
   bumpMap,
   bumpScale: 0.042,
-  roughness: 0.62,
+  roughness: 0.72,
   metalness: 0.0,
-  clearcoat: 0.55,
-  clearcoatRoughness: 0.38,
-  envMapIntensity: 1.0,
+  clearcoat: 0.30,
+  clearcoatRoughness: 0.52,
+  envMapIntensity: 0.55,
   transparent: true,
   opacity: 0.92
 });
@@ -3597,10 +3597,10 @@ function applyContextMaterial(mesh, isSelected, color = null) {
   mesh.material.transparent = !isSelected;
   mesh.material.opacity = isSelected ? 1 : 0.18;
   mesh.material.depthWrite = isSelected;
-  mesh.material.roughness = isSelected ? 0.32 : 0.88;
-  mesh.material.clearcoat = isSelected ? 0.82 : 0.12;
+  mesh.material.roughness = isSelected ? 0.38 : 0.88;
+  mesh.material.clearcoat = isSelected ? 0.55 : 0.12;
   mesh.material.emissive = new THREE.Color(isSelected && color ? color : 0x000000);
-  mesh.material.emissiveIntensity = isSelected ? 0.92 : 0.0;
+  mesh.material.emissiveIntensity = isSelected ? 0.65 : 0.0;
   mesh.material.side = THREE.FrontSide;
   mesh.material.needsUpdate = true;
   syncInternalSurface(mesh);
@@ -4536,13 +4536,13 @@ function prepareImportedAtlas(root, label) {
     map: tissueMap,
     bumpMap,
     bumpScale: 0.055,
-    roughness: 0.62,
+    roughness: 0.72,
     metalness: 0.0,
-    clearcoat: 0.52,
-    clearcoatRoughness: 0.38,
-    envMapIntensity: 1.1,
-    sheen: 0.55,
-    sheenRoughness: 0.85,
+    clearcoat: 0.28,
+    clearcoatRoughness: 0.52,
+    envMapIntensity: 0.55,
+    sheen: 0.38,
+    sheenRoughness: 0.88,
     transparent: false,
     opacity: 1,
     depthWrite: false
@@ -4581,7 +4581,7 @@ function prepareImportedAtlas(root, label) {
     } else {
       child.userData.regionId = "";
     }
-    material.envMapIntensity = 1.1;
+    material.envMapIntensity = 0.55;
     material.depthWrite = true;
     material.alphaHash = false;
     material.side = THREE.FrontSide;
