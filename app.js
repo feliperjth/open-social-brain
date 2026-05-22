@@ -1941,10 +1941,14 @@ networkPairs.forEach(([a, b]) => {
 });
 
 const proceduralMeshes = brain.children.slice();
-const cortexShellMeshes = proceduralMeshes.filter((m) => m.name && /^(frontal|parietal|temporal|occipital|cerebellum)/.test(m.name));
-const structuralMeshes = proceduralMeshes.filter((m) => m.name === "" || m.type === "Line" || (!m.name.includes("frontal") && !m.name.includes("parietal") && !m.name.includes("temporal") && !m.name.includes("occipital") && !m.name.includes("cerebellum")));
-const networkLineMeshes = proceduralMeshes.filter((m) => m.type === "Line" && m.material?.color?.getHex() === 0x55c2b7);
-const subcortexRegionIds = new Set(["hippocampus", "amygdala", "thalamostriatal", "vmPfc", "acc", "insula", "salience"]);
+const regionMarkerSet = new Set(regionMeshes.values());
+const networkLineMeshes = proceduralMeshes.filter((m) => m.isLine && m.material?.color?.getHex() === 0x55c2b7);
+// cortexShellMeshes = everything except region markers and network connection lines
+// (includes named lobes, stem, callosum, sulcus lines)
+const cortexShellMeshes = proceduralMeshes.filter((m) => !regionMarkerSet.has(m) && !networkLineMeshes.includes(m));
+const cortexShellSolidMeshes = cortexShellMeshes.filter((m) => m.isMesh);
+const subcortexRegionIds = new Set(["hippocampus", "amygdala", "thalamostriatal", "cerebellum"]);
+const networkRegionIds = new Set(["dmn", "salience", "ventralAttention"]);
 let layerCortexOn = true;
 let layerNetworkOn = true;
 let layerSubcortexOn = true;
@@ -4209,12 +4213,23 @@ if (spinToggleBtn) {
 }
 
 function applyLayerVisibility() {
-  cortexShellMeshes.forEach((m) => { m.visible = layerCortexOn && proceduralVisible; });
-  networkLineMeshes.forEach((m) => { m.visible = layerNetworkOn && proceduralVisible; });
+  cortexShellMeshes.forEach((m) => { m.visible = layerCortexOn; });
+  networkLineMeshes.forEach((m) => { m.visible = layerNetworkOn; });
   regionMeshes.forEach((mesh, id) => {
-    if (!proceduralVisible) { mesh.visible = false; return; }
-    const isSub = subcortexRegionIds.has(id);
-    mesh.visible = isSub ? layerSubcortexOn : layerCortexOn;
+    const region = regions.find((r) => r.id === id);
+    const baseScale = region ? region.scale : [1, 1, 1];
+    if (subcortexRegionIds.has(id)) {
+      mesh.visible = layerSubcortexOn;
+      // Make subcortex markers larger when cortex shell is hidden so they're easier to see
+      const boost = (!layerCortexOn && layerSubcortexOn) ? 1.5 : 1;
+      mesh.scale.set(baseScale[0] * boost, baseScale[1] * boost, baseScale[2] * boost);
+    } else if (networkRegionIds.has(id)) {
+      mesh.visible = layerNetworkOn;
+      mesh.scale.set(...baseScale);
+    } else {
+      mesh.visible = layerCortexOn;
+      mesh.scale.set(...baseScale);
+    }
   });
 }
 
@@ -4263,13 +4278,19 @@ function updateHoverTooltip(event) {
   );
   raycaster.setFromCamera(hoverPointer, camera);
   const atlasTargets = [...atlasMeshes.values()].flat();
-  const hoverHits = raycaster.intersectObjects([...atlasTargets, ...regionMeshes.values()], false)
+  const shellForRay = layerCortexOn ? cortexShellSolidMeshes.filter((m) => m.visible) : [];
+  const hoverHits = raycaster.intersectObjects([...atlasTargets, ...regionMeshes.values(), ...shellForRay], false)
     .filter((h) => {
       if (!h.face) return true;
       const worldNormal = h.face.normal.clone().transformDirection(h.object.matrixWorld);
       return worldNormal.dot(raycaster.ray.direction) < 0;
     });
-  const hit = hoverHits.find((h) => h.object.userData.regionId);
+  const shellDist = hoverHits.find((h) => shellForRay.includes(h.object))?.distance ?? Infinity;
+  const hit = hoverHits.find((h) => {
+    if (!h.object.userData.regionId) return false;
+    // Block subcortical hits when cortex shell is in front
+    return !(subcortexRegionIds.has(h.object.userData.regionId) && shellDist < h.distance - 0.05);
+  });
   if (hit) {
     const cerebraLabel = hit.object.userData.cerebraLabel;
     const regionId = hit.object.userData.regionId;
@@ -4340,8 +4361,18 @@ renderer.domElement.addEventListener("pointerup", (event) => {
   pointer.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
   raycaster.setFromCamera(pointer, camera);
   const atlasTargets = [...atlasMeshes.values()].flat();
-  const hits = raycaster.intersectObjects([...atlasTargets, ...regionMeshes.values()], false);
-  const regionHit = hits.find((hit) => hit.object.userData.regionId);
+  const shellForClick = layerCortexOn ? cortexShellSolidMeshes.filter((m) => m.visible) : [];
+  const hits = raycaster.intersectObjects([...atlasTargets, ...regionMeshes.values(), ...shellForClick], false)
+    .filter((h) => {
+      if (!h.face) return true;
+      const worldNormal = h.face.normal.clone().transformDirection(h.object.matrixWorld);
+      return worldNormal.dot(raycaster.ray.direction) < 0;
+    });
+  const clickShellDist = hits.find((h) => shellForClick.includes(h.object))?.distance ?? Infinity;
+  const regionHit = hits.find((hit) => {
+    if (!hit.object.userData.regionId) return false;
+    return !(subcortexRegionIds.has(hit.object.userData.regionId) && clickShellDist < hit.distance - 0.05);
+  });
   if (regionHit) {
     const cerebraLabel = regionHit.object.userData.cerebraLabel;
     if (cerebraLabel) {
