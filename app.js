@@ -988,6 +988,50 @@ const regionSections = [
     experiment: "Presentar escenarios de decisión con y sin información somática (sensación corporal descrita); comparar calidad de decisión y certeza percibida. Discutir el experimento de Bechara et al. con pacientes vmPFC.",
     handbook: "Ref: Damasio (2010) Self Comes to Mind.pdf; Damasio (2018) El extraño orden de las cosas.pdf; Bechara et al. (1994) Science; Gazzaniga cap. emoción y cognición.",
     regions: ["vmPfc", "insula", "hippocampus", "amygdala", "dmn"]
+  },
+  {
+    id: "social-interoception",
+    icon: "IS",
+    title: "Interocepción social",
+    hint: "Señales corporales, empatía visceral y decisión afectiva",
+    description: "La interocepción social describe cómo las señales internas del cuerpo —ritmo cardíaco, respiración, sensaciones viscerales— modulan la empatía, el reconocimiento emocional y la toma de decisiones afectivas. La ínsula anterior integra el estado corporal con el contexto interpersonal, y una mayor precisión interoceptiva predice mejor empatía afectiva y menor alexitimia.",
+    guide: "Permite conectar corporalidad y emoción social: sentir con otros no es solo cognitivo, tiene una base fisiológica interna. Útil para discutir el marcador somático, la inteligencia emocional, la alexitimia y las diferencias individuales en empatía.",
+    experiment: "Tarea de detección de latido cardíaco (heartbeat detection) seguida de juicios de valencia emocional de caras; comparar precisión interoceptiva con escala de empatía y alexitimia.",
+    handbook: "Ref: Critchley & Garfinkel (2017) Trends Cogn Sci 'Interoception for social survival'; Craig (2009) Nat Rev Neurosci 'How do you feel — now?'; Damasio (1994) 'Somatic Marker Hypothesis'; Gazzaniga cap. emoción.",
+    regions: ["insula", "acc", "salience", "vmPfc", "amygdala"]
+  },
+  {
+    id: "social-touch-affiliation",
+    icon: "TA",
+    title: "Contacto social y afiliación táctil",
+    hint: "Fibras CT, caricia afiliativa, vínculo y alivio del estrés",
+    description: "Un sistema específico de fibras nerviosas C-táctiles (CT afferents) responde óptimamente al tacto suave y de velocidad moderada —la caricia afiliativa— y proyecta a la ínsula posterior. Esta vía, distinta del tacto discriminativo, codifica el valor social del contacto físico: apego, grooming, confort, alivio del estrés por presencia y contacto, y señales de cuidado entre personas cercanas.",
+    guide: "Permite discutir por qué el contacto físico reduce el cortisol y el dolor, cómo la carencia de contacto en la infancia afecta el desarrollo social, y el rol del tacto en el vínculo romántico, parental y terapéutico.",
+    experiment: "Comparar respuestas fisiológicas (frecuencia cardíaca, conductancia) ante caricia suave versus vibración no social; evaluar agrado y valencia afectiva según velocidad y contexto del toque.",
+    handbook: "Ref: McGlone, Wessberg & Olausson (2014) Neuron 'Discriminative and affective touch'; Morrison et al. (2010) J Neurosci; Cascio et al. (2019) Neurosci Biobehav Rev 'Social touch and human development'.",
+    regions: ["insula", "thalamostriatal", "vmPfc", "salience", "amygdala"]
+  },
+  {
+    id: "interpersonal-emotion-regulation",
+    icon: "RI",
+    title: "Regulación emocional interpersonal",
+    hint: "Co-regulación, presencia del otro, alivio social y estrés",
+    description: "La presencia de personas cercanas reduce el costo neural de regular el estrés y las emociones negativas: es lo que Coan llama la teoría de la línea de base social (social baseline theory). La vmPFC y la amígdala responden de forma diferente ante amenazas según si el individuo está solo, con un extraño o con una persona de apego —la mano de una pareja, por ejemplo, reduce la respuesta amigdalar al miedo anticipado.",
+    guide: "Muestra que la emoción no es solo intrapersonal: las relaciones son recursos regulatorios distribuidos. Útil para discutir apego adulto, apoyo social como buffer de estrés, y la neurobiología del aislamiento social.",
+    experiment: "Paradigma de anticipación de descarga eléctrica (Coan et al.) solo, con un extraño o con pareja; medir activación neural (vmPFC, amígdala, ínsula) y reporte subjetivo de miedo y control.",
+    handbook: "Ref: Coan, Schaefer & Davidson (2006) Psychological Science 'Lending a hand'; Coan & Sbarra (2015) Curr Opin Psychol; Zaki & Williams (2013) Emotion 'Interpersonal emotion regulation'.",
+    regions: ["vmPfc", "amygdala", "ventralAttention", "insula", "acc"]
+  },
+  {
+    id: "social-genomics",
+    icon: "GS",
+    title: "Genómica social",
+    hint: "Expresión génica, soledad, estatus y salud molecular",
+    description: "La experiencia social altera la expresión de genes que regulan inmunidad, inflamación y función neuroendocrina. Cole y colaboradores identificaron que la soledad crónica y el estatus social bajo activan un perfil conservado de respuesta transcripcional (CTRA): aumento de genes proinflamatorios y reducción de genes antivirales. El cerebro traduce contextos sociales —amenaza, apoyo, jerarquía— en cambios moleculares que afectan la salud a largo plazo.",
+    guide: "Permite conectar neurociencia social con biología molecular y salud pública: la vida social no solo cambia el cerebro, cambia el genoma funcional. Útil para discutir desigualdad social, soledad epidémica y mecanismos de la disparidad en salud.",
+    experiment: "Revisar datos de Cole et al. sobre perfiles de expresión génica en personas solitarias versus no solitarias; discutir qué vías biológicas median la conexión entre experiencia social y salud somática.",
+    handbook: "Ref: Cole (2014) Curr Dir Psychol Sci 'Human social genomics'; Slavich & Cole (2013) Psychol Sci 'The emerging field of human social genomics'; Cacioppo & Hawkley (2009) Nat Rev Neurosci 'Perceived social isolation'.",
+    regions: ["amygdala", "insula", "acc", "dmn", "thalamostriatal"]
   }
 ];
 
@@ -1006,7 +1050,7 @@ const socialThemeGroups = [
     title: "Emociones Sociales",
     hint: "Cuerpo, empatía, rabia, vergüenza, culpa y orgullo",
     description: "Agrupa funciones afectivas que dan significado corporal y relacional a la interacción social: empatía, rabia, vergüenza, culpa, orgullo, reparación, indignación, cuerpo compartido, rechazo y compasión.",
-    themes: ["emotion-empathy", "empathy-compassion", "emotional-contagion", "social-anger", "shame-social", "guilt-repair", "social-pride", "social-repair", "moral-indignation", "affective-mentalizing", "intercorporeality-interaffectivity", "rejection-exclusion"]
+    themes: ["emotion-empathy", "empathy-compassion", "emotional-contagion", "social-anger", "shame-social", "guilt-repair", "social-pride", "social-repair", "moral-indignation", "affective-mentalizing", "intercorporeality-interaffectivity", "rejection-exclusion", "social-interoception"]
   },
   {
     id: "social-communication",
@@ -1014,7 +1058,7 @@ const socialThemeGroups = [
     title: "Comunicación Social",
     hint: "Lenguaje pragmático, prosodia, sincronía y salud social",
     description: "Organiza funciones de intercambio comunicativo: intención verbal, prosodia, coordinación interpersonal y señales de apoyo o amenaza.",
-    themes: ["pragmatic-language", "humor-irony", "narrative-comprehension", "emotional-prosody", "nonverbal-communication", "communication-health", "interpersonal-synchrony"]
+    themes: ["pragmatic-language", "humor-irony", "narrative-comprehension", "emotional-prosody", "nonverbal-communication", "communication-health", "interpersonal-synchrony", "interpersonal-emotion-regulation"]
   },
   {
     id: "social-learning",
@@ -1046,7 +1090,7 @@ const socialThemeGroups = [
     title: "Vínculo y Cooperación",
     hint: "Apego, recompensa, altruismo y confianza",
     description: "Presenta las funciones motivacionales que sostienen apego, cooperación, ayuda, confianza, recompensa social y reciprocidad.",
-    themes: ["reward-bonding", "attachment-bond", "oxytocin-bonding", "strong-reciprocity", "altruism-prosocial", "trust-cooperation"]
+    themes: ["reward-bonding", "attachment-bond", "oxytocin-bonding", "strong-reciprocity", "altruism-prosocial", "trust-cooperation", "social-touch-affiliation"]
   },
   {
     id: "group-culture-status",
@@ -1062,7 +1106,7 @@ const socialThemeGroups = [
     title: "Yo social y Salud Mental",
     hint: "Self, teoría de la mente, amenaza, soledad y apoyo",
     description: "Reúne funciones del yo social y salud mental: self, teoría de la mente, metacognición social, amenaza evaluativa, soledad, apoyo social y bienestar.",
-    themes: ["self-mentalizing", "self-representation", "social-identity", "damasio-self", "theory-of-mind", "social-metacognition", "social-threat-stress", "loneliness-isolation", "support-health"]
+    themes: ["self-mentalizing", "self-representation", "social-identity", "damasio-self", "theory-of-mind", "social-metacognition", "social-threat-stress", "loneliness-isolation", "support-health", "social-genomics"]
   }
 ];
 
@@ -1539,6 +1583,38 @@ const themeTextEn = {
     guide: "It is not enough to infer another person's intention; we also need to know how confident we are and when to correct the inference.",
     experiment: "Judgments about intention or emotion with confidence rating, later feedback and interpretation updating.",
     handbook: "Reference: Metacognition; Social Cognition; Cognitive control."
+  },
+  "social-interoception": {
+    title: "Social interoception",
+    hint: "Bodily signals, visceral empathy and affective decision-making",
+    description: "Social interoception describes how internal body signals — heart rate, breathing, visceral sensations — modulate empathy, emotion recognition and affective decision-making. The anterior insula integrates bodily state with interpersonal context; higher interoceptive accuracy predicts better affective empathy and lower alexithymia.",
+    guide: "Connects embodiment with social emotion: feeling with others is not purely cognitive, it has an internal physiological basis. Useful for discussing the somatic marker hypothesis, emotional intelligence, alexithymia and individual differences in empathy.",
+    experiment: "Heartbeat detection task followed by emotional face judgments; compare interoceptive accuracy with empathy and alexithymia scales.",
+    handbook: "Ref: Critchley & Garfinkel (2017) Trends Cogn Sci 'Interoception for social survival'; Craig (2009) Nat Rev Neurosci 'How do you feel — now?'; Damasio (1994) Somatic Marker Hypothesis; Gazzaniga ch. emotion."
+  },
+  "social-touch-affiliation": {
+    title: "Affiliative touch and social bonding",
+    hint: "CT fibers, gentle stroking, attachment and stress relief",
+    description: "A specialized system of C-tactile (CT) afferent fibers responds optimally to gentle, moderate-velocity stroking — affiliative touch — and projects to the posterior insula. This pathway, distinct from discriminative touch, encodes the social value of physical contact: attachment, comfort, stress buffering, and care signals between close individuals.",
+    guide: "Explains why physical contact reduces cortisol and pain, how touch deprivation in early life affects social development, and the role of touch in romantic, parental and therapeutic bonds.",
+    experiment: "Compare physiological responses (heart rate, skin conductance) to gentle stroking versus non-social vibration; rate pleasantness and affective valence as a function of touch velocity and relational context.",
+    handbook: "Ref: McGlone, Wessberg & Olausson (2014) Neuron 'Discriminative and affective touch'; Morrison et al. (2010) J Neurosci; Cascio et al. (2019) Neurosci Biobehav Rev."
+  },
+  "interpersonal-emotion-regulation": {
+    title: "Interpersonal emotion regulation",
+    hint: "Co-regulation, presence of others, social buffering and stress",
+    description: "The presence of close others reduces the neural cost of regulating stress and negative emotions — what Coan calls social baseline theory. The vmPFC and amygdala respond differently to threats depending on whether the person is alone, with a stranger or with an attachment figure: a partner's hand reduces the amygdala response to anticipated fear.",
+    guide: "Shows that emotion is not only intrapersonal: relationships are distributed regulatory resources. Useful for discussing adult attachment, social support as a stress buffer, and the neurobiology of social isolation.",
+    experiment: "Threat-anticipation paradigm (Coan et al.) alone, with a stranger, or with a partner; measure neural activation (vmPFC, amygdala, insula) and subjective fear and control ratings.",
+    handbook: "Ref: Coan, Schaefer & Davidson (2006) Psychological Science 'Lending a hand'; Coan & Sbarra (2015) Curr Opin Psychol; Zaki & Williams (2013) Emotion 'Interpersonal emotion regulation'."
+  },
+  "social-genomics": {
+    title: "Social genomics",
+    hint: "Gene expression, loneliness, status and molecular health",
+    description: "Social experience alters the expression of genes regulating immunity, inflammation and neuroendocrine function. Cole and colleagues identified that chronic loneliness and low social status activate a conserved transcriptional response to adversity (CTRA): upregulation of pro-inflammatory genes and downregulation of antiviral genes. The brain translates social contexts into molecular changes that affect long-term health.",
+    guide: "Connects social neuroscience with molecular biology and public health: social life not only changes the brain, it changes the functional genome. Useful for discussing social inequality, the loneliness epidemic and mechanisms of health disparity.",
+    experiment: "Review Cole et al. gene expression profiles in lonely versus non-lonely individuals; discuss biological pathways mediating the link between social experience and somatic health.",
+    handbook: "Ref: Cole (2014) Curr Dir Psychol Sci 'Human social genomics'; Slavich & Cole (2013) Psychol Sci; Cacioppo & Hawkley (2009) Nat Rev Neurosci 'Perceived social isolation'."
   }
 };
 const regionTextEn = {
