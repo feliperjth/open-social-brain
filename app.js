@@ -4213,22 +4213,22 @@ if (spinToggleBtn) {
 }
 
 function applyLayerVisibility() {
-  cortexShellMeshes.forEach((m) => { m.visible = layerCortexOn; });
-  networkLineMeshes.forEach((m) => { m.visible = layerNetworkOn; });
+  if (!proceduralVisible) return;
+  // Hide cortex shell (lobes, stem, callosum, sulcus lines)
+  if (!layerCortexOn) cortexShellMeshes.forEach((m) => { m.visible = false; });
+  // Hide network connection lines
+  if (!layerNetworkOn) networkLineMeshes.forEach((m) => { m.visible = false; });
+  // Hide / show region markers by category; apply scale boost when cortex is off
   regionMeshes.forEach((mesh, id) => {
-    const region = regions.find((r) => r.id === id);
-    const baseScale = region ? region.scale : [1, 1, 1];
-    if (subcortexRegionIds.has(id)) {
-      mesh.visible = layerSubcortexOn;
-      // Make subcortex markers larger when cortex shell is hidden so they're easier to see
-      const boost = (!layerCortexOn && layerSubcortexOn) ? 1.5 : 1;
-      mesh.scale.set(baseScale[0] * boost, baseScale[1] * boost, baseScale[2] * boost);
-    } else if (networkRegionIds.has(id)) {
-      mesh.visible = layerNetworkOn;
-      mesh.scale.set(...baseScale);
-    } else {
-      mesh.visible = layerCortexOn;
-      mesh.scale.set(...baseScale);
+    const isSub = subcortexRegionIds.has(id);
+    const isNet = networkRegionIds.has(id);
+    if (isSub && !layerSubcortexOn) { mesh.visible = false; return; }
+    if (isNet && !layerNetworkOn)   { mesh.visible = false; return; }
+    if (!isSub && !isNet && !layerCortexOn) { mesh.visible = false; return; }
+    if (isSub) {
+      const s = regions.find((r) => r.id === id)?.scale ?? [1, 1, 1];
+      const b = layerCortexOn ? 1 : 1.5;
+      mesh.scale.set(s[0] * b, s[1] * b, s[2] * b);
     }
   });
 }
@@ -4423,12 +4423,10 @@ function setMedialCut(hemisphere) {
 function setProceduralVisibility(visible) {
   proceduralVisible = visible;
   brain.visible = visible;
-  if (visible) {
-    applyLayerVisibility();
-  } else {
-    proceduralMeshes.forEach((mesh) => { mesh.visible = false; });
-    regionMeshes.forEach((mesh) => { mesh.visible = false; });
-  }
+  // Always explicitly set every mesh, never rely solely on parent visibility
+  proceduralMeshes.forEach((m) => { m.visible = visible; });
+  regionMeshes.forEach((m) => { m.visible = visible; });
+  if (visible) applyLayerVisibility();
 }
 
 function regionForMeshName(name) {
