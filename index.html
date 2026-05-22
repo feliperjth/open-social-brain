@@ -29,16 +29,46 @@
             <h1 class="brand-title"><span class="brain-logo" aria-hidden="true"></span>Open Social Brain</h1>
             <p class="creator-credit">Creado por Felipe Rojas-Thomas, PhD. Neurociencia</p>
           </div>
-          <div class="view-actions" role="group" aria-label="Vistas del cerebro">
-            <button class="view-btn" data-view="lateral" title="Vista lateral">LAT</button>
-            <button class="view-btn" data-view="medial-left" title="Corte medial del hemisferio izquierdo">MED-I</button>
-            <button class="view-btn" data-view="medial-right" title="Corte medial del hemisferio derecho">MED-D</button>
-            <button class="view-btn view-btn--center" data-view="center" title="Centralizar cerebro">Centrar</button>
-            <button class="view-btn" data-view="reset" title="Reiniciar vista">RST</button>
-            <div class="view-divider" aria-hidden="true"></div>
-            <button class="view-btn view-btn--spin" id="spin-toggle" data-spin="on" title="Pausar rotación automática">⏸</button>
+          <div class="view-actions-wrap">
+            <div class="view-actions" role="group" aria-label="Vistas del cerebro">
+              <button class="view-btn" data-view="lateral" title="Vista lateral">LAT</button>
+              <button class="view-btn" data-view="medial-left" title="Corte medial del hemisferio izquierdo">MED-I</button>
+              <button class="view-btn" data-view="medial-right" title="Corte medial del hemisferio derecho">MED-D</button>
+              <button class="view-btn view-btn--center" data-view="center" title="Centralizar cerebro">Centrar</button>
+              <button class="view-btn" data-view="reset" title="Reiniciar vista">RST</button>
+              <div class="view-divider" aria-hidden="true"></div>
+              <button class="view-btn view-btn--spin" id="spin-toggle" data-spin="on" title="Pausar rotación automática">⏸</button>
+            </div>
+            <button class="view-btn view-btn--zones" id="zones-toggle" title="Buscar zona anatómica">🔍 Zonas anatómicas</button>
+            <div id="zones-panel" class="zones-panel" aria-hidden="true">
+              <div class="zones-panel-header">
+                <div>
+                  <p class="eyebrow">Zonas anatómicas</p>
+                  <small>Buscar una región específica del atlas</small>
+                </div>
+                <span id="zone-count">102 zonas</span>
+              </div>
+              <div class="zone-filter">
+                <input id="zone-search" type="search" placeholder="Buscar zona anatómica..." aria-label="Buscar zona anatómica" />
+                <div class="side-tabs" role="group" aria-label="Filtrar hemisferio">
+                  <button data-side="all" class="active">Ambos</button>
+                  <button data-side="RH">Der.</button>
+                  <button data-side="LH">Izq.</button>
+                </div>
+              </div>
+              <div class="zone-groups" role="group" aria-label="Filtrar sistema anatómico">
+                <button data-group="all" class="active">Todo</button>
+                <button data-group="frontal">Frontal</button>
+                <button data-group="temporal">Temporal</button>
+                <button data-group="parietal">Parietal</button>
+                <button data-group="occipital">Occipital</button>
+                <button data-group="limbic">Límbico</button>
+                <button data-group="subcortex">Subcorteza</button>
+                <button data-group="cerebellum">Cerebelo</button>
+              </div>
+              <div id="zone-list" class="zone-list"></div>
+            </div>
           </div>
-        </div>
         <label class="model-loader" title="Importar modelo neuroanatómico GLB o GLTF">
           <input id="model-input" type="file" accept=".glb,.gltf,model/gltf-binary,model/gltf+json" />
           <span>Cargar modelo 3D</span>
@@ -118,38 +148,6 @@
             <span id="region-count">9 categorías</span>
           </div>
           <div id="region-list" class="region-list"></div>
-        </section>
-        <section class="panel-section compact-zone-section">
-          <details class="zone-drawer">
-            <summary>
-              <span>
-                <p class="eyebrow">Zonas anatómicas</p>
-                <small>Buscar una región específica del atlas</small>
-              </span>
-              <span id="zone-count">102 zonas</span>
-            </summary>
-            <div class="zone-drawer-body">
-              <div class="zone-filter">
-                <input id="zone-search" type="search" placeholder="Buscar zona anatómica..." aria-label="Buscar zona anatómica" />
-                <div class="side-tabs" role="group" aria-label="Filtrar hemisferio">
-                  <button data-side="all" class="active">Ambos</button>
-                  <button data-side="RH">Der.</button>
-                  <button data-side="LH">Izq.</button>
-                </div>
-              </div>
-              <div class="zone-groups" role="group" aria-label="Filtrar sistema anatómico">
-                <button data-group="all" class="active">Todo</button>
-                <button data-group="frontal">Frontal</button>
-                <button data-group="temporal">Temporal</button>
-                <button data-group="parietal">Parietal</button>
-                <button data-group="occipital">Occipital</button>
-                <button data-group="limbic">Límbico</button>
-                <button data-group="subcortex">Subcorteza</button>
-                <button data-group="cerebellum">Cerebelo</button>
-              </div>
-              <div id="zone-list" class="zone-list"></div>
-            </div>
-          </details>
         </section>
 
         <section class="panel-section principal-function">

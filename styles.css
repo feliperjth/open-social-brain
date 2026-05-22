@@ -300,11 +300,19 @@ button:active {
   text-transform: uppercase;
 }
 
+.view-actions-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  pointer-events: auto;
+  position: relative;
+}
+
 .view-actions {
   display: flex;
   align-items: center;
   gap: 5px;
-  pointer-events: auto;
   background: rgba(8, 10, 13, 0.55);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 10px;
@@ -998,67 +1006,89 @@ dd {
   color: var(--muted);
 }
 
-.compact-zone-section {
-  padding-top: 12px;
-}
-
-.zone-drawer {
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.035);
+.zones-panel {
+  position: absolute;
+  z-index: 4;
+  top: calc(100% + 6px);
+  right: 0;
+  width: 360px;
+  max-height: 520px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-top: 0;
+  border: 1px solid rgba(85, 194, 183, 0.28);
+  border-radius: 12px;
+  background: rgba(13, 16, 20, 0.92);
+  backdrop-filter: blur(22px);
+  box-shadow: 0 24px 56px rgba(0, 0, 0, 0.48);
   overflow: hidden;
+  opacity: 0;
+  transform: translateY(-8px);
+  pointer-events: none;
+  transition: opacity 180ms ease, transform 180ms ease;
 }
 
-.zone-drawer summary {
+.zones-panel[aria-hidden="false"] {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.zones-panel-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  min-height: 52px;
-  padding: 11px 12px;
-  cursor: pointer;
-  list-style: none;
+  padding: 12px 14px 10px;
+  border-bottom: 1px solid var(--line);
 }
 
-.zone-drawer summary::-webkit-details-marker {
-  display: none;
-}
-
-.zone-drawer summary::before {
-  content: "+";
-  display: grid;
-  place-items: center;
-  flex: 0 0 22px;
-  width: 22px;
-  height: 22px;
-  border: 1px solid rgba(85, 194, 183, 0.34);
-  border-radius: 999px;
-  color: var(--accent);
-  font-weight: 900;
-}
-
-.zone-drawer[open] summary::before {
-  content: "-";
-}
-
-.zone-drawer summary span:first-of-type {
-  flex: 1;
-}
-
-.zone-drawer summary small {
+.zones-panel-header small {
   display: block;
-  margin-top: 3px;
+  margin-top: 2px;
   color: var(--muted);
-  font-size: 0.72rem;
+  font-size: 0.7rem;
 }
 
-.zone-drawer summary > span:last-child {
+.zones-panel-header > span:last-child {
   color: var(--muted);
   font-size: 0.78rem;
+  white-space: nowrap;
 }
 
-.zone-drawer-body {
-  padding: 0 12px 12px;
+.zones-panel .zone-filter {
+  margin: 10px 14px 0;
+}
+
+.zones-panel .zone-groups {
+  margin: 8px 14px 0;
+}
+
+.zones-panel .zone-list {
+  margin: 8px 14px 12px;
+  max-height: 280px;
+  padding-right: 2px;
+}
+
+.view-btn--zones {
+  width: 100%;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+  background: rgba(8, 10, 13, 0.55);
+  border-color: rgba(85, 194, 183, 0.28);
+  backdrop-filter: blur(16px);
+  text-align: left;
+  padding: 0 12px;
+}
+
+.view-btn--zones:hover,
+.view-btn--zones.active {
+  background: rgba(85, 194, 183, 0.14);
+  border-color: rgba(85, 194, 183, 0.6);
+  color: var(--text);
 }
 
 .task-stage {
@@ -1323,9 +1353,13 @@ dd {
     font-size: 0.62rem;
   }
 
+  .view-actions-wrap {
+    width: 100%;
+  }
+
   .view-actions {
     display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr)) auto auto;
+    grid-template-columns: repeat(5, minmax(0, 1fr)) auto;
     width: 100%;
     gap: 4px;
     padding: 4px 5px;
@@ -1346,6 +1380,16 @@ dd {
   .view-btn--spin {
     min-width: 34px;
     font-size: 0.9rem;
+  }
+
+  .view-btn--zones {
+    font-size: 0.65rem;
+    padding: 0 8px;
+  }
+
+  .zones-panel {
+    width: 100%;
+    max-height: 60vh;
   }
 
   .viewer {

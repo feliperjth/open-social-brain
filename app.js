@@ -4125,6 +4125,24 @@ if (spinToggleBtn) {
   });
 }
 
+const zonesPanelEl = document.getElementById("zones-panel");
+const zonesToggleBtn = document.getElementById("zones-toggle");
+if (zonesToggleBtn && zonesPanelEl) {
+  zonesToggleBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    const isOpen = zonesPanelEl.getAttribute("aria-hidden") === "false";
+    zonesPanelEl.setAttribute("aria-hidden", isOpen ? "true" : "false");
+    zonesToggleBtn.classList.toggle("active", !isOpen);
+    if (!isOpen) renderZoneList();
+  });
+  document.addEventListener("click", (e) => {
+    if (!zonesPanelEl.contains(e.target) && e.target !== zonesToggleBtn) {
+      zonesPanelEl.setAttribute("aria-hidden", "true");
+      zonesToggleBtn.classList.remove("active");
+    }
+  });
+}
+
 function updateHoverTooltip(event) {
   if (!tooltipEl) return;
   if (!event) {
