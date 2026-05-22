@@ -3599,8 +3599,10 @@ function applyContextMaterial(mesh, isSelected, color = null) {
   mesh.material.depthWrite = isSelected;
   mesh.material.roughness = isSelected ? 0.38 : 0.88;
   mesh.material.clearcoat = isSelected ? 0.55 : 0.12;
-  mesh.material.emissive = new THREE.Color(isSelected && color ? color : 0x000000);
-  mesh.material.emissiveIntensity = isSelected ? 0.65 : 0.0;
+  mesh.material.emissive = isSelected && color
+    ? new THREE.Color(color).lerp(new THREE.Color(0xffffff), 0.35)
+    : new THREE.Color(0x000000);
+  mesh.material.emissiveIntensity = isSelected ? 0.22 : 0.0;
   mesh.material.side = THREE.FrontSide;
   mesh.material.needsUpdate = true;
   syncInternalSurface(mesh);
