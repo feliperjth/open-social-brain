@@ -3222,7 +3222,7 @@ function applyLanguage(lang) {
   setText(".topbar .eyebrow", t.appKicker);
   setText("[data-view='center']", t.center);
   setText(".model-loader span", t.loadModel);
-  const legendItems = document.querySelectorAll(".legend span");
+  const legendItems = document.querySelectorAll(".legend .layer-btn");
   if (legendItems[0]) legendItems[0].lastChild.textContent = t.cortex;
   if (legendItems[1]) legendItems[1].lastChild.textContent = t.networks;
   if (legendItems[2]) legendItems[2].lastChild.textContent = t.subcortex;
