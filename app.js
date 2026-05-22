@@ -4866,4 +4866,20 @@ centerBrain();
 animate();
 restoreFromURL();
 
+// Visit counter — uses countapi.xyz (free, no auth)
+(function trackVisits() {
+  const counterEl = document.getElementById("visit-counter");
+  const aboutCountEl = document.getElementById("about-visit-count");
+  fetch("https://api.countapi.xyz/hit/open-social-brain/visits")
+    .then((r) => r.json())
+    .then(({ value }) => {
+      const formatted = value.toLocaleString("es");
+      if (counterEl) counterEl.textContent = `${formatted} visitas`;
+      if (aboutCountEl) aboutCountEl.textContent = `${formatted} visitas totales`;
+    })
+    .catch(() => {
+      // Silently ignore if API is unavailable
+    });
+})();
+
 

@@ -469,6 +469,31 @@ button:active {
   font-weight: 800;
 }
 
+.visit-counter {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0 8px;
+  height: 26px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+  white-space: nowrap;
+  transition: opacity 400ms ease;
+}
+
+.visit-counter::before {
+  content: "👁";
+  font-size: 0.7rem;
+}
+
+.visit-counter:empty {
+  display: none;
+}
+
 .dot {
   display: inline-block;
   width: 9px;
