@@ -1,6 +1,10 @@
 ﻿import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
+import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
+import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
+import { UnrealBloomPass } from "three/addons/postprocessing/UnrealBloomPass.js";
 
 const regions = [
   {
@@ -1647,9 +1651,28 @@ const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 renderer.setSize(container.clientWidth, container.clientHeight);
 renderer.outputColorSpace = THREE.SRGBColorSpace;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.12;
 renderer.localClippingEnabled = true;
 container.appendChild(renderer.domElement);
 renderer.domElement.style.touchAction = "none";
+
+// IBL: image-based lighting para reflexiones físicamente correctas
+const pmremGenerator = new THREE.PMREMGenerator(renderer);
+const roomEnv = pmremGenerator.fromScene(new RoomEnvironment(), 0.04);
+scene.environment = roomEnv.texture;
+pmremGenerator.dispose();
+
+// Post-processing: bloom selectivo en regiones activas
+const composer = new EffectComposer(renderer);
+composer.addPass(new RenderPass(scene, camera));
+const bloomPass = new UnrealBloomPass(
+  new THREE.Vector2(container.clientWidth, container.clientHeight),
+  0.42,  // strength
+  0.48,  // radius
+  0.78   // threshold — sólo regiones con emissive alto superan esto
+);
+composer.addPass(bloomPass);
 
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
@@ -1727,12 +1750,25 @@ function makeBumpTexture(size = 512) {
   const ctx = canvas.getContext("2d");
   const image = ctx.createImageData(size, size);
 
+  // Semilla determinista para reproducibilidad
+  let seed = 42;
+  const rng = () => { seed = (seed * 1664525 + 1013904223) & 0xffffffff; return (seed >>> 0) / 4294967296; };
+
   for (let y = 0; y < size; y += 1) {
     for (let x = 0; x < size; x += 1) {
       const i = (y * size + x) * 4;
-      const folds = Math.sin(x * 0.105 + Math.sin(y * 0.04) * 2.2) * 42;
-      const micro = Math.sin((x - y) * 0.18) * 12 + (Math.random() - 0.5) * 22;
-      const value = Math.max(18, Math.min(238, 122 + folds + micro));
+      // Sulcos primarios: pliegues largos y profundos
+      const sulcus1 = Math.sin(x * 0.072 + Math.sin(y * 0.038 + 0.6) * 3.4) * 44;
+      const sulcus2 = Math.sin(y * 0.095 + Math.sin(x * 0.042 + 1.3) * 2.9) * 36;
+      // Gyros secundarios: pliegues más cortos sobre los primarios
+      const gyrus1 = Math.sin((x + y * 0.6) * 0.14 + Math.sin(x * 0.08) * 2.1) * 22;
+      const gyrus2 = Math.sin((x * 0.7 - y) * 0.11 + Math.sin(y * 0.09) * 1.8) * 18;
+      // Microestructura: textura fina de la corteza
+      const micro1 = Math.sin(x * 0.28 + y * 0.19) * 9;
+      const micro2 = Math.sin(x * 0.19 - y * 0.27) * 7;
+      // Ruido suave (determinista)
+      const noise = (rng() - 0.5) * 14;
+      const value = Math.max(8, Math.min(248, 128 + sulcus1 + sulcus2 + gyrus1 + gyrus2 + micro1 + micro2 + noise));
       image.data[i] = value;
       image.data[i + 1] = value;
       image.data[i + 2] = value;
@@ -1744,7 +1780,7 @@ function makeBumpTexture(size = 512) {
   const texture = new THREE.CanvasTexture(canvas);
   texture.wrapS = THREE.RepeatWrapping;
   texture.wrapT = THREE.RepeatWrapping;
-  texture.repeat.set(5.5, 5.5);
+  texture.repeat.set(4.5, 4.5);
   return texture;
 }
 
@@ -1804,11 +1840,12 @@ const cortexMaterial = new THREE.MeshPhysicalMaterial({
   color: 0xd78374,
   map: tissueMap,
   bumpMap,
-  bumpScale: 0.025,
-  roughness: 0.72,
-  metalness: 0.02,
-  clearcoat: 0.35,
-  clearcoatRoughness: 0.5,
+  bumpScale: 0.042,
+  roughness: 0.62,
+  metalness: 0.0,
+  clearcoat: 0.55,
+  clearcoatRoughness: 0.38,
+  envMapIntensity: 1.0,
   transparent: true,
   opacity: 0.92
 });
@@ -3560,10 +3597,10 @@ function applyContextMaterial(mesh, isSelected, color = null) {
   mesh.material.transparent = !isSelected;
   mesh.material.opacity = isSelected ? 1 : 0.18;
   mesh.material.depthWrite = isSelected;
-  mesh.material.roughness = isSelected ? 0.36 : 0.88;
-  mesh.material.clearcoat = isSelected ? 0.72 : 0.12;
+  mesh.material.roughness = isSelected ? 0.32 : 0.88;
+  mesh.material.clearcoat = isSelected ? 0.82 : 0.12;
   mesh.material.emissive = new THREE.Color(isSelected && color ? color : 0x000000);
-  mesh.material.emissiveIntensity = isSelected ? 0.32 : 0.0;
+  mesh.material.emissiveIntensity = isSelected ? 0.92 : 0.0;
   mesh.material.side = THREE.FrontSide;
   mesh.material.needsUpdate = true;
   syncInternalSurface(mesh);
@@ -4498,13 +4535,14 @@ function prepareImportedAtlas(root, label) {
     color: 0xc98778,
     map: tissueMap,
     bumpMap,
-    bumpScale: 0.032,
-    roughness: 0.74,
-    metalness: 0.02,
-    clearcoat: 0.26,
-    clearcoatRoughness: 0.55,
-    sheen: 0.62,
-    sheenRoughness: 0.9,
+    bumpScale: 0.055,
+    roughness: 0.62,
+    metalness: 0.0,
+    clearcoat: 0.52,
+    clearcoatRoughness: 0.38,
+    envMapIntensity: 1.1,
+    sheen: 0.55,
+    sheenRoughness: 0.85,
     transparent: false,
     opacity: 1,
     depthWrite: false
@@ -4543,7 +4581,7 @@ function prepareImportedAtlas(root, label) {
     } else {
       child.userData.regionId = "";
     }
-    material.envMapIntensity = 0.28;
+    material.envMapIntensity = 1.1;
     material.depthWrite = true;
     material.alphaHash = false;
     material.side = THREE.FrontSide;
@@ -4718,7 +4756,7 @@ function animate() {
   }
   updateMedialClipPlane();
   controls.update();
-  renderer.render(scene, camera);
+  composer.render();
 }
 
 function applyRendererSize() {
@@ -4728,6 +4766,8 @@ function applyRendererSize() {
   camera.aspect = w / h;
   camera.updateProjectionMatrix();
   renderer.setSize(w, h);
+  composer.setSize(w, h);
+  bloomPass.setSize(w, h);
 }
 
 new ResizeObserver(applyRendererSize).observe(container);
