@@ -900,6 +900,94 @@ const regionSections = [
     experiment: "Demostrar una tarea con pasos funcionales y pasos arbitrarios: observar si los participantes imitan los pasos irrelevantes (sobreimitación). Comparar con condición de solo resultado.",
     handbook: "Ref: Tomasello (1999) The Cultural Origins of Human Cognition; Hurford & Studdert-Kennedy (IMITATION-PERSPECTIVES.pdf); Gazzaniga cap. cognición cultural.",
     regions: ["premotor", "ventralAttention", "dmn", "hippocampus", "dlpfc"]
+  },
+  {
+    id: "emotional-prosody",
+    icon: "EP",
+    title: "Prosodia emocional y tono afectivo del habla",
+    hint: "Hemisferio derecho, corteza temporal, tono e ira",
+    description: "El tono emocional del habla —enojo, ternura, ironía— es procesado predominantemente por el hemisferio derecho. La corteza temporal superior y la amígdala responden al contorno melódico y la intensidad vocal antes de que el contenido léxico sea analizado, haciendo de la prosodia una vía de comunicación afectiva rápida y difícil de falsificar.",
+    guide: "Permite discutir asimetrías hemisféricas en el lenguaje: el hemisferio izquierdo maneja el léxico y la sintaxis; el derecho, el afecto vocal. Pacientes con lesiones derechas pueden entender las palabras pero perder el tono, lo que deteriora la comunicación emocional sin déficits aparentes de vocabulario.",
+    experiment: "Presentar la misma oración con prosodia cálida, neutra y hostil; medir percepción de amenaza, cuidado y confianza antes de revelar el contenido verbal. ¿Cambia la evaluación cuando se entienden las palabras?",
+    handbook: "Ref: Gazzaniga, Ivry & Mangun (2019) cap. lenguaje y hemisferio; Cacioppo & Decety Oxford Handbook 'Hearing Voices'; Patel (2008) Music, Language and the Brain.",
+    regions: ["auditory", "ventralAttention", "amygdala", "insula"]
+  },
+  {
+    id: "nonverbal-communication",
+    icon: "NV",
+    title: "Comunicación no verbal y lenguaje corporal",
+    hint: "Gesto, postura, STS, mirada y señal social corporal",
+    description: "La mayor parte de la comunicación social se transmite sin palabras: gestos, postura, contacto visual, expresión facial y proxémica. El STS posterior integra movimiento, mirada y cuerpo para extraer intención y estado emocional; el sistema premotora participa en la comprensión de gestos comunicativos como si fueran acciones compartidas.",
+    guide: "Útil para conectar neurociencia con psicología clínica y comunicación interpersonal: muchos déficits en autismo, psicosis o lesiones prefrontales se expresan primero en la dimensión no verbal antes de afectar el lenguaje explícito.",
+    experiment: "Comparar interpretación de mensajes con canal verbal consistente versus inconsistente con gesto/postura. Registrar confianza percibida y coherencia evaluada con y sin video.",
+    handbook: "Ref: Gazzaniga cap. percepción social; Cacioppo & Decety Oxford Handbook 'Person Perception'; Ambady & Rosenthal (1992) Psychological Bulletin.",
+    regions: ["ventralAttention", "premotor", "visual", "dmn"]
+  },
+  {
+    id: "social-feedback-learning",
+    icon: "RS",
+    title: "Aprendizaje por retroalimentación social",
+    hint: "Error de predicción, dopamina, estriado y reputación",
+    description: "El cerebro aprende de las reacciones sociales de los demás igual que aprende de recompensas materiales: mediante señales de error de predicción dopaminérgicas en el estriado. La aprobación, el rechazo, el elogio y la crítica actualizan modelos de reputación y guían conducta futura con una eficacia comparable a la retroalimentación monetaria.",
+    guide: "Permite explicar por qué la aprobación social tiene efectos motivacionales tan potentes: comparte el circuito de recompensa con el dinero o la comida. Con implicaciones para educación, redes sociales y presión de grupo.",
+    experiment: "Tarea de aprendizaje por retroalimentación con feedback social (aprobación/rechazo de pares) versus no social (correcto/incorrecto); comparar tasa de aprendizaje, flexibilidad y sensibilidad al error.",
+    handbook: "Ref: Gazzaniga cap. motivación y recompensa; Izuma et al. (2008) Neuron; Cacioppo & Decety Oxford Handbook 'Processing Social and Nonsocial Rewards'.",
+    regions: ["thalamostriatal", "vmPfc", "acc", "hippocampus"]
+  },
+  {
+    id: "moral-responsibility",
+    icon: "RM",
+    title: "Responsabilidad moral e intencionalidad",
+    hint: "TPJ, intención, daño, negligencia y atribución moral",
+    description: "El juicio moral sobre responsabilidad no depende solo del daño causado: depende crucialmente de la intención. El TPJ calcula si el agente sabía o debía saber lo que ocurriría; el vmPFC y el cíngulo ponderan el peso afectivo del daño y la norma; el DLPFC integra reglas abstractas. Lesiones en el TPJ alteran la capacidad de perdonar accidentes.",
+    guide: "Conecta con derecho, ética aplicada y psicología moral: la distinción entre daño intencional, negligente y accidental tiene bases neurales. Útil para discutir responsabilidad penal, culpa, castigo y perdón en contextos reales.",
+    experiment: "Escenarios de daño con intención clara, ambigua o ausente; medir juicio de culpabilidad, castigo apropiado y disposición al perdón según contexto intencional.",
+    handbook: "Ref: Young et al. (2010) Psychological Science (TPJ y juicio moral); Gazzaniga cap. moral; Cacioppo & Decety Oxford Handbook 'Social Neuroscience of Empathy'.",
+    regions: ["ventralAttention", "vmPfc", "acc", "dlpfc", "amygdala"]
+  },
+  {
+    id: "neuroeconomics",
+    icon: "NE",
+    title: "Neuroeconomía y circuitos de valor",
+    hint: "Utilidad, dopamina, estriado, OFC y decisión bajo valor",
+    description: "La neuroeconomía estudia cómo el cerebro asigna valor y elige. El estriado ventral codifica valor esperado; la ínsula señala pérdida anticipada; la OFC/vmPFC integra valor subjetivo y contexto social. Este sistema no maximiza utilidad abstracta: es sensible al tiempo, las pérdidas, la comparación social y las emociones.",
+    guide: "Permite integrar economía conductual con neurociencia: las anomalías de la decisión (descuento temporal, aversión a la pérdida, efectos de contexto) tienen correlatos neurales medibles. Útil para discutir sesgos, nudges y diseño de políticas.",
+    experiment: "Elecciones intertemporales (ahora vs. más después) y con pérdidas versus ganancias equivalentes; registrar activación subjetiva de urgencia, certeza y arrepentimiento anticipado.",
+    handbook: "Ref: Glimcher (2003) Decisions, Uncertainty and the Brain.pdf; Camerer, Loewenstein & Prelec (2005) Journal of Economic Literature; Gazzaniga cap. toma de decisiones.",
+    regions: ["thalamostriatal", "vmPfc", "insula", "acc", "dlpfc"]
+  },
+  {
+    id: "strong-reciprocity",
+    icon: "RF",
+    title: "Reciprocidad fuerte y castigo altruista",
+    hint: "Castigo costoso, norma social, cooperación y Gintis",
+    description: "Los humanos castigan a quienes violan normas sociales incluso cuando ese castigo tiene costo propio y no beneficio directo —reciprocidad fuerte. Esta disposición, mediada por activación de la ínsula y el ACC, sostiene la cooperación a gran escala sin autoridad central: la amenaza de castigo disuade el free-riding aunque quien castiga no gane nada.",
+    guide: "Uno de los hallazgos más sorprendentes de la economía experimental: los humanos cooperan a gran escala no solo por altruismo sino por estar dispuestos a castigar normas violadas a costo propio. Discutir implicaciones para justicia, instituciones y evolución de la cooperación.",
+    experiment: "Juego de bienes públicos con y sin opción de castigo costoso: comparar contribuciones, frecuencia de castigo y cooperación sostenida en rondas repetidas.",
+    handbook: "Ref: Gintis et al. (2005) Moral Sentiments and Material Interests.pdf; Fehr & Gächter (2002) Nature; Glimcher (2003).pdf.",
+    regions: ["insula", "acc", "dlpfc", "thalamostriatal", "vmPfc"]
+  },
+  {
+    id: "social-identity",
+    icon: "IS",
+    title: "Identidad social y pertenencia grupal",
+    hint: "Self grupal, Tajfel, categorización e identidad",
+    description: "La identidad no es solo individual: parte de quiénes somos se define por los grupos a los que pertenecemos. La teoría de identidad social de Tajfel y Turner muestra que la sola asignación a un grupo mínimo genera favoritismo endogrupal. En el cerebro, la corteza prefrontal medial y la DMN representan el self grupal con los mismos recursos que el self individual.",
+    guide: "Permite conectar psicología social clásica con neurociencia del self: la identidad grupal no es abstracta, tiene representación neural. Útil para discutir pertenencia, exclusión, prejuicio y cómo la amenaza al grupo amenaza al yo.",
+    experiment: "Paradigma del grupo mínimo: asignar aleatoriamente a grupos y medir favoritismo en distribución de recursos, evaluación de miembros y memoria diferencial endogrupo/exogrupo.",
+    handbook: "Ref: Tajfel & Turner (1979) 'An Integrative Theory of Intergroup Conflict'; Gazzaniga cap. cognición social; Cacioppo & Decety Oxford Handbook 'Social Hierarchy'.",
+    regions: ["dmn", "vmPfc", "acc", "ventralAttention", "amygdala"]
+  },
+  {
+    id: "damasio-self",
+    icon: "DS",
+    title: "El self de Damasio: cuerpo, emoción e identidad",
+    hint: "Marcador somático, proto-self, self nuclear y autobiográfico",
+    description: "Damasio propone que el self emerge de capas sucesivas: el proto-self mapea el estado del cuerpo en tiempo real; el self nuclear añade la relación momentánea entre el organismo y un objeto; el self autobiográfico integra pasado, presente y futuro en una narrativa. Las emociones corporales —marcadores somáticos— guían las decisiones antes de que la razón consciente intervenga.",
+    guide: "Permite integrar neurociencia de las emociones con filosofía de la mente y psicología clínica: el self no es una construcción puramente cognitiva sino anclada en el cuerpo. Útil para discutir decisión, identidad, trauma y trastornos del self.",
+    experiment: "Presentar escenarios de decisión con y sin información somática (sensación corporal descrita); comparar calidad de decisión y certeza percibida. Discutir el experimento de Bechara et al. con pacientes vmPFC.",
+    handbook: "Ref: Damasio (2010) Self Comes to Mind.pdf; Damasio (2018) El extraño orden de las cosas.pdf; Bechara et al. (1994) Science; Gazzaniga cap. emoción y cognición.",
+    regions: ["vmPfc", "insula", "hippocampus", "amygdala", "dmn"]
   }
 ];
 
@@ -926,7 +1014,7 @@ const socialThemeGroups = [
     title: "Comunicación Social",
     hint: "Lenguaje pragmático, prosodia, sincronía y salud social",
     description: "Organiza funciones de intercambio comunicativo: intención verbal, prosodia, coordinación interpersonal y señales de apoyo o amenaza.",
-    themes: ["pragmatic-language", "humor-irony", "narrative-comprehension", "communication-health", "interpersonal-synchrony"]
+    themes: ["pragmatic-language", "humor-irony", "narrative-comprehension", "emotional-prosody", "nonverbal-communication", "communication-health", "interpersonal-synchrony"]
   },
   {
     id: "social-learning",
@@ -934,7 +1022,7 @@ const socialThemeGroups = [
     title: "Aprendizaje social",
     hint: "Memoria social, imitación, agencia e incertidumbre",
     description: "Integra aprendizaje por observación, memoria de personas y contextos, atribución de intención y actualización de modelos sociales ambiguos.",
-    themes: ["social-learning-memory", "action-imitation", "cultural-transmission", "agency-intention", "social-uncertainty"]
+    themes: ["social-learning-memory", "action-imitation", "cultural-transmission", "social-feedback-learning", "agency-intention", "social-uncertainty"]
   },
   {
     id: "control-norms-morality",
@@ -942,7 +1030,7 @@ const socialThemeGroups = [
     title: "Control: normas sociales y moral",
     hint: "Regulación, norma, justicia, engaño y reparación",
     description: "Conecta control ejecutivo, normas sociales, juicio moral, justicia, castigo, engaño, perdón y regulación de la conducta apropiada.",
-    themes: ["regulation-control", "moral-ethics", "moral-dilemmas", "social-norms-conformity", "fairness-punishment", "deception-trust-violation", "forgiveness-reconciliation"]
+    themes: ["regulation-control", "moral-ethics", "moral-dilemmas", "moral-responsibility", "social-norms-conformity", "fairness-punishment", "deception-trust-violation", "forgiveness-reconciliation"]
   },
   {
     id: "social-decision-rationality",
@@ -950,7 +1038,7 @@ const socialThemeGroups = [
     title: "Decisión social y racionalidad",
     hint: "Elección, riesgo, estrategia, sesgos, nudge y decisión colectiva",
     description: "Integra funciones que explican cómo elegimos en contextos sociales: preferencias, riesgo, ambigüedad, interacción estratégica, racionalidad limitada, arquitectura de elección y decisiones colectivas.",
-    themes: ["social-decision-choice", "social-preferences", "strategic-interaction", "risk-ambiguity-social", "bounded-rationality-bias", "choice-architecture-nudge", "collective-choice"]
+    themes: ["social-decision-choice", "social-preferences", "neuroeconomics", "strategic-interaction", "risk-ambiguity-social", "bounded-rationality-bias", "choice-architecture-nudge", "collective-choice"]
   },
   {
     id: "bonding-cooperation",
@@ -958,7 +1046,7 @@ const socialThemeGroups = [
     title: "Vínculo y Cooperación",
     hint: "Apego, recompensa, altruismo y confianza",
     description: "Presenta las funciones motivacionales que sostienen apego, cooperación, ayuda, confianza, recompensa social y reciprocidad.",
-    themes: ["reward-bonding", "attachment-bond", "oxytocin-bonding", "altruism-prosocial", "trust-cooperation"]
+    themes: ["reward-bonding", "attachment-bond", "oxytocin-bonding", "strong-reciprocity", "altruism-prosocial", "trust-cooperation"]
   },
   {
     id: "group-culture-status",
@@ -974,7 +1062,7 @@ const socialThemeGroups = [
     title: "Yo social y Salud Mental",
     hint: "Self, teoría de la mente, amenaza, soledad y apoyo",
     description: "Reúne funciones del yo social y salud mental: self, teoría de la mente, metacognición social, amenaza evaluativa, soledad, apoyo social y bienestar.",
-    themes: ["self-mentalizing", "self-representation", "theory-of-mind", "social-metacognition", "social-threat-stress", "loneliness-isolation", "support-health"]
+    themes: ["self-mentalizing", "self-representation", "social-identity", "damasio-self", "theory-of-mind", "social-metacognition", "social-threat-stress", "loneliness-isolation", "support-health"]
   }
 ];
 
@@ -3524,7 +3612,15 @@ const themeDeepExtrasEs = {
   "biological-motion": ["El cerebro que ve agentes en el movimiento", "Doce puntos luminosos en articulaciones bastan para que el cerebro reconozca a otra persona, su emoción y su intención. El STS integra visión y motor porque para el cerebro social, el movimiento siempre tiene un autor con una meta.", "Mostrar un display de puntos luminosos en movimiento biológico versus movimiento aleatorio: registrar cuándo el cerebro ve una persona y cuándo ve solo ruido.", "Puedes ver la intención de alguien solo en la forma en que mueve el cuerpo?"],
   "narrative-comprehension": ["La DMN como máquina de historias", "La red por defecto, activa cuando descansamos, es también la que nos permite seguir una historia, anticipar lo que harán los personajes e identificarnos con ellos. Las historias y la simulación social usan la misma maquinaria cerebral porque comprender a un personaje exige lo mismo que comprender a una persona real.", "Comparar comprensión y recuerdo ante una historia con agentes sociales versus una lista de hechos sin relación causal. ¿Cuánto más se recuerda la historia?", "Por qué es más fácil recordar una historia que una lista de datos equivalentes?"],
   "automatic-stereotypes": ["Sesgos que actúan antes de que los veas", "La amígdala reacciona a categorías sociales en menos de 100 ms. Ese sesgo no implica mala intención: refleja aprendizajes implícitos del entorno cultural. Conocer el mecanismo abre la pregunta de cuándo y cómo el control deliberado puede reducir la respuesta automática.", "Discutir el IAT: ¿por qué personas con creencias igualitarias muestran sesgos implícitos? ¿Qué condiciones —tiempo, motivación, entrenamiento— permiten moderar el sesgo expresado?", "Tener un sesgo implícito que contradice tus valores conscientes te hace hipócrita o simplemente humano?"],
-  "cultural-transmission": ["La imitación que acumula cultura", "Los humanos imitan pasos arbitrarios incluso cuando no sirven para nada: sobreimitación. Esa tendencia, considerada un error en primates no humanos, es lo que permite que la cultura se acumule: copiamos el proceso completo, no solo el resultado. Esto convierte la imitación fiel en el motor de la herencia cultural acumulativa.", "Demostrar una tarea con pasos funcionales y pasos irrelevantes: observar si los participantes copian ambos. ¿Qué ocurre cuando se les dice explícitamente que pueden hacerlo como quieran?", "Copiar fielmente lo que hacen otros —incluso lo innecesario— es una limitación o la base de toda transmisión cultural?"]
+  "cultural-transmission": ["La imitación que acumula cultura", "Los humanos imitan pasos arbitrarios incluso cuando no sirven para nada: sobreimitación. Esa tendencia, considerada un error en primates no humanos, es lo que permite que la cultura se acumule: copiamos el proceso completo, no solo el resultado. Esto convierte la imitación fiel en el motor de la herencia cultural acumulativa.", "Demostrar una tarea con pasos funcionales y pasos irrelevantes: observar si los participantes copian ambos. ¿Qué ocurre cuando se les dice explícitamente que pueden hacerlo como quieran?", "Copiar fielmente lo que hacen otros —incluso lo innecesario— es una limitación o la base de toda transmisión cultural?"],
+  "emotional-prosody": ["El tono que dice más que las palabras", "Una misma oración —'qué interesante lo que dices'— puede expresar admiración genuina o sarcasmo hiriente dependiendo únicamente del tono. El hemisferio derecho procesa esa diferencia antes de que el léxico sea analizado, lo que explica por qué las lesiones derechas producen personas que entienden las palabras pero pierden el afecto del habla.", "Escuchar la misma frase con tono cálido, neutro y hostil antes de ver la transcripción: registrar cómo cambia la interpretación. ¿El tono prevalece sobre el contenido cuando son contradictorios?", "Podemos controlar conscientemente el tono de nuestra voz tanto como controlamos las palabras que elegimos?"],
+  "nonverbal-communication": ["Lo que el cuerpo dice sin permiso", "Gesticulamos, cambiamos postura y ajustamos distancia incluso cuando no somos conscientes de ello. Estas señales escapan al control verbal y comunican estado emocional, intención y actitud relacional con una consistencia que el lenguaje raramente iguala. El cerebro extrae esa información en paralelo con el discurso.", "Comparar interpretaciones de un mensaje con video, solo audio y solo texto: ¿cuánto cambia la percepción de sinceridad, confianza y calidez según el canal disponible?", "Cuándo el lenguaje corporal de alguien contradice sus palabras, a cuál le crees?"],
+  "social-feedback-learning": ["La aprobación que enseña", "El elogio de un par activa el mismo circuito de recompensa que el dinero o la comida. El cerebro aprende de señales sociales —aprobación, rechazo, decepción— mediante errores de predicción dopaminérgicos que actualizan modelos de reputación y guían decisiones futuras. Las redes sociales digitales explotan exactamente este mecanismo.", "Comparar aprendizaje en dos versiones de la misma tarea: feedback social (aprobación/rechazo de pares) versus feedback abstracto (correcto/incorrecto). ¿Difiere la velocidad de aprendizaje o la sensibilidad al error?", "El cerebro que aprende de la aprobación social es el mismo que aprende de las recompensas materiales: eso hace la aprobación más poderosa o más manipulable?"],
+  "moral-responsibility": ["Quién sabía qué y cuándo", "El juicio moral depende crucialmente de la intención: el mismo daño es juzgado de forma radicalmente distinta si fue deliberado, negligente o accidental. El TPJ calcula si el agente pudo prever las consecuencias; sin esa región intacta, los accidentes se juzgan tan severamente como los actos intencionales.", "Escenarios de daño idéntico con intención claramente presente, ausente o ambigua: registrar juicio de culpa, castigo apropiado y disposición al perdón. ¿Cómo cambia cuando el daño fue grande pero involuntario?", "El daño causado sin intención merece el mismo juicio moral que el daño causado deliberadamente?"],
+  "neuroeconomics": ["El cerebro que pone precio a todo", "El estriado ventral no codifica dinero: codifica valor subjetivo relativo al contexto y a las alternativas disponibles. Esto explica por qué la misma cantidad puede parecer un logro o una pérdida dependiendo de con qué se compara. La neuroeconomía muestra que las 'irracionalidades' de la decisión son predecibles y tienen base neural.", "Elecciones intertemporales: ¿100 ahora o 110 en una semana? ¿110 en un año o 120 en un año y una semana? Registrar la inconsistencia y discutir por qué el cerebro trata el tiempo cercano distinto al lejano.", "Si el cerebro que decide no es un calculador racional sino un evaluador emocional con sesgos predecibles, quién debe diseñar los contextos de decisión y con qué criterio?"],
+  "strong-reciprocity": ["Castigar aunque cueste, porque es justo", "En el juego de bienes públicos, basta con introducir la opción de castigar free-riders a costo propio para que la cooperación se dispare y se mantenga. El castigo altruista no es racional en sentido estricto —quien castiga pierde recursos— pero su amenaza sostenida hace posible la cooperación a gran escala sin autoridad central.", "Juego de bienes públicos con y sin opción de castigo costoso: comparar contribuciones promedio, frecuencia de castigo y sostenibilidad de la cooperación a lo largo de las rondas.", "Estarías dispuesto a asumir un costo real para castigar a alguien que engañó al grupo, aunque ya no vayas a interactuar con esa persona nunca más?"],
+  "social-identity": ["Quién soy según a qué grupo pertenezco", "Basta asignar aleatoriamente a las personas a dos grupos sin historia ni diferencias reales para que favorezcan a su grupo en distribución de recursos y evaluación de miembros. Esta tendencia mínima revela que la identidad social no requiere historia compartida: basta la categoría. El mPFC representa el self grupal con los mismos recursos que el self individual.", "Paradigma del grupo mínimo simplificado: asignación aleatoria y distribución de puntos. ¿El favoritismo aparece incluso cuando sabes que los grupos son arbitrarios?", "Si sabes que fuiste asignado aleatoriamente a un grupo, sigue importando psicológicamente pertenecer a él?"],
+  "damasio-self": ["El yo que emerge del cuerpo", "Damasio propone que el self no es una entidad fija sino un proceso que el cerebro construye momento a momento mapeando el estado del cuerpo. Las emociones corporales —marcadores somáticos— guían decisiones complejas cuando la razón sola no alcanza. Pacientes con lesión en vmPFC toman decisiones desastrosas en la vida real pese a razonar correctamente en abstracto.", "Discutir el experimento de la Iowa Gambling Task: pacientes vmPFC continúan eligiendo mazos desventajosos incluso cuando pueden explicar verbalmente cuáles son malos. ¿Qué revela eso sobre el rol del cuerpo en la decisión?", "Tomar buenas decisiones en la vida real requiere sentir, no solo razonar?"]
 };
 
 const themeDeepExtrasEn = {
