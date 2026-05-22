@@ -1145,8 +1145,8 @@ dd {
   }
 
   .viewer {
-    height: 100%;
     min-height: 0;
+    align-self: stretch;
   }
 
   .panel {
@@ -1290,9 +1290,9 @@ dd {
   }
 
   .viewer {
-    height: 100%;
     min-height: 0;
     max-height: none;
+    align-self: stretch;
   }
 
   .legend {

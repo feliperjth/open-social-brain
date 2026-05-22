@@ -790,6 +790,72 @@ const regionSections = [
     experiment: "Juicios sobre intención o emoción ajena con rating de confianza, feedback posterior y actualización de la interpretación.",
     handbook: "Referencia: Metacognición: las diferentes vertientes de una teoría; Social Cognition; Cognitive control.",
     regions: ["dlpfc", "acc", "dmn", "parietal", "vmPfc", "hippocampus"]
+  },
+  {
+    id: "emotion-recognition",
+    icon: "EF",
+    title: "Reconocimiento emocional facial",
+    hint: "Expresiones, amígdala, valencia y universalidad",
+    description: "Agrupa los sistemas que extraen información emocional desde la cara: desde el procesamiento visual de rasgos hasta la identificación de miedo, alegría, asco, tristeza, sorpresa e ira. Participan corteza visual, giro fusiforme, amígdala y TPJ.",
+    guide: "Es el punto de entrada más natural para neurociencia social: cómo una expresión física se convierte en señal afectiva. Permite discutir universalidad versus cultura, rapidez del proceso y vulnerabilidad del reconocimiento emocional.",
+    experiment: "Clasificación de expresiones básicas con variación de intensidad y tiempo de exposición; efecto de inversión facial sobre reconocimiento emocional.",
+    handbook: "Ref: Ekman (1992); Gazzaniga cap. 13; Oxford Handbook 'Emotion Recognition'. Cacioppo & Decety (2011).",
+    regions: ["fusiformFace", "amygdala", "visual", "ventralAttention", "salience"]
+  },
+  {
+    id: "emotional-contagion",
+    icon: "CE",
+    title: "Contagio emocional",
+    hint: "Resonancia primitiva, mímica involuntaria y sincronía afectiva",
+    description: "El contagio emocional es la tendencia a imitar y sincronizar expresiones y estado afectivo de otras personas sin inferencia explícita. Es más primitivo que la empatía y opera involuntariamente. Participan sistemas premotores, ínsula y amígdala.",
+    guide: "Permite distinguir tres niveles: contagio (automático), empatía afectiva (consciente) y compasión (regulada). Clave para comprender contagio en grupos, redes sociales y comunicación no verbal.",
+    experiment: "Presentar expresiones faciales breves (< 100 ms) y registrar mímica o respuesta emocional subjetiva; comparar con mentalización explícita.",
+    handbook: "Ref: Hatfield, Cacioppo & Rapson (1993); Empathy bodyssence.pdf; Oxford Handbook 'Mirror Neuron System'.",
+    regions: ["premotor", "insula", "amygdala", "salience", "acc"]
+  },
+  {
+    id: "moral-dilemmas",
+    icon: "DM",
+    title: "Dilemas morales y juicio dual",
+    hint: "Emoción versus deliberación, trolley problem, vmPFC y DLPFC",
+    description: "Los dilemas morales activan un conflicto entre respuestas emocionales rápidas (vmPFC, amígdala) y evaluación deliberada de consecuencias (DLPFC, cíngulo). El modelo dual de Greene muestra que los dilemas personales generan mayor activación emocional que los impersonales.",
+    guide: "Permite concretar la neurociencia del juicio moral: cuándo domina la emoción, cuándo la deliberación y cómo el cerebro resuelve el conflicto. Útil para ética aplicada y psicología moral.",
+    experiment: "Dilemas de tranvía (impersonal) versus pasarela (personal): registrar respuesta, tiempo de decisión y justificación. Comparar dilemas con contacto físico versus indirecto.",
+    handbook: "Ref: Greene et al. (2001) Science; Handbook of Moral Development (Smetana & Killen).pdf; Gazzaniga cap. moral.",
+    regions: ["vmPfc", "dlpfc", "acc", "amygdala", "dmn"]
+  },
+  {
+    id: "social-preferences",
+    icon: "PI",
+    title: "Preferencias sociales y aversión a la inequidad",
+    hint: "Fairness, ultimátum, reciprocidad y utilidad social",
+    description: "Los humanos no solo maximizan beneficio propio: también valoran equidad, reciprocidad e impacto en otros. La aversión a la inequidad muestra que rechazamos repartos injustos incluso a coste propio. Participan vmPFC, ínsula, DLPFC y estriado.",
+    guide: "Permite ir más allá del homo economicus: el cerebro calcula utilidad social, no solo ganancia propia. Clave para discutir cooperación, altruismo, castigo altruista y dilemas sociales.",
+    experiment: "Juego del ultimátum: proponer y responder a repartos justos/injustos. Registrar tasa de rechazo, tiempo y cambio cuando el otro es amigo o desconocido.",
+    handbook: "Ref: Fehr & Gächter (2000); Gintis et al. (2005) Moral Sentiments.pdf; Glimcher (2003).pdf.",
+    regions: ["vmPfc", "insula", "dlpfc", "acc", "thalamostriatal"]
+  },
+  {
+    id: "humor-irony",
+    icon: "HI",
+    title: "Humor, ironía y lenguaje no literal",
+    hint: "ToM en discurso, TPJ, incongruencia y sorpresa",
+    description: "El humor y la ironía requieren detectar incongruencia e inferir la intención real del hablante más allá de lo literal. Dependen de la teoría de la mente aplicada al lenguaje: entender que el hablante dice lo contrario de lo que cree. Participan TPJ, DLPFC y áreas frontales.",
+    guide: "Uno de los mejores ejemplos de ToM cotidiana: entender un chiste requiere modelar el estado mental del hablante en tiempo real. Permite discutir diferencias culturales y déficits en autismo o lesiones frontales.",
+    experiment: "Completar historias con final chistoso, irónico o neutro; registrar tiempo de respuesta y errores. Comparar comprensión literal versus inferida.",
+    handbook: "Ref: Gazzaniga cap. lenguaje y cognición social; Oxford Handbook 'Hearing Voices'; 'Theory of Mind'.",
+    regions: ["ventralAttention", "dmn", "dlpfc", "vmPfc", "auditory"]
+  },
+  {
+    id: "oxytocin-bonding",
+    icon: "OX",
+    title: "Oxitocina y neurobiología del vínculo",
+    hint: "Confianza, apego, par-bonding y hormona social",
+    description: "La oxitocina y la vasopresina regulan apego, confianza, cuidado y reconocimiento social. El sistema oxitocinérgico, desde el hipotálamo al estriado, amígdala e hipocampo, traduce señales sociales positivas en motivación de acercamiento y mantenimiento de vínculo.",
+    guide: "Permite explicar la neurobiología del amor y apego con evidencia animal (voles de pradera) y humana. Discutir por qué el contacto físico, la confianza y la cercanía tienen efectos fisiológicos medibles.",
+    experiment: "Trust game clásico: discutir estudios con oxitocina intranasal versus placebo (Kosfeld et al. 2005). Registrar confianza percibida ante interacciones cálidas versus frías.",
+    handbook: "Ref: Insel & Young (2001); Pinel Biopsicología.pdf; Damasio El extraño orden.pdf; Oxford Handbook 'Social Bonding'.",
+    regions: ["thalamostriatal", "vmPfc", "amygdala", "hippocampus", "insula"]
   }
 ];
 
@@ -800,7 +866,7 @@ const socialThemeGroups = [
     title: "Percepción social",
     hint: "Rostros, mirada, identidad, perspectiva e impresión",
     description: "Reúne funciones que permiten extraer significado social desde rostros, mirada, señales corporales, perspectiva y reputación.",
-    themes: ["person-perception", "first-impressions", "joint-attention-gaze", "perspective-taking", "reputation-impression"]
+    themes: ["person-perception", "first-impressions", "emotion-recognition", "joint-attention-gaze", "perspective-taking", "reputation-impression"]
   },
   {
     id: "social-emotions",
@@ -808,7 +874,7 @@ const socialThemeGroups = [
     title: "Emociones Sociales",
     hint: "Cuerpo, empatía, rabia, vergüenza, culpa y orgullo",
     description: "Agrupa funciones afectivas que dan significado corporal y relacional a la interacción social: empatía, rabia, vergüenza, culpa, orgullo, reparación, indignación, cuerpo compartido, rechazo y compasión.",
-    themes: ["emotion-empathy", "empathy-compassion", "social-anger", "shame-social", "guilt-repair", "social-pride", "social-repair", "moral-indignation", "affective-mentalizing", "intercorporeality-interaffectivity", "rejection-exclusion"]
+    themes: ["emotion-empathy", "empathy-compassion", "emotional-contagion", "social-anger", "shame-social", "guilt-repair", "social-pride", "social-repair", "moral-indignation", "affective-mentalizing", "intercorporeality-interaffectivity", "rejection-exclusion"]
   },
   {
     id: "social-communication",
@@ -816,7 +882,7 @@ const socialThemeGroups = [
     title: "Comunicación Social",
     hint: "Lenguaje pragmático, prosodia, sincronía y salud social",
     description: "Organiza funciones de intercambio comunicativo: intención verbal, prosodia, coordinación interpersonal y señales de apoyo o amenaza.",
-    themes: ["pragmatic-language", "communication-health", "interpersonal-synchrony"]
+    themes: ["pragmatic-language", "humor-irony", "communication-health", "interpersonal-synchrony"]
   },
   {
     id: "social-learning",
@@ -832,7 +898,7 @@ const socialThemeGroups = [
     title: "Control: normas sociales y moral",
     hint: "Regulación, norma, justicia, engaño y reparación",
     description: "Conecta control ejecutivo, normas sociales, juicio moral, justicia, castigo, engaño, perdón y regulación de la conducta apropiada.",
-    themes: ["regulation-control", "moral-ethics", "social-norms-conformity", "fairness-punishment", "deception-trust-violation", "forgiveness-reconciliation"]
+    themes: ["regulation-control", "moral-ethics", "moral-dilemmas", "social-norms-conformity", "fairness-punishment", "deception-trust-violation", "forgiveness-reconciliation"]
   },
   {
     id: "social-decision-rationality",
@@ -840,7 +906,7 @@ const socialThemeGroups = [
     title: "Decisión social y racionalidad",
     hint: "Elección, riesgo, estrategia, sesgos, nudge y decisión colectiva",
     description: "Integra funciones que explican cómo elegimos en contextos sociales: preferencias, riesgo, ambigüedad, interacción estratégica, racionalidad limitada, arquitectura de elección y decisiones colectivas.",
-    themes: ["social-decision-choice", "strategic-interaction", "risk-ambiguity-social", "bounded-rationality-bias", "choice-architecture-nudge", "collective-choice"]
+    themes: ["social-decision-choice", "social-preferences", "strategic-interaction", "risk-ambiguity-social", "bounded-rationality-bias", "choice-architecture-nudge", "collective-choice"]
   },
   {
     id: "bonding-cooperation",
@@ -848,7 +914,7 @@ const socialThemeGroups = [
     title: "Vínculo y Cooperación",
     hint: "Apego, recompensa, altruismo y confianza",
     description: "Presenta las funciones motivacionales que sostienen apego, cooperación, ayuda, confianza, recompensa social y reciprocidad.",
-    themes: ["reward-bonding", "attachment-bond", "altruism-prosocial", "trust-cooperation"]
+    themes: ["reward-bonding", "attachment-bond", "oxytocin-bonding", "altruism-prosocial", "trust-cooperation"]
   },
   {
     id: "group-culture-status",
@@ -3404,7 +3470,13 @@ const themeDeepExtrasEs = {
   "interpersonal-synchrony": ["El ritmo como pegamento social", "Moverse, hablar o respirar en sincronía con otro puede aumentar la sensación de cercanía, afiliación y disposición a cooperar, incluso cuando la sincronía es breve o parcial. Esta función muestra cómo el tiempo compartido crea alineamiento social sin mediación consciente.", "Tapping sincronizado versus asincrónico en parejas, seguido de juego de cooperación; medir diferencia en cooperación y cercanía percibida.", "Moverse en sincronía con alguien genera disposición real a cooperar o solo crea una sensación momentánea de cercanía?"],
   "affective-mentalizing": ["Leer lo que el otro siente", "Mentalizar estados afectivos exige algo más que reconocer emociones en rostros: implica inferir por qué alguien se siente así, qué lo produjo y qué necesita. Esa inferencia integra memoria episódica, teoría de la mente y resonancia afectiva en una tarea social continua.", "Historias sociales con emoción implícita; identificar el estado del personaje, su causa y una respuesta adecuada de quien lo acompaña.", "Podemos comprender genuinamente la emoción de alguien sin haber vivido algo similar?"],
   "intercorporeality-interaffectivity": ["Cuerpos que se afectan mutuamente", "La interacción social no comienza en la mente: comienza en el cuerpo. Postura, tono, ritmo, mirada y gesto se sincronizan y se afectan mutuamente antes de que llegue la interpretación consciente. Este enfoque desafía la idea de que el cerebro social opera como un procesador aislado.", "Comparar comprensión y afecto en conversación cara a cara, solo audio y solo texto; medir diferencias en sincronía, cercanía y malentendidos.", "La interacción cara a cara aporta algo al entendimiento social que el audio o el texto no pueden replicar?"],
-  "social-metacognition": ["Saber cuánto sabemos del otro", "La metacognición social evalúa cuánta confianza tenemos en nuestra lectura de otros, detecta errores en esas inferencias y corrige modelos cuando la retroalimentación lo exige. Sin esta capacidad, las interpretaciones sociales se vuelven rígidas e impermeables a evidencia.", "Juicio de emoción o intención ajena con rating de confianza; comparar calibración antes y después de retroalimentación correctiva.", "Cuándo tenemos exceso de confianza en nuestra lectura de los demás y cuándo la sometemos genuinamente a revisión?"]
+  "social-metacognition": ["Saber cuánto sabemos del otro", "La metacognición social evalúa cuánta confianza tenemos en nuestra lectura de otros, detecta errores en esas inferencias y corrige modelos cuando la retroalimentación lo exige. Sin esta capacidad, las interpretaciones sociales se vuelven rígidas e impermeables a evidencia.", "Juicio de emoción o intención ajena con rating de confianza; comparar calibración antes y después de retroalimentación correctiva.", "Cuándo tenemos exceso de confianza en nuestra lectura de los demás y cuándo la sometemos genuinamente a revisión?"],
+  "emotion-recognition": ["Velocidad y automaticidad del reconocimiento emocional", "El cerebro evalúa una expresión emocional en menos de 200 ms, antes de que sea consciente. La amígdala responde a caras amenazantes incluso sin atención consciente, lo que ilustra que la cognición social opera en múltiples niveles temporales simultáneamente.", "Presentar expresiones con variación de tiempo de exposición (200 ms vs 2 s): registrar precisión y certeza del juicio emocional.", "Una expresión facial puede activar el cerebro social antes de ser vista conscientemente?"],
+  "emotional-contagion": ["La emoción que se propaga sin palabras", "Basta ver una expresión de asco, miedo o alegría para que algo del mismo estado aparezca en el observador. Este contagio involuntario es la base más primitiva de la interacción emocional y explica por qué el estado afectivo de una persona puede transformar el de toda una sala.", "Medir respuesta emocional subjetiva ante expresiones faciales breves, antes de cualquier instrucción de empatizar o mentalizar.", "Cuándo el estado emocional de otro se vuelve propio sin haberlo elegido?"],
+  "moral-dilemmas": ["La emoción en el centro del juicio moral", "Los dilemas morales muestran que el cerebro no tiene un único sistema de juicio: la emoción frena o acelera decisiones que la razón por sí sola resolvería de otra forma. Esto explica inconsistencias morales cotidianas y dilemas reales en medicina, justicia y liderazgo.", "Presentar dilema del tranvía en versiones personal e impersonal: anotar respuesta, tiempo y justificación. Discutir diferencias en grupo.", "Por qué la misma lógica produce respuestas distintas cuando hay contacto físico con la víctima?"],
+  "social-preferences": ["El cerebro también calcula el bienestar ajeno", "Cuando una oferta económica parece injusta, la ínsula se activa como ante una señal de asco. El cerebro no solo computa ganancia propia: también pondera equidad, reciprocidad y la ganancia de otros. Esto revela que la conducta prosocial tiene bases neurales, no solo culturales.", "Juego del ultimátum entre pares: registrar respuesta a reparto justo versus injusto. ¿Qué cambia cuando el otro es amigo, desconocido o cuando hay reputación en juego?", "Preferirías menos dinero para ti con tal de que el reparto sea justo?"],
+  "humor-irony": ["Cuando el cerebro entiende lo que no se dice", "Comprender ironía exige modelar lo que el hablante sabe que tú sabes: una cadena de estados mentales anidados. Esta red es la misma que sostiene la teoría de la mente, lo que explica por qué déficits en ToM afectan la comprensión del humor y el sarcasmo.", "Comparar comprensión de frases literales versus irónicas; registrar tiempo de reacción y errores de interpretación. ¿Cambia con contexto emocional ambiguo?", "Entender un chiste requiere leer la mente del que lo cuenta?"],
+  "oxytocin-bonding": ["La hormona que hace social al cerebro", "La oxitocina no produce amor sin contexto, pero sí amplifica la relevancia de las señales sociales positivas. En voles de pradera, pequeñas diferencias en receptores de oxitocina explican si un animal forma pareja de por vida o no. En humanos, modula confianza, generosidad y reconocimiento de familiares.", "Discutir el experimento de Kosfeld et al. (2005): oxitocina intranasal aumenta transferencia en juego de confianza. ¿Por qué se suspendieron estudios de uso masivo?", "Puede una hormona hacer que confiemos más en desconocidos?"]
 };
 
 const themeDeepExtrasEn = {
@@ -4328,11 +4400,17 @@ function animate() {
   renderer.render(scene, camera);
 }
 
-window.addEventListener("resize", () => {
-  camera.aspect = container.clientWidth / container.clientHeight;
+function applyRendererSize() {
+  const w = container.clientWidth;
+  const h = container.clientHeight;
+  if (!w || !h) return;
+  camera.aspect = w / h;
   camera.updateProjectionMatrix();
-  renderer.setSize(container.clientWidth, container.clientHeight);
-});
+  renderer.setSize(w, h);
+}
+
+new ResizeObserver(applyRendererSize).observe(container);
+window.addEventListener("resize", applyRendererSize);
 
 document.querySelectorAll("[data-lang]").forEach((button) => {
   button.addEventListener("click", () => applyLanguage(button.dataset.lang));
