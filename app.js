@@ -4865,6 +4865,7 @@ window.addEventListener("resize", () => {
 });
 
 applyLanguage("es");
+applyRendererSize();
 setProceduralVisibility(true);
 loadAtlasUrl("./assets/brain_atlas.glb", "brain_atlas.glb");
 centerBrain();
