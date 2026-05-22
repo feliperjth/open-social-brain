@@ -4526,10 +4526,10 @@ function animate() {
   const viewIsLocked = performance.now() < viewLockedUntil;
   if (canAutoRotate && !viewIsLocked) {
     if (importedBrain) {
-      modelRotation.yaw += 0.003;
+      modelRotation.yaw += 0.001;
       applyModelRotation();
     } else {
-      brain.rotation.y += 0.003;
+      brain.rotation.y += 0.001;
     }
   }
   regionMeshes.forEach((mesh, id) => {
