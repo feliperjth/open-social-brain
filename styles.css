@@ -1820,7 +1820,7 @@ dd {
   bottom: 78px;
   left: 14px;
   z-index: 8;
-  width: min(148px, calc(100% - 28px));
+  width: min(230px, calc(100% - 28px));
   padding: 0;
   border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: 10px;
