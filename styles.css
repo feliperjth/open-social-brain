@@ -1822,6 +1822,9 @@ dd {
   z-index: 8;
   width: min(520px, calc(100% - 28px));
   padding: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
   border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: 10px;
   background: #000;
@@ -1864,24 +1867,25 @@ dd {
 }
 
 .davinci-sketch-wrap {
-  width: 100%;
-  height: 90px;
+  width: 120px;
+  flex-shrink: 0;
   overflow: hidden;
   line-height: 0;
 }
 
 .davinci-sketch-img {
   display: block;
-  width: 100%;
-  height: 90px;
+  width: 120px;
+  height: 100%;
   object-fit: cover;
   object-position: center 20%;
 }
 
 .davinci-caption {
-  height: 88px;
+  flex: 1;
+  min-height: 88px;
   overflow: hidden;
-  padding: 10px 12px 12px;
+  padding: 10px 36px 10px 12px;
   box-sizing: border-box;
   background: rgba(6, 8, 11, 0.94);
   backdrop-filter: blur(12px);
