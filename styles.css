@@ -1820,7 +1820,7 @@ dd {
   bottom: 78px;
   left: 14px;
   z-index: 8;
-  width: min(360px, calc(100% - 28px));
+  width: min(440px, calc(100% - 28px));
   padding: 0;
   border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: 10px;
@@ -1875,7 +1875,10 @@ dd {
 }
 
 .davinci-caption {
+  height: 88px;
+  overflow: hidden;
   padding: 10px 12px 12px;
+  box-sizing: border-box;
   background: rgba(6, 8, 11, 0.94);
   backdrop-filter: blur(12px);
 }
