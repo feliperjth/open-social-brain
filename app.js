@@ -4808,36 +4808,49 @@ function restoreFromURL() {
 // ── Da Vinci anatomical overlay ────────────────────────
 const davinciCopy = {
   es: {
-    eyebrow: "Anotación anatómica",
-    sub: "Área de reconocimiento facial",
-    annotation: "Activa identidad facial, expresión y familiaridad en ~170 ms. Responde a caras, cuerpos y objetos de reconocimiento experto a lo largo de la vía ventral temporal.",
-    footerL: "Vía ventral temporal",
-    footerR: "CerebrA · BA 37"
+    eyebrow: "Área Fusiforme · BA 37",
+    annotation: "Reconocimiento facial, expresión e identidad. Vía ventral temporal, activa en ~170 ms."
   },
   en: {
-    eyebrow: "Anatomical note",
-    sub: "Facial recognition area",
-    annotation: "Encodes facial identity, expression and familiarity in ~170 ms. Responds to faces, bodies and expert-category objects along the ventral temporal pathway.",
-    footerL: "Ventral temporal pathway",
-    footerR: "CerebrA · BA 37"
+    eyebrow: "Fusiform Area · BA 37",
+    annotation: "Facial identity, expression and recognition. Ventral temporal pathway, active at ~170 ms."
   }
 };
+
+let _davinciTyperTimer = null;
+
+function _typewriter(el, text, speed, onDone) {
+  el.textContent = '';
+  const cursor = document.createElement('span');
+  cursor.className = 'davinci-cursor';
+  el.appendChild(cursor);
+  let i = 0;
+  const tick = () => {
+    if (i < text.length) {
+      el.insertBefore(document.createTextNode(text[i++]), cursor);
+      _davinciTyperTimer = setTimeout(tick, speed);
+    } else {
+      cursor.remove();
+      if (onDone) onDone();
+    }
+  };
+  tick();
+}
 
 function showDavinciOverlay() {
   const overlay = document.getElementById("davinci-overlay");
   if (!overlay) return;
   const t = davinciCopy[currentLang] ?? davinciCopy.es;
   const eyebrowEl = overlay.querySelector(".davinci-eyebrow");
-  const subEl = overlay.querySelector(".davinci-sub");
-  const annotEl = overlay.querySelector(".davinci-annotation");
-  const footerEls = overlay.querySelectorAll(".davinci-footer span");
-  if (eyebrowEl) eyebrowEl.textContent = t.eyebrow;
-  if (subEl) subEl.textContent = t.sub;
-  if (annotEl) annotEl.textContent = t.annotation;
-  if (footerEls[0]) footerEls[0].textContent = t.footerL;
-  if (footerEls[1]) footerEls[1].textContent = t.footerR;
+  const annotEl   = overlay.querySelector(".davinci-annotation");
   overlay.classList.add("visible");
   overlay.removeAttribute("aria-hidden");
+  if (_davinciTyperTimer) { clearTimeout(_davinciTyperTimer); _davinciTyperTimer = null; }
+  setTimeout(() => {
+    if (eyebrowEl) _typewriter(eyebrowEl, t.eyebrow, 55, () => {
+      if (annotEl) _typewriter(annotEl, t.annotation, 28);
+    });
+  }, 220);
   // Gently pull camera back so brain doesn't crowd the overlay
   const dist = camera.position.length();
   if (!targetCamera && dist < 7.0) {
@@ -4851,6 +4864,7 @@ function showDavinciOverlay() {
 function hideDavinciOverlay() {
   const overlay = document.getElementById("davinci-overlay");
   if (!overlay) return;
+  if (_davinciTyperTimer) { clearTimeout(_davinciTyperTimer); _davinciTyperTimer = null; }
   overlay.classList.remove("visible");
   overlay.setAttribute("aria-hidden", "true");
 }
