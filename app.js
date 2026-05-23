@@ -4187,6 +4187,7 @@ function selectZone(label) {
   renderZoneList();
   updateURL();
   openSheet();
+  showDavinciOverlay(zone);
 }
 
 function updateSelectionHalo(meshes, color) {
@@ -4817,6 +4818,10 @@ const davinciCopy = {
   }
 };
 
+function _zoneImageSlug(name) {
+  return name.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "");
+}
+
 let _davinciTyperTimer = null;
 
 function _typewriter(el, text, speed, onDone) {
@@ -4837,20 +4842,48 @@ function _typewriter(el, text, speed, onDone) {
   tick();
 }
 
-function showDavinciOverlay() {
+function showDavinciOverlay(zone) {
   const overlay = document.getElementById("davinci-overlay");
   if (!overlay) return;
-  const t = davinciCopy[currentLang] ?? davinciCopy.es;
+  const imgEl = overlay.querySelector(".davinci-sketch-img");
   const eyebrowEl = overlay.querySelector(".davinci-eyebrow");
   const annotEl   = overlay.querySelector(".davinci-annotation");
-  overlay.classList.add("visible");
-  overlay.removeAttribute("aria-hidden");
-  if (_davinciTyperTimer) { clearTimeout(_davinciTyperTimer); _davinciTyperTimer = null; }
-  setTimeout(() => {
-    if (eyebrowEl) _typewriter(eyebrowEl, t.eyebrow, 55, () => {
-      if (annotEl) _typewriter(annotEl, t.annotation, 28);
-    });
-  }, 220);
+
+  if (zone) {
+    // Zona anatómica específica
+    const imgSlug = _zoneImageSlug(zone.name);
+    if (imgEl) {
+      imgEl.src = `./Imagenes/zones/${imgSlug}.jpg`;
+      imgEl.alt = zone.displayName;
+    }
+    const eyebrowText = `${zone.displayName} · ${zone.hemisphere === "RH" ? "HD" : "HI"}`;
+    // Usa el texto de función principal ya calculado por selectZone
+    const annotText = document.getElementById("experiment-copy")?.textContent?.trim()
+      || `Región ${zone.group} del atlas CerebrA. Concordancia: ${Math.round(zone.dice * 100)}%.`;
+    overlay.classList.add("visible");
+    overlay.removeAttribute("aria-hidden");
+    if (_davinciTyperTimer) { clearTimeout(_davinciTyperTimer); _davinciTyperTimer = null; }
+    setTimeout(() => {
+      if (eyebrowEl) _typewriter(eyebrowEl, eyebrowText, 45, () => {
+        if (annotEl) _typewriter(annotEl, annotText, 22);
+      });
+    }, 220);
+  } else {
+    // Modo temático (Percepción de personas)
+    const t = davinciCopy[currentLang] ?? davinciCopy.es;
+    if (imgEl) {
+      imgEl.src = "./Imagenes/brain_lateral.jpg";
+      imgEl.alt = "Ilustración anatómica del cerebro — vista lateral";
+    }
+    overlay.classList.add("visible");
+    overlay.removeAttribute("aria-hidden");
+    if (_davinciTyperTimer) { clearTimeout(_davinciTyperTimer); _davinciTyperTimer = null; }
+    setTimeout(() => {
+      if (eyebrowEl) _typewriter(eyebrowEl, t.eyebrow, 55, () => {
+        if (annotEl) _typewriter(annotEl, t.annotation, 28);
+      });
+    }, 220);
+  }
   // Gently pull camera back so brain doesn't crowd the overlay
   const dist = camera.position.length();
   if (!targetCamera && dist < 7.0) {
