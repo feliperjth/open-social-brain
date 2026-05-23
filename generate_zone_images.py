@@ -69,12 +69,13 @@ BRAIN_BOUNDS = {
 # Coronal:        eje horizontal = X (LR),  eje vertical = Z (SI)
 MNI_EXTENTS = {
     # vista:   (h_min, h_max, v_min, v_max)  h=horizontal, v=vertical en imagen
-    # Lateral: h=Y (posterior→izquierda, anterior→derecha), v=Z (inferior→abajo)
-    "lateral":  (-105,  85,   -60,   90),   # h: y_post→left, y_ant→right | v: z_inf, z_sup
-    # Medial:  igual que lateral
-    "medial":   (-105,  85,   -60,   90),
+    # Lateral: h=Y (AP: occipital→izquierda, frontal→derecha), v=Z (SI: inf→abajo, sup→arriba)
+    # Rango real visible en la imagen lateral: y≈-90..+70, z≈-25..+85
+    "lateral":  (-90,   70,   -25,   85),
+    # Medial:  misma orientacion que lateral
+    "medial":   (-90,   70,   -25,   85),
     # Ventral: h=X (izquierda→derecha), v=Y (posterior→abajo)
-    "ventral":  (-80,   80,   -105,  85),   # h: x_left, x_right | v: y_post, y_ant
+    "ventral":  (-80,   80,   -105,  85),
     # Dorsal:  h=X (izquierda→derecha), v=Y (posterior→abajo)
     "dorsal":   (-70,   70,   -105,  85),
     # Coronal: h=X (izquierda→derecha), v=Z (inferior→abajo)
