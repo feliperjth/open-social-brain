@@ -160,6 +160,56 @@
       </aside>
       <div id="brain-tooltip" class="brain-tooltip" aria-hidden="true"></div>
 
+      <!-- Da Vinci anatomical overlay — visible when Percepción de personas is active -->
+      <div id="davinci-overlay" class="davinci-overlay" aria-hidden="true">
+        <button class="davinci-close" id="davinci-close" aria-label="Cerrar anotación anatómica">×</button>
+        <div class="davinci-header">
+          <span class="davinci-eyebrow">Anotación anatómica</span>
+          <h3 class="davinci-heading">Gyrus fusiformis</h3>
+          <p class="davinci-sub">Área de reconocimiento facial</p>
+        </div>
+        <div class="davinci-sketch-wrap">
+          <svg class="davinci-sketch" viewBox="0 0 280 218" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <!-- Outer cortex contour — lateral left hemisphere view -->
+            <path d="M40,125 C30,105 32,72 50,50 C68,34 105,22 145,20 C182,18 214,36 228,65 C240,90 238,125 226,150 C215,170 195,182 170,185 C148,188 125,185 102,178 C85,172 70,162 58,150 C46,140 38,130 40,125Z" stroke="rgba(255,255,255,0.88)" stroke-width="1.6" stroke-linejoin="round"/>
+            <!-- Sylvian / lateral fissure -->
+            <path d="M58,140 C78,146 102,150 130,149 C155,148 178,142 198,136" stroke="rgba(255,255,255,0.60)" stroke-width="1.15" stroke-linecap="round"/>
+            <!-- Central sulcus -->
+            <path d="M140,22 C137,40 134,65 136,92 C138,112 140,126 142,136" stroke="rgba(255,255,255,0.40)" stroke-width="0.9" stroke-linecap="round"/>
+            <!-- Superior frontal sulcus -->
+            <path d="M65,50 C70,64 72,84 70,104 C68,118 65,126 62,134" stroke="rgba(255,255,255,0.28)" stroke-width="0.8" stroke-linecap="round"/>
+            <!-- Inferior frontal sulcus (Broca area region) -->
+            <path d="M80,90 C88,95 92,106 90,116 C88,123 84,127 80,129" stroke="rgba(255,255,255,0.22)" stroke-width="0.75" stroke-linecap="round"/>
+            <!-- Intraparietal sulcus -->
+            <path d="M165,32 C170,48 176,70 178,94 C178,112 175,124 172,136" stroke="rgba(255,255,255,0.30)" stroke-width="0.85" stroke-linecap="round"/>
+            <!-- Parieto-occipital sulcus -->
+            <path d="M210,72 C213,90 214,112 210,132" stroke="rgba(255,255,255,0.26)" stroke-width="0.8" stroke-linecap="round"/>
+            <!-- Superior temporal sulcus -->
+            <path d="M78,152 C98,158 122,160 150,157 C172,154 192,148 210,142" stroke="rgba(255,255,255,0.36)" stroke-width="0.85" stroke-linecap="round"/>
+            <!-- Inferior temporal / fusiform border -->
+            <path d="M85,168 C105,175 130,180 155,179 C175,178 192,172 208,165" stroke="rgba(255,255,255,0.26)" stroke-width="0.75" stroke-linecap="round"/>
+            <!-- Fusiform face area — dashed annotation ellipse -->
+            <ellipse cx="145" cy="178" rx="21" ry="5" stroke="rgba(255,255,255,0.94)" stroke-width="1.3" stroke-dasharray="4,2.5" fill="rgba(255,255,255,0.06)"/>
+            <!-- Center dot on fusiform -->
+            <circle cx="145" cy="178" r="1.8" fill="rgba(255,255,255,0.92)"/>
+            <!-- Leader line down to label -->
+            <line x1="145" y1="183" x2="145" y2="202" stroke="rgba(255,255,255,0.52)" stroke-width="0.85"/>
+            <!-- Lobe labels — Latin, language-neutral -->
+            <text x="56" y="86" font-family="Georgia,'Times New Roman',serif" font-size="7.5" fill="rgba(255,255,255,0.38)" font-style="italic">frontal</text>
+            <text x="158" y="55" font-family="Georgia,'Times New Roman',serif" font-size="7.5" fill="rgba(255,255,255,0.38)" font-style="italic">parietal</text>
+            <text x="225" y="118" font-family="Georgia,'Times New Roman',serif" font-size="7.5" fill="rgba(255,255,255,0.38)" font-style="italic">occip.</text>
+            <text x="92" y="164" font-family="Georgia,'Times New Roman',serif" font-size="7.5" fill="rgba(255,255,255,0.38)" font-style="italic">temporal</text>
+            <!-- Fusiform annotation label -->
+            <text x="140" y="213" font-family="Georgia,'Times New Roman',serif" font-size="8.5" fill="rgba(255,255,255,0.86)" font-style="italic" text-anchor="middle">Gyrus fusiformis · FFA</text>
+          </svg>
+        </div>
+        <p class="davinci-annotation">Activa identidad facial, expresión y familiaridad en ~170 ms. Responde a caras, cuerpos y objetos de reconocimiento experto a lo largo de la vía ventral temporal.</p>
+        <footer class="davinci-footer">
+          <span>Vía ventral temporal</span>
+          <span>CerebrA · BA 37</span>
+        </footer>
+      </div>
+
       <div id="about-overlay" class="about-overlay" aria-hidden="true">
         <div class="about-modal" role="dialog" aria-labelledby="about-modal-title">
           <button id="about-close" class="about-close" type="button" aria-label="Cerrar">×</button>

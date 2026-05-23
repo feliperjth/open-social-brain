@@ -1813,3 +1813,126 @@ dd {
     display: none;
   }
 }
+
+/* ── Da Vinci anatomical overlay ─────────────────────── */
+.davinci-overlay {
+  position: absolute;
+  bottom: 78px;
+  left: 14px;
+  z-index: 8;
+  width: min(296px, calc(100% - 28px));
+  padding: 14px 16px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 14px;
+  background: rgba(6, 8, 11, 0.92);
+  backdrop-filter: blur(20px);
+  color: rgba(255, 255, 255, 0.85);
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+  transition: opacity 380ms cubic-bezier(0.16, 1, 0.3, 1), transform 380ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.davinci-overlay.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.davinci-close {
+  position: absolute;
+  top: 9px;
+  right: 10px;
+  width: 22px;
+  min-height: 22px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.92rem;
+  line-height: 22px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.davinci-close:hover {
+  background: rgba(255, 255, 255, 0.13);
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.davinci-header {
+  margin-bottom: 10px;
+  padding-right: 26px;
+}
+
+.davinci-eyebrow {
+  display: block;
+  margin: 0 0 2px;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.36);
+}
+
+.davinci-heading {
+  margin: 0;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 1rem;
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.2;
+  color: rgba(255, 255, 255, 0.94);
+}
+
+.davinci-sub {
+  margin: 3px 0 0;
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.46);
+}
+
+.davinci-sketch-wrap {
+  margin: 10px -4px 8px;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.015);
+  overflow: hidden;
+}
+
+.davinci-sketch {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.davinci-annotation {
+  margin: 0 0 8px;
+  font-size: 0.71rem;
+  line-height: 1.50;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.davinci-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  font-size: 0.6rem;
+  color: rgba(255, 255, 255, 0.26);
+}
+
+@media (max-width: 940px) {
+  .davinci-overlay {
+    bottom: 122px;
+  }
+}
+
+@media (max-width: 560px) {
+  .davinci-overlay {
+    bottom: 122px;
+    left: 10px;
+    padding: 12px 13px 10px;
+  }
+}

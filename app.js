@@ -3939,6 +3939,7 @@ function clearSelectionDisplay(options = {}) {
   const { updateCopy = true } = options;
   selectionMode = "none";
   selectedZoneLabel = null;
+  hideDavinciOverlay();
 
   document.querySelectorAll("[data-region]").forEach((button) => button.classList.remove("active"));
 
@@ -4036,6 +4037,8 @@ function selectTheme(sectionId, options = {}) {
   updateSelectionHalo(selectedAtlasMeshes, 0x55c2b7);
   setMedialCut(medialHemisphere);
   renderZoneList();
+  if (sectionId === "person-perception") showDavinciOverlay();
+  else hideDavinciOverlay();
   resetTask();
   updateURL();
   openSheet();
@@ -4044,6 +4047,7 @@ function selectTheme(sectionId, options = {}) {
 function selectRegion(id, options = {}) {
   const { revealMenu = true } = options;
   selectionMode = "region";
+  hideDavinciOverlay();
   selected = regions.find((region) => region.id === id) ?? regions[0];
   const selectedCopy = getRegionCopy(selected);
   selectedZoneLabel = null;
@@ -4800,6 +4804,58 @@ function restoreFromURL() {
   const theme = params.get("theme");
   if (theme) selectTheme(theme);
 }
+
+// ── Da Vinci anatomical overlay ────────────────────────
+const davinciCopy = {
+  es: {
+    eyebrow: "Anotación anatómica",
+    sub: "Área de reconocimiento facial",
+    annotation: "Activa identidad facial, expresión y familiaridad en ~170 ms. Responde a caras, cuerpos y objetos de reconocimiento experto a lo largo de la vía ventral temporal.",
+    footerL: "Vía ventral temporal",
+    footerR: "CerebrA · BA 37"
+  },
+  en: {
+    eyebrow: "Anatomical note",
+    sub: "Facial recognition area",
+    annotation: "Encodes facial identity, expression and familiarity in ~170 ms. Responds to faces, bodies and expert-category objects along the ventral temporal pathway.",
+    footerL: "Ventral temporal pathway",
+    footerR: "CerebrA · BA 37"
+  }
+};
+
+function showDavinciOverlay() {
+  const overlay = document.getElementById("davinci-overlay");
+  if (!overlay) return;
+  const t = davinciCopy[currentLang] ?? davinciCopy.es;
+  const eyebrowEl = overlay.querySelector(".davinci-eyebrow");
+  const subEl = overlay.querySelector(".davinci-sub");
+  const annotEl = overlay.querySelector(".davinci-annotation");
+  const footerEls = overlay.querySelectorAll(".davinci-footer span");
+  if (eyebrowEl) eyebrowEl.textContent = t.eyebrow;
+  if (subEl) subEl.textContent = t.sub;
+  if (annotEl) annotEl.textContent = t.annotation;
+  if (footerEls[0]) footerEls[0].textContent = t.footerL;
+  if (footerEls[1]) footerEls[1].textContent = t.footerR;
+  overlay.classList.add("visible");
+  overlay.removeAttribute("aria-hidden");
+  // Gently pull camera back so brain doesn't crowd the overlay
+  const dist = camera.position.length();
+  if (!targetCamera && dist < 7.0) {
+    targetCamera = {
+      position: camera.position.clone().normalize().multiplyScalar(dist * 1.20),
+      target: controls.target.clone()
+    };
+  }
+}
+
+function hideDavinciOverlay() {
+  const overlay = document.getElementById("davinci-overlay");
+  if (!overlay) return;
+  overlay.classList.remove("visible");
+  overlay.setAttribute("aria-hidden", "true");
+}
+
+document.getElementById("davinci-close")?.addEventListener("click", hideDavinciOverlay);
 
 const aboutOverlay = document.querySelector("#about-overlay");
 const aboutBtn = document.querySelector("#about-btn");
