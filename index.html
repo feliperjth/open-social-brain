@@ -169,38 +169,126 @@
           <p class="davinci-sub">Área de reconocimiento facial</p>
         </div>
         <div class="davinci-sketch-wrap">
-          <svg class="davinci-sketch" viewBox="0 0 280 218" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <!-- Outer cortex contour — lateral left hemisphere view -->
-            <path d="M40,125 C30,105 32,72 50,50 C68,34 105,22 145,20 C182,18 214,36 228,65 C240,90 238,125 226,150 C215,170 195,182 170,185 C148,188 125,185 102,178 C85,172 70,162 58,150 C46,140 38,130 40,125Z" stroke="rgba(255,255,255,0.88)" stroke-width="1.6" stroke-linejoin="round"/>
-            <!-- Sylvian / lateral fissure -->
-            <path d="M58,140 C78,146 102,150 130,149 C155,148 178,142 198,136" stroke="rgba(255,255,255,0.60)" stroke-width="1.15" stroke-linecap="round"/>
-            <!-- Central sulcus -->
-            <path d="M140,22 C137,40 134,65 136,92 C138,112 140,126 142,136" stroke="rgba(255,255,255,0.40)" stroke-width="0.9" stroke-linecap="round"/>
-            <!-- Superior frontal sulcus -->
-            <path d="M65,50 C70,64 72,84 70,104 C68,118 65,126 62,134" stroke="rgba(255,255,255,0.28)" stroke-width="0.8" stroke-linecap="round"/>
-            <!-- Inferior frontal sulcus (Broca area region) -->
-            <path d="M80,90 C88,95 92,106 90,116 C88,123 84,127 80,129" stroke="rgba(255,255,255,0.22)" stroke-width="0.75" stroke-linecap="round"/>
-            <!-- Intraparietal sulcus -->
-            <path d="M165,32 C170,48 176,70 178,94 C178,112 175,124 172,136" stroke="rgba(255,255,255,0.30)" stroke-width="0.85" stroke-linecap="round"/>
-            <!-- Parieto-occipital sulcus -->
-            <path d="M210,72 C213,90 214,112 210,132" stroke="rgba(255,255,255,0.26)" stroke-width="0.8" stroke-linecap="round"/>
-            <!-- Superior temporal sulcus -->
-            <path d="M78,152 C98,158 122,160 150,157 C172,154 192,148 210,142" stroke="rgba(255,255,255,0.36)" stroke-width="0.85" stroke-linecap="round"/>
-            <!-- Inferior temporal / fusiform border -->
-            <path d="M85,168 C105,175 130,180 155,179 C175,178 192,172 208,165" stroke="rgba(255,255,255,0.26)" stroke-width="0.75" stroke-linecap="round"/>
-            <!-- Fusiform face area — dashed annotation ellipse -->
-            <ellipse cx="145" cy="178" rx="21" ry="5" stroke="rgba(255,255,255,0.94)" stroke-width="1.3" stroke-dasharray="4,2.5" fill="rgba(255,255,255,0.06)"/>
-            <!-- Center dot on fusiform -->
-            <circle cx="145" cy="178" r="1.8" fill="rgba(255,255,255,0.92)"/>
-            <!-- Leader line down to label -->
-            <line x1="145" y1="183" x2="145" y2="202" stroke="rgba(255,255,255,0.52)" stroke-width="0.85"/>
-            <!-- Lobe labels — Latin, language-neutral -->
-            <text x="56" y="86" font-family="Georgia,'Times New Roman',serif" font-size="7.5" fill="rgba(255,255,255,0.38)" font-style="italic">frontal</text>
-            <text x="158" y="55" font-family="Georgia,'Times New Roman',serif" font-size="7.5" fill="rgba(255,255,255,0.38)" font-style="italic">parietal</text>
-            <text x="225" y="118" font-family="Georgia,'Times New Roman',serif" font-size="7.5" fill="rgba(255,255,255,0.38)" font-style="italic">occip.</text>
-            <text x="92" y="164" font-family="Georgia,'Times New Roman',serif" font-size="7.5" fill="rgba(255,255,255,0.38)" font-style="italic">temporal</text>
-            <!-- Fusiform annotation label -->
-            <text x="140" y="213" font-family="Georgia,'Times New Roman',serif" font-size="8.5" fill="rgba(255,255,255,0.86)" font-style="italic" text-anchor="middle">Gyrus fusiformis · FFA</text>
+          <svg class="davinci-sketch" viewBox="0 0 330 268" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <!-- ── OUTER BRAIN CONTOUR ───────────────────────── -->
+            <path d="M42,128 C30,108 32,72 50,48 C70,28 108,18 148,16 C188,14 220,32 238,60 C254,86 256,120 248,148 C240,172 224,186 204,192 C186,198 166,196 148,192 C128,188 110,180 94,172 C78,164 66,154 58,144 C50,136 44,130 42,128Z" stroke="rgba(255,255,255,0.90)" stroke-width="1.75" stroke-linejoin="round"/>
+            <!-- ── SYLVIAN / LATERAL FISSURE (horizontal) ──────── -->
+            <path d="M60,140 C80,148 105,153 133,152 C158,151 182,145 202,137" stroke="rgba(255,255,255,0.72)" stroke-width="1.45" stroke-linecap="round"/>
+            <path d="M72,145 C92,152 116,156 140,155 C162,154 182,149 200,141" stroke="rgba(255,255,255,0.24)" stroke-width="0.62" stroke-dasharray="2.5,3" stroke-linecap="round"/>
+            <!-- ── FRONTAL LOBE — sulci run oblique upper-right ── -->
+            <!-- Superior frontal sulcus (SFS): -->
+            <path d="M50,78 C82,66 112,58 130,55" stroke="rgba(255,255,255,0.55)" stroke-width="1.12" stroke-linecap="round"/>
+            <!-- SFG surface lines (above SFS, 2 lines): -->
+            <path d="M46,62 C78,50 108,44 130,42" stroke="rgba(255,255,255,0.30)" stroke-width="0.65" stroke-linecap="round"/>
+            <path d="M47,70 C80,58 110,52 130,49" stroke="rgba(255,255,255,0.24)" stroke-width="0.60" stroke-linecap="round"/>
+            <!-- Middle frontal sulcus (MFS): -->
+            <path d="M56,106 C88,96 118,91 130,89" stroke="rgba(255,255,255,0.50)" stroke-width="1.08" stroke-linecap="round"/>
+            <!-- MFG surface lines (between SFS and MFS, 2 lines): -->
+            <path d="M50,88 C84,76 114,70 130,68" stroke="rgba(255,255,255,0.26)" stroke-width="0.62" stroke-linecap="round"/>
+            <path d="M52,97 C86,85 116,79 130,78" stroke="rgba(255,255,255,0.21)" stroke-width="0.58" stroke-linecap="round"/>
+            <!-- Inferior frontal sulcus (IFS): -->
+            <path d="M62,126 C92,119 120,115 130,114" stroke="rgba(255,255,255,0.45)" stroke-width="1.05" stroke-linecap="round"/>
+            <!-- IFG surface lines (between MFS and IFS, 2 lines): -->
+            <path d="M54,113 C88,104 118,99 130,97" stroke="rgba(255,255,255,0.23)" stroke-width="0.60" stroke-linecap="round"/>
+            <path d="M56,120 C90,111 120,106 130,105" stroke="rgba(255,255,255,0.19)" stroke-width="0.55" stroke-linecap="round"/>
+            <!-- IFG operculum strip (IFS → Sylvian): -->
+            <path d="M63,132 C92,127 120,124 130,123" stroke="rgba(255,255,255,0.17)" stroke-width="0.52" stroke-linecap="round"/>
+            <!-- ── PRECENTRAL SULCUS (vertical) ────────────────── -->
+            <path d="M130,18 C130,36 132,60 134,85 C135,108 136,126 137,140" stroke="rgba(255,255,255,0.48)" stroke-width="1.05" stroke-linecap="round"/>
+            <!-- Precentral gyrus fine lines (vertical, 3 lines): -->
+            <path d="M135,17 C135,35 136,59 137,84 C138,107 139,125 140,140" stroke="rgba(255,255,255,0.26)" stroke-width="0.63" stroke-linecap="round"/>
+            <path d="M139,16 C139,34 140,58 141,83 C142,106 143,124 144,140" stroke="rgba(255,255,255,0.21)" stroke-width="0.58" stroke-linecap="round"/>
+            <path d="M143,16 C143,34 144,58 145,83 C146,106 147,124 148,140" stroke="rgba(255,255,255,0.17)" stroke-width="0.53" stroke-linecap="round"/>
+            <!-- ── CENTRAL SULCUS (vertical) ───────────────────── -->
+            <path d="M148,16 C146,34 144,58 145,82 C146,104 148,122 150,140" stroke="rgba(255,255,255,0.62)" stroke-width="1.25" stroke-linecap="round"/>
+            <!-- ── POSTCENTRAL SULCUS (vertical) ──────────────── -->
+            <path d="M158,18 C157,36 157,60 158,84 C159,106 161,124 163,140" stroke="rgba(255,255,255,0.52)" stroke-width="1.10" stroke-linecap="round"/>
+            <!-- Postcentral gyrus lines (vertical, 2 lines): -->
+            <path d="M152,17 C151,35 150,59 151,83 C152,105 154,123 156,141" stroke="rgba(255,255,255,0.24)" stroke-width="0.62" stroke-linecap="round"/>
+            <path d="M155,17 C154,35 153,59 154,83 C155,105 157,123 159,141" stroke="rgba(255,255,255,0.20)" stroke-width="0.57" stroke-linecap="round"/>
+            <!-- ── PARIETAL LOBE ────────────────────────────────── -->
+            <!-- Intraparietal sulcus (oblique, runs backward-upward): -->
+            <path d="M162,78 C180,70 200,64 222,62" stroke="rgba(255,255,255,0.52)" stroke-width="1.10" stroke-linecap="round"/>
+            <!-- Superior parietal lobule lines (above IPS, 2 lines): -->
+            <path d="M162,62 C180,55 200,50 222,48" stroke="rgba(255,255,255,0.26)" stroke-width="0.63" stroke-linecap="round"/>
+            <path d="M162,70 C180,62 200,57 222,55" stroke="rgba(255,255,255,0.21)" stroke-width="0.57" stroke-linecap="round"/>
+            <!-- Inferior parietal lobule (below IPS — 6 oblique lines): -->
+            <path d="M164,92 C182,84 202,78 222,76" stroke="rgba(255,255,255,0.38)" stroke-width="0.88" stroke-linecap="round"/>
+            <path d="M166,102 C184,94 204,88 222,86" stroke="rgba(255,255,255,0.28)" stroke-width="0.68" stroke-linecap="round"/>
+            <path d="M168,112 C186,104 204,98 220,96" stroke="rgba(255,255,255,0.24)" stroke-width="0.62" stroke-linecap="round"/>
+            <path d="M170,122 C188,114 205,108 218,106" stroke="rgba(255,255,255,0.20)" stroke-width="0.57" stroke-linecap="round"/>
+            <path d="M172,131 C188,124 204,119 215,117" stroke="rgba(255,255,255,0.17)" stroke-width="0.53" stroke-linecap="round"/>
+            <path d="M174,139 C190,133 204,129 213,127" stroke="rgba(255,255,255,0.15)" stroke-width="0.50" stroke-linecap="round"/>
+            <!-- ── PARIETO-OCCIPITAL SULCUS ─────────────────────── -->
+            <path d="M220,38 C224,56 226,80 224,104 C222,122 218,136 214,147" stroke="rgba(255,255,255,0.55)" stroke-width="1.15" stroke-linecap="round"/>
+            <!-- ── OCCIPITAL LOBE ───────────────────────────────── -->
+            <path d="M232,68 C236,86 238,108 236,126 C234,140 230,150 226,157" stroke="rgba(255,255,255,0.45)" stroke-width="1.00" stroke-linecap="round"/>
+            <path d="M240,92 C244,110 244,128 242,144 C240,154 236,162 232,166" stroke="rgba(255,255,255,0.38)" stroke-width="0.90" stroke-linecap="round"/>
+            <path d="M244,118 C246,132 244,146 242,156 C240,162 236,166 232,169" stroke="rgba(255,255,255,0.30)" stroke-width="0.82" stroke-linecap="round"/>
+            <path d="M226,42 C230,60 232,82 230,104 C228,120 224,132 220,142" stroke="rgba(255,255,255,0.23)" stroke-width="0.60" stroke-linecap="round"/>
+            <path d="M228,52 C232,70 234,92 232,114 C230,130 226,142 222,150" stroke="rgba(255,255,255,0.19)" stroke-width="0.56" stroke-linecap="round"/>
+            <path d="M236,80 C240,98 240,116 238,132 C236,144 232,152 228,158" stroke="rgba(255,255,255,0.18)" stroke-width="0.53" stroke-linecap="round"/>
+            <path d="M242,108 C244,124 244,140 241,152 C239,160 235,164 231,167" stroke="rgba(255,255,255,0.16)" stroke-width="0.50" stroke-linecap="round"/>
+            <!-- ── TEMPORAL LOBE (horizontal sulci) ───────────── -->
+            <!-- Superior temporal sulcus (STS) + 2 STG lines: -->
+            <path d="M70,155 C90,161 116,165 145,163 C170,161 193,156 212,148" stroke="rgba(255,255,255,0.55)" stroke-width="1.15" stroke-linecap="round"/>
+            <path d="M66,148 C85,154 110,158 138,156 C163,154 186,148 204,141" stroke="rgba(255,255,255,0.20)" stroke-width="0.56" stroke-linecap="round"/>
+            <path d="M63,145 C82,151 106,155 134,153 C158,151 180,145 200,138" stroke="rgba(255,255,255,0.16)" stroke-width="0.52" stroke-linecap="round"/>
+            <!-- Middle temporal sulcus (MTS) + 2 MTG lines: -->
+            <path d="M77,164 C96,170 120,174 148,172 C172,170 195,164 212,157" stroke="rgba(255,255,255,0.45)" stroke-width="1.00" stroke-linecap="round"/>
+            <path d="M73,160 C92,166 116,170 145,168 C170,166 193,160 211,153" stroke="rgba(255,255,255,0.19)" stroke-width="0.55" stroke-linecap="round"/>
+            <path d="M80,167 C98,173 122,177 148,175 C172,173 195,167 211,160" stroke="rgba(255,255,255,0.16)" stroke-width="0.51" stroke-linecap="round"/>
+            <!-- Inferior temporal sulcus (ITS) + 2 ITG lines: -->
+            <path d="M88,173 C106,178 128,182 148,180 C170,178 194,172 210,165" stroke="rgba(255,255,255,0.38)" stroke-width="0.90" stroke-linecap="round"/>
+            <path d="M92,177 C110,182 130,185 148,183 C168,181 192,175 209,168" stroke="rgba(255,255,255,0.17)" stroke-width="0.51" stroke-linecap="round"/>
+            <path d="M100,181 C116,185 136,188 152,186 C170,184 192,178 208,171" stroke="rgba(255,255,255,0.14)" stroke-width="0.48" stroke-linecap="round"/>
+            <!-- ── CEREBELLUM ───────────────────────────────────── -->
+            <path d="M192,170 C202,162 218,158 235,158 C252,158 264,165 270,176 C276,188 274,204 266,216 C258,228 244,236 228,238 C212,240 198,234 190,222 C182,210 182,196 188,184 C190,178 192,174 192,170Z" stroke="rgba(255,255,255,0.84)" stroke-width="1.45" stroke-linejoin="round"/>
+            <!-- Primary fissure (main division): -->
+            <path d="M188,196 C200,192 216,190 232,190 C248,190 262,194 270,200" stroke="rgba(255,255,255,0.58)" stroke-width="1.05" stroke-linecap="round"/>
+            <!-- Anterior lobe folds (5 fine lines): -->
+            <path d="M191,172 C203,167 218,165 234,165 C250,165 264,170 271,178" stroke="rgba(255,255,255,0.30)" stroke-width="0.60" stroke-linecap="round"/>
+            <path d="M190,176 C202,171 217,169 233,169 C249,169 263,174 271,182" stroke="rgba(255,255,255,0.28)" stroke-width="0.58" stroke-linecap="round"/>
+            <path d="M189,180 C201,175 216,173 232,173 C248,173 262,178 271,186" stroke="rgba(255,255,255,0.28)" stroke-width="0.58" stroke-linecap="round"/>
+            <path d="M188,184 C200,179 215,177 231,177 C247,177 261,182 270,190" stroke="rgba(255,255,255,0.26)" stroke-width="0.56" stroke-linecap="round"/>
+            <path d="M188,188 C200,184 215,182 231,182 C247,182 261,186 269,194" stroke="rgba(255,255,255,0.26)" stroke-width="0.56" stroke-linecap="round"/>
+            <!-- Posterior lobe folds (8 fine lines): -->
+            <path d="M188,200 C200,196 216,194 232,194 C248,194 262,198 270,205" stroke="rgba(255,255,255,0.28)" stroke-width="0.58" stroke-linecap="round"/>
+            <path d="M188,204 C200,200 215,198 231,199 C247,199 261,203 269,209" stroke="rgba(255,255,255,0.26)" stroke-width="0.55" stroke-linecap="round"/>
+            <path d="M188,208 C200,204 215,203 230,203 C245,204 258,207 266,213" stroke="rgba(255,255,255,0.24)" stroke-width="0.53" stroke-linecap="round"/>
+            <path d="M189,212 C200,208 214,207 229,207 C243,208 255,212 263,218" stroke="rgba(255,255,255,0.23)" stroke-width="0.53" stroke-linecap="round"/>
+            <path d="M190,216 C201,213 214,212 228,212 C242,213 252,217 260,222" stroke="rgba(255,255,255,0.21)" stroke-width="0.51" stroke-linecap="round"/>
+            <path d="M191,220 C201,217 214,216 227,217 C240,218 249,221 256,226" stroke="rgba(255,255,255,0.21)" stroke-width="0.51" stroke-linecap="round"/>
+            <path d="M193,224 C202,221 214,220 226,221 C238,222 246,226 252,230" stroke="rgba(255,255,255,0.19)" stroke-width="0.49" stroke-linecap="round"/>
+            <path d="M196,228 C204,226 214,225 225,226 C235,227 242,230 247,234" stroke="rgba(255,255,255,0.17)" stroke-width="0.47" stroke-linecap="round"/>
+            <!-- ── BRAIN STEM ───────────────────────────────────── -->
+            <path d="M96,180 C92,192 88,208 90,224 C92,238 100,250 112,254 C122,258 134,256 143,248 C152,240 156,226 155,211 C154,196 150,184 148,180" stroke="rgba(255,255,255,0.84)" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"/>
+            <!-- Transverse lines (pons / medulla): -->
+            <path d="M94,188 C108,185 128,185 150,188" stroke="rgba(255,255,255,0.36)" stroke-width="0.75" stroke-linecap="round"/>
+            <path d="M92,196 C106,194 128,194 151,196" stroke="rgba(255,255,255,0.31)" stroke-width="0.70" stroke-linecap="round"/>
+            <path d="M90,204 C104,202 128,202 152,204" stroke="rgba(255,255,255,0.26)" stroke-width="0.64" stroke-linecap="round"/>
+            <path d="M90,212 C104,210 128,210 152,212" stroke="rgba(255,255,255,0.23)" stroke-width="0.60" stroke-linecap="round"/>
+            <path d="M90,220 C105,218 128,218 151,220" stroke="rgba(255,255,255,0.20)" stroke-width="0.56" stroke-linecap="round"/>
+            <path d="M91,228 C105,226 128,226 150,228" stroke="rgba(255,255,255,0.18)" stroke-width="0.52" stroke-linecap="round"/>
+            <path d="M93,236 C107,234 128,234 148,236" stroke="rgba(255,255,255,0.16)" stroke-width="0.49" stroke-linecap="round"/>
+            <path d="M97,244 C110,242 128,242 144,244" stroke="rgba(255,255,255,0.14)" stroke-width="0.47" stroke-linecap="round"/>
+            <!-- Longitudinal lines (pyramidal tracts): -->
+            <path d="M108,180 C106,202 106,222 108,240 C110,250 114,256 118,258" stroke="rgba(255,255,255,0.20)" stroke-width="0.52" stroke-linecap="round"/>
+            <path d="M121,180 C119,202 119,222 121,240 C123,250 127,256 131,258" stroke="rgba(255,255,255,0.18)" stroke-width="0.49" stroke-linecap="round"/>
+            <path d="M135,180 C133,202 133,222 135,240 C137,250 141,256 145,256" stroke="rgba(255,255,255,0.18)" stroke-width="0.49" stroke-linecap="round"/>
+            <!-- ── FUSIFORM FACE AREA ───────────────────────────── -->
+            <ellipse cx="138" cy="180" rx="22" ry="5.5" stroke="rgba(255,255,255,0.96)" stroke-width="1.4" stroke-dasharray="4.5,2.5" fill="rgba(255,255,255,0.06)"/>
+            <circle cx="138" cy="180" r="2" fill="rgba(255,255,255,0.95)"/>
+            <!-- Leader line going left to label: -->
+            <polyline points="116,180 88,194 56,194" stroke="rgba(255,255,255,0.52)" stroke-width="0.82" stroke-linecap="round" stroke-linejoin="round"/>
+            <text x="54" y="192" font-family="Georgia,'Times New Roman',serif" font-size="7.5" fill="rgba(255,255,255,0.86)" font-style="italic" text-anchor="end">Gyrus fusiformis</text>
+            <!-- ── LOBE LABELS ──────────────────────────────────── -->
+            <text x="56" y="95" font-family="Georgia,'Times New Roman',serif" font-size="8" fill="rgba(255,255,255,0.38)" font-style="italic">frontal</text>
+            <text x="162" y="58" font-family="Georgia,'Times New Roman',serif" font-size="8" fill="rgba(255,255,255,0.38)" font-style="italic">parietal</text>
+            <text x="232" y="118" font-family="Georgia,'Times New Roman',serif" font-size="8" fill="rgba(255,255,255,0.38)" font-style="italic">occip.</text>
+            <text x="96" y="158" font-family="Georgia,'Times New Roman',serif" font-size="8" fill="rgba(255,255,255,0.38)" font-style="italic">temporal</text>
+            <text x="220" y="212" font-family="Georgia,'Times New Roman',serif" font-size="7.5" fill="rgba(255,255,255,0.34)" font-style="italic">cerebelo</text>
+            <text x="96" y="262" font-family="Georgia,'Times New Roman',serif" font-size="7.5" fill="rgba(255,255,255,0.34)" font-style="italic">tronco enc.</text>
           </svg>
         </div>
         <p class="davinci-annotation">Activa identidad facial, expresión y familiaridad en ~170 ms. Responde a caras, cuerpos y objetos de reconocimiento experto a lo largo de la vía ventral temporal.</p>
