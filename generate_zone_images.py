@@ -1,54 +1,60 @@
 #!/usr/bin/env python3
 """
-Open Social Brain — Zone Image Generator v4 (nilearn glass brain)
-Genera imágenes con proyección glass brain sobre fondo negro.
-Coordenadas MNI perfectamente calibradas: el marcador se pinta por nilearn
-directamente en las coordenadas MNI, sin necesidad de calibración manual.
+Open Social Brain — Zone Image Generator v5 (hybrid)
+=====================================================
+Posición del marcador:  nilearn plot_glass_brain (coordenadas MNI exactas)
+Base visual:            PNG originales de alta calidad (Lateral/Medial/etc.)
+
+Flujo por zona:
+  1. Renderizar glass brain con marcador rojo en imagen temporal
+  2. Detectar centroide del marcador y bounding-box del cerebro en esa imagen
+  3. Calcular fracción (fx, fy) dentro de los límites del cerebro nilearn
+  4. Mapear esa fracción a píxel en la PNG original usando su propio bounding-box
+  5. Dibujar marcador artístico (halo + mira + etiqueta) sobre la PNG original
 """
 
 import os, re, io
+import numpy as np
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from nilearn import plotting
 from PIL import Image, ImageDraw, ImageFont
 
-# ── Rutas ───────────────────────────────────────────────────────────────────
+# ── Rutas ────────────────────────────────────────────────────────────────────
 BASE_DIR = r"g:\Mi unidad\Analisis de Datos Script Oficiales\Atlas_Cerebro_3D"
-OUT_DIR  = os.path.join(BASE_DIR, "Imagenes", "zones")
+IMG_DIR  = os.path.join(BASE_DIR, "Imagenes")
+OUT_DIR  = os.path.join(IMG_DIR, "zones")
 os.makedirs(OUT_DIR, exist_ok=True)
 
-# ── Paleta (igual al app.js) ─────────────────────────────────────────────────
-ACCENT_HEX = "#55c2b7"
-ACCENT_RGB = (85, 194, 183)
-OUT_W, OUT_H = 560, 420
-LABEL_H = 40          # franja inferior para el nombre de la zona
+BASE_IMGS = {
+    "lateral": os.path.join(IMG_DIR, "Lateral.png"),
+    "medial":  os.path.join(IMG_DIR, "Medial.png"),
+    "ventral": os.path.join(IMG_DIR, "Ventral.png"),
+    "dorsal":  os.path.join(IMG_DIR, "Dorsal.png"),
+    "coronal": os.path.join(IMG_DIR, "Coronal.png"),
+}
 
-# ── Tipografía ───────────────────────────────────────────────────────────────
+OUT_W, OUT_H = 560, 420
+
+# ── Paleta ────────────────────────────────────────────────────────────────────
+ACCENT     = (85, 194, 183)
+ACCENT_HEX = "#55c2b7"
+WHITE      = (240, 245, 243)
+
+# ── Tipografía ────────────────────────────────────────────────────────────────
 def _font(size):
     try:
         return ImageFont.truetype("C:/Windows/Fonts/courbd.ttf", size)
     except Exception:
         return ImageFont.load_default()
 
+FONTS = {"bold": _font(12), "small": _font(10)}
+
 def slug(name: str) -> str:
     return re.sub(r"[^a-z0-9-]", "", name.lower().replace(" ", "-"))
 
-# ── Vista → modo nilearn ─────────────────────────────────────────────────────
-# nilearn plot_glass_brain coloca el marcador en las coordenadas MNI exactas.
-#   'r' = hemisferio derecho (sagital, vista lateral derecha)
-#   'l' = hemisferio izquierdo (sagital, aproxima vista medial derecha por simetría)
-#   'z' = axial  (vista desde arriba → dorsal)
-#   'y' = coronal
-VIEW_MODE = {
-    "lateral": "r",
-    "medial":  "l",
-    "dorsal":  "z",
-    "ventral": "z",   # se invierte eje X para simular vista desde abajo
-    "coronal": "y",
-}
-
-# ── Coordenadas MNI por zona (x, y, z, vista) ───────────────────────────────
+# ── Coordenadas MNI por zona (x, y, z, vista) ────────────────────────────────
 ZONE_MNI = {
     # ── FRONTAL ───────────────────────────────────────────────────────────
     "Superior Frontal":           (15,  30,  52, "lateral"),
@@ -118,88 +124,176 @@ ZONE_MNI = {
     "Optic Chiasm":               ( 0,   4, -16, "ventral"),
 }
 
+# nilearn display_mode por vista
+VIEW_MODE = {
+    "lateral": "r",
+    "medial":  "l",
+    "dorsal":  "z",
+    "ventral": "z",
+    "coronal": "y",
+}
 
-# ── Generador ────────────────────────────────────────────────────────────────
-def make_zone_image(name: str, x: float, y: float, z: float, view: str) -> bool:
+
+# ── Detección de bounding-box del cerebro en imagen ──────────────────────────
+def _detect_brain_bbox(arr: np.ndarray, threshold: int = 22):
+    """
+    Devuelve (x0, x1, y0, y1) en píxeles donde hay contenido brillante
+    (el cerebro) sobre fondo negro.
+    """
+    bright = arr.max(axis=2) > threshold
+    rows = np.where(bright.any(axis=1))[0]
+    cols = np.where(bright.any(axis=0))[0]
+    if len(rows) == 0 or len(cols) == 0:
+        H, W = arr.shape[:2]
+        return (int(W * 0.1), int(W * 0.9), int(H * 0.1), int(H * 0.9))
+    return (int(cols[0]), int(cols[-1]), int(rows[0]), int(rows[-1]))
+
+
+# ── Posición nilearn: fracción del marcador dentro del glass brain ────────────
+def _nilearn_fraction(x_mni: float, y_mni: float, z_mni: float, view: str):
+    """
+    Renderiza un glass brain con marcador rojo interno, detecta dónde
+    queda el marcador dentro del contorno del cerebro y devuelve (fx, fy)
+    como fracción [0-1] × [0-1] del bounding-box del cerebro en nilearn.
+    """
     mode = VIEW_MODE[view]
 
-    # --- Render glass brain con nilearn ------------------------------------
-    fig = plt.figure(figsize=(5.6, 3.6), facecolor="black")
-
+    fig = plt.figure(figsize=(8, 6), facecolor="black")
     display = plotting.plot_glass_brain(
-        stat_map_img=None,
-        display_mode=mode,
-        colorbar=False,
-        figure=fig,
-        black_bg=True,
-        annotate=False,
-        draw_cross=False,
-        alpha=0.72,
+        None, display_mode=mode, colorbar=False, figure=fig,
+        black_bg=True, annotate=False, draw_cross=False, alpha=0.75,
     )
-    display.add_markers([(x, y, z)], marker_color=ACCENT_HEX, marker_size=280)
+    # Marcador rojo vivo para detección confiable
+    display.add_markers([(x_mni, y_mni, z_mni)], marker_color="#ff1111", marker_size=550)
 
-    # Invertir eje horizontal para vista ventral (de abajo hacia arriba)
-    if view == "ventral":
-        for ax in fig.get_axes():
-            ax.invert_xaxis()
-
-    # Guardar render en buffer PNG
     buf = io.BytesIO()
     plt.savefig(buf, format="png", facecolor="black",
-                dpi=110, bbox_inches="tight", pad_inches=0.04)
+                dpi=110, bbox_inches="tight", pad_inches=0.03)
     plt.close(fig)
     buf.seek(0)
 
-    # --- Componer imagen final con franja de etiqueta ---------------------
-    brain = Image.open(buf).convert("RGB")
+    arr = np.array(Image.open(buf).convert("RGB"))
 
-    # Escalar brain para que quepa en OUT_W × (OUT_H - LABEL_H)
-    avail_h = OUT_H - LABEL_H
-    scale = min(OUT_W / brain.width, avail_h / brain.height)
-    bw = int(brain.width  * scale)
-    bh = int(brain.height * scale)
-    brain = brain.resize((bw, bh), Image.LANCZOS)
+    # Separar rojo (marcador) del gris (contorno cerebro)
+    is_red   = (arr[:,:,0] > 140) & (arr[:,:,1] < 90) & (arr[:,:,2] < 90)
+    is_brain = (arr.max(axis=2) > 18) & ~is_red
 
-    final = Image.new("RGB", (OUT_W, OUT_H), (0, 0, 0))
-    x_off = (OUT_W - bw) // 2
-    y_off = (avail_h - bh) // 2
-    final.paste(brain, (x_off, y_off))
+    # Bounding-box del cerebro en esta imagen nilearn
+    brain_rows = np.where(is_brain.any(axis=1))[0]
+    brain_cols = np.where(is_brain.any(axis=0))[0]
 
-    draw = ImageDraw.Draw(final)
+    if len(brain_rows) == 0 or len(brain_cols) == 0 or is_red.sum() == 0:
+        return 0.5, 0.5
 
-    # Separador teal
-    sep_y = OUT_H - LABEL_H
-    draw.line([(0, sep_y), (OUT_W, sep_y)], fill=(*ACCENT_RGB, 160), width=1)
+    bx0, bx1 = float(brain_cols[0]), float(brain_cols[-1])
+    by0, by1 = float(brain_rows[0]), float(brain_rows[-1])
 
-    # Nombre de la zona (centrado, teal)
-    font_name = _font(13)
-    label = name.upper()
-    bbox = draw.textbbox((0, 0), label, font=font_name)
-    tw = bbox[2] - bbox[0]
-    draw.text(((OUT_W - tw) // 2, sep_y + 8), label,
-              font=font_name, fill=(*ACCENT_RGB, 240))
+    ys, xs = np.where(is_red)
+    mx, my = float(xs.mean()), float(ys.mean())
 
-    # Indicador de vista (esquina inferior izquierda, gris)
-    font_view = _font(9)
-    draw.text((8, sep_y + 10), view.upper(), font=font_view,
-              fill=(160, 160, 160, 200))
+    fx = float(np.clip((mx - bx0) / max(bx1 - bx0, 1), 0.0, 1.0))
+    fy = float(np.clip((my - by0) / max(by1 - by0, 1), 0.0, 1.0))
+    return fx, fy
 
+
+# ── Marcador artístico sobre PIL Image ───────────────────────────────────────
+def draw_marker(img: Image.Image, px: int, py: int, label: str) -> Image.Image:
+    out = img.copy().convert("RGBA")
+    W, H = out.size
+
+    offset_x = -120 if px > W * 0.55 else 18
+    offset_y =  -28 if py > H * 0.55 else 10
+    tx = max(4, min(W - 140, px + offset_x))
+    ty = max(4, min(H - 22,  py + offset_y))
+
+    try:
+        bbox = FONTS["bold"].getbbox(label)
+        tw = bbox[2] - bbox[0] + 10
+    except Exception:
+        tw = len(label) * 7 + 10
+
+    # Sombra de texto
+    shadow = Image.new("RGBA", out.size, (0, 0, 0, 0))
+    sd = ImageDraw.Draw(shadow)
+    pad = 3
+    sd.rounded_rectangle([tx - pad, ty - pad, tx + tw + pad, ty + 16 + pad],
+                          radius=3, fill=(0, 0, 0, 175))
+    out = Image.alpha_composite(out, shadow)
+
+    draw = ImageDraw.Draw(out)
+
+    # Línea guía
+    r = 9
+    cx_l, cy_l = tx + tw // 2, ty + 8
+    dx, dy = cx_l - px, cy_l - py
+    L = (dx**2 + dy**2) ** 0.5
+    if L > 0:
+        sx, sy = int(px + r * dx / L), int(py + r * dy / L)
+        draw.line([sx, sy, cx_l, cy_l], fill=(*ACCENT, 165), width=1)
+
+    # Halo
+    halo = Image.new("RGBA", out.size, (0, 0, 0, 0))
+    hd   = ImageDraw.Draw(halo)
+    hd.ellipse([px - 18, py - 18, px + 18, py + 18], fill=(*ACCENT, 38))
+    out  = Image.alpha_composite(out, halo)
+    draw = ImageDraw.Draw(out)
+
+    # Círculo + miras + punto central
+    draw.ellipse([px - r, py - r, px + r, py + r],
+                 outline=(*ACCENT, 230), width=2)
+    for ddx, ddy in [(-r - 5, 0), (r + 5, 0), (0, -r - 5), (0, r + 5)]:
+        draw.line([px, py, px + ddx, py + ddy], fill=(*ACCENT, 155), width=1)
+    draw.ellipse([px - 2, py - 2, px + 2, py + 2], fill=(*ACCENT, 255))
+
+    # Etiqueta
+    draw.text((tx + 2, ty), label, font=FONTS["bold"], fill=(*WHITE, 228))
+
+    return out.convert("RGB")
+
+
+# ── Generación principal ──────────────────────────────────────────────────────
+def make_zone_image(name: str, x: float, y: float, z: float, view: str) -> bool:
+    # 1. Posición exacta vía nilearn
+    fx, fy = _nilearn_fraction(x, y, z, view)
+
+    # 2. Cargar PNG base original
+    base_path = BASE_IMGS.get(view)
+    if not base_path or not os.path.exists(base_path):
+        print(f"  SKIP — PNG no encontrada para vista '{view}': {name}")
+        return False
+
+    base = Image.open(base_path).convert("RGB").resize((OUT_W, OUT_H), Image.LANCZOS)
+
+    # 3. Detectar bounding-box del cerebro en la PNG base
+    arr_base = np.array(base)
+    bx0, bx1, by0, by1 = _detect_brain_bbox(arr_base, threshold=22)
+
+    # 4. Mapear fracción nilearn → píxel sobre la PNG
+    px = int(bx0 + fx * (bx1 - bx0))
+    py = int(by0 + fy * (by1 - by0))
+    px = max(bx0 + 4, min(bx1 - 4, px))
+    py = max(by0 + 4, min(by1 - 4, py))
+
+    # 5. Dibujar marcador artístico
+    result = draw_marker(base, px, py, name.upper())
+
+    # 6. Guardar
     out_path = os.path.join(OUT_DIR, slug(name) + ".jpg")
-    final.save(out_path, "JPEG", quality=87, optimize=True)
+    result.save(out_path, "JPEG", quality=87, optimize=True)
     return True
 
 
-# ── Main ────────────────────────────────────────────────────────────────────
+# ── Main ─────────────────────────────────────────────────────────────────────
 def main():
-    print("Open Social Brain — Generator v4 (nilearn glass brain)")
-    print(f"Generando {len(ZONE_MNI)} imagenes...\n")
+    print("Open Social Brain — Generator v5 (nilearn posición + PNG artístico)")
+    print(f"Generando {len(ZONE_MNI)} imágenes...\n")
 
     ok = err = 0
     for name, vals in ZONE_MNI.items():
         x, y, z, view = vals
         try:
             make_zone_image(name, x, y, z, view)
-            print(f"  OK  {name:<34} [{view}]")
+            print(f"  OK  {name:<36} [{view}]")
             ok += 1
         except Exception as e:
             print(f"  ERR {name}: {e}")
