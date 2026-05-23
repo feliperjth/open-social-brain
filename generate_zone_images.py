@@ -5,7 +5,7 @@ Open Social Brain — Zone Image Generator v3  (MNI-calibrated)
 Proyecta coordenadas MNI reales del atlas CerebrA a cada vista cerebral.
 
 Supuestos de orientacion (estandar neuroanatomia):
-  Lateral  : hemisferio derecho, anterior=IZQUIERDA imagen, superior=ARRIBA
+  Lateral  : hemisferio derecho, anterior=DERECHA imagen, superior=ARRIBA
   Medial   : superficie interna hemisferio derecho, misma orientacion
   Ventral  : vista inferior, anterior=ARRIBA imagen, derecha(+x)=DERECHA imagen
   Dorsal   : vista superior, anterior=ARRIBA imagen, derecha(+x)=DERECHA imagen
@@ -69,8 +69,8 @@ BRAIN_BOUNDS = {
 # Coronal:        eje horizontal = X (LR),  eje vertical = Z (SI)
 MNI_EXTENTS = {
     # vista:   (h_min, h_max, v_min, v_max)  h=horizontal, v=vertical en imagen
-    # Lateral: h=Y (posterior→derecha), v=Z (inferior→abajo)
-    "lateral":  (-105,  85,   -60,   90),   # h: y_post, y_ant  |  v: z_inf, z_sup
+    # Lateral: h=Y (posterior→izquierda, anterior→derecha), v=Z (inferior→abajo)
+    "lateral":  (-105,  85,   -60,   90),   # h: y_post→left, y_ant→right | v: z_inf, z_sup
     # Medial:  igual que lateral
     "medial":   (-105,  85,   -60,   90),
     # Ventral: h=X (izquierda→derecha), v=Y (posterior→abajo)
@@ -90,9 +90,9 @@ def mni_to_frac(view: str, x_mni: float, y_mni: float, z_mni: float):
     h_min, h_max, v_min, v_max = MNI_EXTENTS[view]
 
     if view in ("lateral", "medial"):
-        # Horizontal: Y (anterior=izquierda de imagen → bx0)
+        # Horizontal: Y (posterior=izquierda de imagen, anterior=derecha)
         h_val = y_mni
-        h_frac = (h_max - h_val) / (h_max - h_min)   # anterior→izquierda
+        h_frac = (h_val - h_min) / (h_max - h_min)   # posterior→izquierda, anterior→derecha
         # Vertical: Z (superior=arriba de imagen → by0)
         v_val = z_mni
         v_frac = (v_max - v_val) / (v_max - v_min)   # superior→arriba
