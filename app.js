@@ -2087,7 +2087,7 @@ const cerebraRegionLabels = {
   fusiformFace: [3, 24, 28, 54, 75, 79]
 };
 
-const ZONE_IMG_V = "8"; // bump each time zone images are regenerated
+const ZONE_IMG_V = "9"; // bump each time zone images are regenerated
 
 const cerebraLabels = [
   [2002, "Caudal Anterior Cingulate", 30, 81, "", 0.79],

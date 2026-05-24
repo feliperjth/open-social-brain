@@ -124,27 +124,35 @@ def mni_to_vox(inv_a, x, y, z):
 # ── Proyecciones ─────────────────────────────────────────────────────────────
 def _project_mean(arr: np.ndarray, axis: int) -> np.ndarray:
     """Proyeccion por media enmascarada — los surcos (CSF oscuro) se conservan."""
-    mask  = (arr > 5).astype(np.float32)
+    thr   = max(0.02, float(arr.max()) * 0.02)   # works for both [0-1] and raw HU
+    mask  = (arr > thr).astype(np.float32)
     numer = (arr * mask).sum(axis=axis)
     denom = np.where(mask.sum(axis=axis) < 1, 1.0, mask.sum(axis=axis))
     return (numer / denom).astype(np.float32)
 
 
-def _style(arr: np.ndarray) -> np.ndarray:
-    """Contraste neuroanatomico: curva S k=8 diferencia bien WM/GM/surcos."""
+def _style(arr: np.ndarray, is_slab: bool = False) -> np.ndarray:
+    """Contraste neuroanatomico optimizado para proyecciones MNI152 normalizadas [0-1]."""
     a = arr.astype(np.float32)
-    a = gaussian_filter(a, sigma=0.4)   # suavizado minimo para quitar ruido
+    a = gaussian_filter(a, sigma=0.5)
     nonzero = a[a > 0]
     if len(nonzero) == 0:
         return a
-    lo = float(np.percentile(nonzero, 3))
-    hi = float(np.percentile(nonzero, 97))
+    lo = float(np.percentile(nonzero, 2))
+    hi = float(np.percentile(nonzero, 98))
     a  = np.clip(a, lo, hi)
     a  = (a - lo) / (hi - lo + 1e-9)
-    # Curva S: k=8 da buen contraste WM/GM sin imagen binaria
-    k  = 8.0
-    a  = 1.0 / (1.0 + np.exp(-k * (a - 0.42)))
-    a  = (a - a.min()) / (a.max() - a.min() + 1e-9)
+    if is_slab:
+        # Slab fino (medial): S-curve agresiva — resalta giro/surco bien
+        k, mid = 9.0, 0.45
+        a  = 1.0 / (1.0 + np.exp(-k * (a - mid)))
+        a  = (a - a.min()) / (a.max() - a.min() + 1e-9)
+    else:
+        # Proyeccion hemisferica: los valores medios son altos (WM domina).
+        # gamma=2.2 oscurece midtones → surcos y GM aparecen como grises oscuros.
+        a  = np.power(np.clip(a, 0, 1), 2.2)
+        # Segundo re-estiramiento para usar todo el rango [0,1]
+        a  = (a - a.min()) / (a.max() - a.min() + 1e-9)
     return a
 
 
@@ -175,7 +183,7 @@ def build_projections(data: np.ndarray, inv_a: np.ndarray):
 
     # Orientar: filas = k (SI, superior→arriba), cols = j (AP, anterior→izquierda)
     # arr[k, j] => imagen[row, col]:  row = (nk-1)-k,  col = (nj-1)-j
-    lat_arr = _style(proj.T[::-1, ::-1])   # shape (nk, nj)
+    lat_arr = _style(proj.T[::-1, ::-1], is_slab=False)   # shape (nk, nj)
 
     def lat_px(x, y, z, _inv=inv_a, _nj=nj, _nk=nk):
         _, j, k = mni_to_vox(_inv, x, y, z)
@@ -190,7 +198,7 @@ def build_projections(data: np.ndarray, inv_a: np.ndarray):
     slab_start = max(0, i_mid - 6)
     slab_end   = i_mid + 1
     med_proj   = _project_mean(data[slab_start:slab_end, :, :], axis=0)
-    med_arr    = _style(med_proj.T[::-1, ::-1])   # mismo sistema de coords
+    med_arr    = _style(med_proj.T[::-1, ::-1], is_slab=True)   # slab fino → S-curve agresiva
 
     result["medial"] = (med_arr, lat_px)   # misma funcion de pixel que lateral
 
@@ -202,7 +210,7 @@ def build_projections(data: np.ndarray, inv_a: np.ndarray):
     #           cols  = i (x: con affine negativo i=0 → x=+90=derecha)
     # Para neurologia: derecha (+x) a la derecha de imagen → invertir i
     # (i=0 = x>0 = derecha del cerebro → debe quedar a la DERECHA = col grande)
-    dor_arr = _style(dor_proj.T[::-1, ::-1])  # shape (nj2, ni): fila=j flip, col=i flip
+    dor_arr = _style(dor_proj.T[::-1, ::-1], is_slab=False)  # shape (nj2, ni)
 
     def dor_px(x, y, z, _inv=inv_a, _ni=ni, _nj=nj2):
         i, j, _ = mni_to_vox(_inv, x, y, z)
@@ -215,7 +223,7 @@ def build_projections(data: np.ndarray, inv_a: np.ndarray):
 
     # ── VENTRAL: misma proyeccion axial, pero vista desde abajo ──────────────
     # Desde abajo: izq/der se invierten respecto a dorsal.
-    ven_arr = _style(dor_proj.T[::-1, :])  # shape (nj2, ni): col=i SIN flip
+    ven_arr = _style(dor_proj.T[::-1, :], is_slab=False)  # shape (nj2, ni): col=i SIN flip
 
     def ven_px(x, y, z, _inv=inv_a, _ni=ni, _nj=nj2):
         i, j, _ = mni_to_vox(_inv, x, y, z)
@@ -232,7 +240,7 @@ def build_projections(data: np.ndarray, inv_a: np.ndarray):
 
     # Orientar: filas = k (SI, superior→arriba = row 0 = k maximo)
     #           cols  = i (x: flip → derecha a la derecha)
-    cor_arr = _style(cor_proj.T[::-1, ::-1])  # shape (nk2, ni2)
+    cor_arr = _style(cor_proj.T[::-1, ::-1], is_slab=False)  # shape (nk2, ni2)
 
     def cor_px(x, y, z, _inv=inv_a, _ni=ni2, _nk=nk2):
         i, _, k = mni_to_vox(_inv, x, y, z)
