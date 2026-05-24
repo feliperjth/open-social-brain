@@ -11,8 +11,7 @@ Marcador:      Artistico (halo + mira + etiqueta) sobre la proyeccion generada.
 import os, re
 import numpy as np
 from nilearn import datasets
-from PIL import Image, ImageDraw, ImageFont
-from scipy.ndimage import gaussian_filter
+from PIL import Image, ImageDraw, ImageFont, ImageFilter
 
 # ── Rutas ────────────────────────────────────────────────────────────────────
 BASE_DIR = r"g:\Mi unidad\Analisis de Datos Script Oficiales\Atlas_Cerebro_3D"
@@ -122,17 +121,25 @@ def mni_to_vox(inv_a, x, y, z):
 
 
 # ── Proyecciones ─────────────────────────────────────────────────────────────
+def _project(arr: np.ndarray, axis: int, pct: int = 85) -> np.ndarray:
+    """Proyeccion near-max (pct=85) — preserva surcos mejor que max absoluto."""
+    return np.percentile(arr, pct, axis=axis).astype(np.float32)
+
+
 def _style(arr: np.ndarray) -> np.ndarray:
-    """Normaliza y aplica contraste a una proyeccion 2D."""
+    """Normaliza con curva S sigmoidea: blancos más blancos, surcos más oscuros."""
     a = arr.astype(np.float32)
     nonzero = a[a > 0]
     if len(nonzero) == 0:
         return a
-    lo = float(np.percentile(nonzero, 1))
-    hi = float(np.percentile(nonzero, 99))
+    lo = float(np.percentile(nonzero, 5))
+    hi = float(np.percentile(nonzero, 95))
     a  = np.clip(a, lo, hi)
     a  = (a - lo) / (hi - lo + 1e-9)
-    a  = np.power(a, 0.65)          # gamma: realza estructuras tenues
+    # Curva S: empuja midtones hacia blanco/negro, aumenta diferencia GM/WM
+    k  = 10.0
+    a  = 1.0 / (1.0 + np.exp(-k * (a - 0.45)))
+    a  = (a - a.min()) / (a.max() - a.min() + 1e-9)
     return a
 
 
@@ -158,7 +165,7 @@ def build_projections(data: np.ndarray, inv_a: np.ndarray):
     # Con affine[0,0]<0 (convencion radiologica), hemisferio derecho (x>0) esta
     # en i < i_mid. Tomamos solo esa mitad.
     rh   = data[:i_mid + 1, :, :]          # shape (i_mid+1, n_j, n_k)
-    proj = rh.max(axis=0)                  # shape (n_j, n_k)
+    proj = _project(rh, axis=0)            # shape (n_j, n_k)
     nj, nk = proj.shape
 
     # Orientar: filas = k (SI, superior→arriba), cols = j (AP, anterior→izquierda)
@@ -177,13 +184,13 @@ def build_projections(data: np.ndarray, inv_a: np.ndarray):
     # ── MEDIAL: slab fino cerca de la linea media del hemisferio derecho ──────
     slab_start = max(0, i_mid - 6)
     slab_end   = i_mid + 1
-    med_proj   = data[slab_start:slab_end, :, :].max(axis=0)
+    med_proj   = _project(data[slab_start:slab_end, :, :], axis=0)
     med_arr    = _style(med_proj.T[::-1, ::-1])   # mismo sistema de coords
 
     result["medial"] = (med_arr, lat_px)   # misma funcion de pixel que lateral
 
     # ── DORSAL: proyeccion desde arriba a lo largo de z (eje k) ──────────────
-    dor_proj = data.max(axis=2)            # shape (n_i, n_j)
+    dor_proj = _project(data, axis=2)      # shape (n_i, n_j)
     ni, nj2  = dor_proj.shape
 
     # Orientar: filas = j (AP, anterior→arriba = row 0 = j maximo)
@@ -215,7 +222,7 @@ def build_projections(data: np.ndarray, inv_a: np.ndarray):
     result["ventral"] = (ven_arr, ven_px)
 
     # ── CORONAL: proyeccion desde el frente a lo largo de y (eje j) ──────────
-    cor_proj = data.max(axis=1)            # shape (n_i, n_k)
+    cor_proj = _project(data, axis=1)      # shape (n_i, n_k)
     ni2, nk2 = cor_proj.shape
 
     # Orientar: filas = k (SI, superior→arriba = row 0 = k maximo)
@@ -236,21 +243,12 @@ def build_projections(data: np.ndarray, inv_a: np.ndarray):
 
 # ── Array → PIL Image estiilzada ─────────────────────────────────────────────
 def arr_to_pil(arr: np.ndarray, W: int, H: int) -> Image.Image:
-    """
-    Convierte un array float [0-1] a PIL RGB con fondo negro y cerebro blanco.
-    Aplica un suave glow para dar profundidad.
-    """
-    u8 = (arr * 255).astype(np.uint8)
+    """Convierte array float [0-1] a PIL RGB con unsharp mask para realzar surcos."""
+    u8   = (arr * 255).astype(np.uint8)
     gray = Image.fromarray(u8, mode="L")
-
-    # Glow suave: suma version desenfocada
-    blur  = gray.filter(__import__("PIL.ImageFilter", fromlist=["GaussianBlur"])
-                        .GaussianBlur(radius=1.8))
-    glow  = Image.blend(gray, blur, alpha=0.35)
-
-    # Escalar a salida
-    pil = glow.convert("RGB").resize((W, H), Image.LANCZOS)
-    return pil
+    # Unsharp mask: realza bordes corticales y surcos
+    gray = gray.filter(ImageFilter.UnsharpMask(radius=2.5, percent=200, threshold=2))
+    return gray.convert("RGB").resize((W, H), Image.LANCZOS)
 
 
 # ── Marcador artistico ───────────────────────────────────────────────────────
