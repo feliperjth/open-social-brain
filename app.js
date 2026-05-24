@@ -2087,6 +2087,8 @@ const cerebraRegionLabels = {
   fusiformFace: [3, 24, 28, 54, 75, 79]
 };
 
+const ZONE_IMG_V = "8"; // bump each time zone images are regenerated
+
 const cerebraLabels = [
   [2002, "Caudal Anterior Cingulate", 30, 81, "", 0.79],
   [2003, "Caudal Middle Frontal", 42, 93, "Improved distinction from Precentral", 0.73],
@@ -4853,7 +4855,7 @@ function showDavinciOverlay(zone) {
     // Zona anatómica específica
     const imgSlug = _zoneImageSlug(zone.name);
     if (imgEl) {
-      imgEl.src = `./Imagenes/zones/${imgSlug}.jpg?v=7`;
+      imgEl.src = `./Imagenes/zones/${imgSlug}.jpg?v=${ZONE_IMG_V}`;
       imgEl.alt = zone.displayName;
     }
     const eyebrowText = `${zone.displayName} · ${zone.hemisphere === "RH" ? "HD" : "HI"}`;
