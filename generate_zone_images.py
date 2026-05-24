@@ -12,6 +12,7 @@ import os, re
 import numpy as np
 from nilearn import datasets
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
+from scipy.ndimage import gaussian_filter
 
 # ── Rutas ────────────────────────────────────────────────────────────────────
 BASE_DIR = r"g:\Mi unidad\Analisis de Datos Script Oficiales\Atlas_Cerebro_3D"
@@ -121,24 +122,26 @@ def mni_to_vox(inv_a, x, y, z):
 
 
 # ── Proyecciones ─────────────────────────────────────────────────────────────
-def _project(arr: np.ndarray, axis: int, pct: int = 85) -> np.ndarray:
-    """Proyeccion near-max (pct=85) — preserva surcos mejor que max absoluto."""
+def _project(arr: np.ndarray, axis: int, pct: int = 92) -> np.ndarray:
+    """Proyeccion near-max (pct=92) — preserva surcos sin artefactos de p85."""
     return np.percentile(arr, pct, axis=axis).astype(np.float32)
 
 
 def _style(arr: np.ndarray) -> np.ndarray:
-    """Normaliza con curva S sigmoidea: blancos más blancos, surcos más oscuros."""
+    """Contraste moderado: suavizado leve + curva S suave para GM/WM legible."""
     a = arr.astype(np.float32)
+    # Suavizado muy leve: reduce artefactos de proyeccion sin borrar surcos
+    a = gaussian_filter(a, sigma=0.6)
     nonzero = a[a > 0]
     if len(nonzero) == 0:
         return a
-    lo = float(np.percentile(nonzero, 5))
-    hi = float(np.percentile(nonzero, 95))
+    lo = float(np.percentile(nonzero, 2))
+    hi = float(np.percentile(nonzero, 98))
     a  = np.clip(a, lo, hi)
     a  = (a - lo) / (hi - lo + 1e-9)
-    # Curva S: empuja midtones hacia blanco/negro, aumenta diferencia GM/WM
-    k  = 10.0
-    a  = 1.0 / (1.0 + np.exp(-k * (a - 0.45)))
+    # Curva S moderada: k=5 da contraste visible sin imagen binaria
+    k  = 5.0
+    a  = 1.0 / (1.0 + np.exp(-k * (a - 0.5)))
     a  = (a - a.min()) / (a.max() - a.min() + 1e-9)
     return a
 
@@ -243,11 +246,11 @@ def build_projections(data: np.ndarray, inv_a: np.ndarray):
 
 # ── Array → PIL Image estiilzada ─────────────────────────────────────────────
 def arr_to_pil(arr: np.ndarray, W: int, H: int) -> Image.Image:
-    """Convierte array float [0-1] a PIL RGB con unsharp mask para realzar surcos."""
+    """Convierte array float [0-1] a PIL RGB con nitidez suave."""
     u8   = (arr * 255).astype(np.uint8)
     gray = Image.fromarray(u8, mode="L")
-    # Unsharp mask: realza bordes corticales y surcos
-    gray = gray.filter(ImageFilter.UnsharpMask(radius=2.5, percent=200, threshold=2))
+    # Nitidez leve: realza surcos sin generar ruido
+    gray = gray.filter(ImageFilter.UnsharpMask(radius=1.5, percent=110, threshold=3))
     return gray.convert("RGB").resize((W, H), Image.LANCZOS)
 
 

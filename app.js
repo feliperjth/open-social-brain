@@ -4853,7 +4853,7 @@ function showDavinciOverlay(zone) {
     // Zona anatómica específica
     const imgSlug = _zoneImageSlug(zone.name);
     if (imgEl) {
-      imgEl.src = `./Imagenes/zones/${imgSlug}.jpg`;
+      imgEl.src = `./Imagenes/zones/${imgSlug}.jpg?v=7`;
       imgEl.alt = zone.displayName;
     }
     const eyebrowText = `${zone.displayName} · ${zone.hemisphere === "RH" ? "HD" : "HI"}`;
