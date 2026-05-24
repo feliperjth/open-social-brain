@@ -1866,6 +1866,59 @@ dd {
 .davinci-sketch-wrap {
   width: 100%;
   line-height: 0;
+  position: relative;
+}
+
+/* ── Zone anatomical pin overlay ─────────────────────── */
+.zone-pin {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 280ms;
+}
+.zone-pin.visible { opacity: 1; }
+
+.zone-pin__ring {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid var(--accent);
+  transform: translate(-50%, -50%) scale(1);
+  animation: pin-pulse 1.9s ease-out infinite;
+}
+.zone-pin__ring--b { animation-delay: 0.95s; }
+
+@keyframes pin-pulse {
+  0%   { transform: translate(-50%, -50%) scale(1);   opacity: 0.85; }
+  75%  { transform: translate(-50%, -50%) scale(3.4); opacity: 0; }
+  100% { transform: translate(-50%, -50%) scale(3.4); opacity: 0; }
+}
+
+.zone-pin__dot {
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 8px var(--accent), 0 0 2px var(--accent);
+}
+
+.zone-pin__label {
+  position: absolute;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  color: var(--accent);
+  background: rgba(0, 0, 0, 0.80);
+  padding: 3px 7px;
+  border-radius: 3px;
+  white-space: nowrap;
+  margin: 0;
+  transform: translate(0, -50%);
 }
 
 .davinci-sketch-img {

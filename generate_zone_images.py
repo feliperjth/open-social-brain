@@ -122,26 +122,28 @@ def mni_to_vox(inv_a, x, y, z):
 
 
 # ── Proyecciones ─────────────────────────────────────────────────────────────
-def _project(arr: np.ndarray, axis: int, pct: int = 92) -> np.ndarray:
-    """Proyeccion near-max (pct=92) — preserva surcos sin artefactos de p85."""
-    return np.percentile(arr, pct, axis=axis).astype(np.float32)
+def _project_mean(arr: np.ndarray, axis: int) -> np.ndarray:
+    """Proyeccion por media enmascarada — los surcos (CSF oscuro) se conservan."""
+    mask  = (arr > 5).astype(np.float32)
+    numer = (arr * mask).sum(axis=axis)
+    denom = np.where(mask.sum(axis=axis) < 1, 1.0, mask.sum(axis=axis))
+    return (numer / denom).astype(np.float32)
 
 
 def _style(arr: np.ndarray) -> np.ndarray:
-    """Contraste moderado: suavizado leve + curva S suave para GM/WM legible."""
+    """Contraste neuroanatomico: curva S k=8 diferencia bien WM/GM/surcos."""
     a = arr.astype(np.float32)
-    # Suavizado muy leve: reduce artefactos de proyeccion sin borrar surcos
-    a = gaussian_filter(a, sigma=0.6)
+    a = gaussian_filter(a, sigma=0.4)   # suavizado minimo para quitar ruido
     nonzero = a[a > 0]
     if len(nonzero) == 0:
         return a
-    lo = float(np.percentile(nonzero, 2))
-    hi = float(np.percentile(nonzero, 98))
+    lo = float(np.percentile(nonzero, 3))
+    hi = float(np.percentile(nonzero, 97))
     a  = np.clip(a, lo, hi)
     a  = (a - lo) / (hi - lo + 1e-9)
-    # Curva S moderada: k=5 da contraste visible sin imagen binaria
-    k  = 5.0
-    a  = 1.0 / (1.0 + np.exp(-k * (a - 0.5)))
+    # Curva S: k=8 da buen contraste WM/GM sin imagen binaria
+    k  = 8.0
+    a  = 1.0 / (1.0 + np.exp(-k * (a - 0.42)))
     a  = (a - a.min()) / (a.max() - a.min() + 1e-9)
     return a
 
@@ -168,7 +170,7 @@ def build_projections(data: np.ndarray, inv_a: np.ndarray):
     # Con affine[0,0]<0 (convencion radiologica), hemisferio derecho (x>0) esta
     # en i < i_mid. Tomamos solo esa mitad.
     rh   = data[:i_mid + 1, :, :]          # shape (i_mid+1, n_j, n_k)
-    proj = _project(rh, axis=0)            # shape (n_j, n_k)
+    proj = _project_mean(rh, axis=0)       # mean: preserva surcos
     nj, nk = proj.shape
 
     # Orientar: filas = k (SI, superior→arriba), cols = j (AP, anterior→izquierda)
@@ -187,13 +189,13 @@ def build_projections(data: np.ndarray, inv_a: np.ndarray):
     # ── MEDIAL: slab fino cerca de la linea media del hemisferio derecho ──────
     slab_start = max(0, i_mid - 6)
     slab_end   = i_mid + 1
-    med_proj   = _project(data[slab_start:slab_end, :, :], axis=0)
+    med_proj   = _project_mean(data[slab_start:slab_end, :, :], axis=0)
     med_arr    = _style(med_proj.T[::-1, ::-1])   # mismo sistema de coords
 
     result["medial"] = (med_arr, lat_px)   # misma funcion de pixel que lateral
 
     # ── DORSAL: proyeccion desde arriba a lo largo de z (eje k) ──────────────
-    dor_proj = _project(data, axis=2)      # shape (n_i, n_j)
+    dor_proj = _project_mean(data, axis=2)      # shape (n_i, n_j)
     ni, nj2  = dor_proj.shape
 
     # Orientar: filas = j (AP, anterior→arriba = row 0 = j maximo)
@@ -225,7 +227,7 @@ def build_projections(data: np.ndarray, inv_a: np.ndarray):
     result["ventral"] = (ven_arr, ven_px)
 
     # ── CORONAL: proyeccion desde el frente a lo largo de y (eje j) ──────────
-    cor_proj = _project(data, axis=1)      # shape (n_i, n_k)
+    cor_proj = _project_mean(data, axis=1)      # shape (n_i, n_k)
     ni2, nk2 = cor_proj.shape
 
     # Orientar: filas = k (SI, superior→arriba = row 0 = k maximo)
@@ -246,11 +248,11 @@ def build_projections(data: np.ndarray, inv_a: np.ndarray):
 
 # ── Array → PIL Image estiilzada ─────────────────────────────────────────────
 def arr_to_pil(arr: np.ndarray, W: int, H: int) -> Image.Image:
-    """Convierte array float [0-1] a PIL RGB con nitidez suave."""
+    """Convierte array float [0-1] a PIL RGB con nitidez para surcos."""
     u8   = (arr * 255).astype(np.uint8)
     gray = Image.fromarray(u8, mode="L")
-    # Nitidez leve: realza surcos sin generar ruido
-    gray = gray.filter(ImageFilter.UnsharpMask(radius=1.5, percent=110, threshold=3))
+    # Unsharp mask: realza bordes de surcos y giros
+    gray = gray.filter(ImageFilter.UnsharpMask(radius=2.0, percent=160, threshold=2))
     return gray.convert("RGB").resize((W, H), Image.LANCZOS)
 
 
@@ -311,50 +313,40 @@ def draw_marker(img: Image.Image, px: int, py: int, label: str) -> Image.Image:
 
 # ── Main ─────────────────────────────────────────────────────────────────────
 def main():
-    print("Open Social Brain — Generator v6 (MNI152 base images)")
+    print("Open Social Brain — Generator v7 (base images + zone_markers.js)")
     print()
 
-    # 1. Cargar template y calcular proyecciones (una sola vez)
     data, inv_a = load_template()
     print("  Generando proyecciones por vista...")
     projections = build_projections(data, inv_a)
     print(f"  Proyecciones listas: {list(projections.keys())}\n")
 
-    # 2. Generar imagen por zona
-    ok = err = 0
+    # 1. Guardar 5 imagenes base (sin marcadores ni labels)
+    for view_name, (arr, _) in projections.items():
+        path = os.path.join(OUT_DIR, f"base_{view_name}.jpg")
+        arr_to_pil(arr, OUT_W, OUT_H).save(path, "JPEG", quality=90, optimize=True)
+        print(f"  Base: {view_name:10} -> {path}")
+
+    # 2. Calcular posiciones normalizadas y escribir zone_markers.js
+    markers = {}
     for name, vals in ZONE_MNI.items():
         x, y, z, view = vals
-        try:
-            proj_arr, pixel_fn = projections[view]
+        proj_arr, pixel_fn = projections[view]
+        proj_H, proj_W = proj_arr.shape
+        col_raw, row_raw = pixel_fn(x, y, z)
+        px = max(4, min(OUT_W - 4, int(col_raw / proj_W * OUT_W)))
+        py = max(4, min(OUT_H - 4, int(row_raw / proj_H * OUT_H)))
+        markers[name] = (view, round(px / OUT_W, 4), round(py / OUT_H, 4))
 
-            # a) Imagen base desde la proyeccion MNI
-            base = arr_to_pil(proj_arr, OUT_W, OUT_H)
-
-            # b) Pixel exacto via affine
-            proj_H, proj_W = proj_arr.shape
-            col_raw, row_raw = pixel_fn(x, y, z)
-
-            # Escalar desde resolucion de proyeccion a OUT_W x OUT_H
-            px = int(col_raw / proj_W * OUT_W)
-            py = int(row_raw / proj_H * OUT_H)
-            px = max(4, min(OUT_W - 4, px))
-            py = max(4, min(OUT_H - 4, py))
-
-            # c) Dibujar marcador y guardar
-            result = draw_marker(base, px, py, name.upper())
-            result.save(os.path.join(OUT_DIR, slug(name) + ".jpg"),
-                        "JPEG", quality=87, optimize=True)
-
-            print(f"  OK  {name:<36} [{view}]  px=({px},{py})")
-            ok += 1
-
-        except Exception as e:
-            import traceback
-            print(f"  ERR {name}: {e}")
-            traceback.print_exc()
-            err += 1
-
-    print(f"\nResultado: {ok} OK, {err} errores -> {OUT_DIR}")
+    js_path = os.path.join(BASE_DIR, "zone_markers.js")
+    with open(js_path, "w", encoding="utf-8") as f:
+        f.write("// Auto-generated by generate_zone_images.py — do not edit\n")
+        f.write("const ZONE_MARKERS = {\n")
+        for name, (view, nx, ny) in markers.items():
+            f.write(f'  "{name}": ["{view}", {nx}, {ny}],\n')
+        f.write("};\n")
+    print(f"\n  zone_markers.js escrito: {js_path}")
+    print(f"\nResultado: 5 bases + {len(markers)} posiciones -> {OUT_DIR}")
 
 
 if __name__ == "__main__":

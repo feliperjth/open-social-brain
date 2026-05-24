@@ -4845,6 +4845,36 @@ function _typewriter(el, text, speed, onDone) {
   tick();
 }
 
+function _showZonePin(zone) {
+  const pin = document.getElementById("zone-pin");
+  if (!pin) return;
+  const marker = (typeof ZONE_MARKERS !== "undefined") ? ZONE_MARKERS[zone.name] : null;
+  if (!marker) { pin.classList.remove("visible"); return; }
+  const [, normX, normY] = marker;
+
+  // Posicionar punto y anillos
+  [".zone-pin__ring", ".zone-pin__dot"].forEach((sel) =>
+    pin.querySelectorAll(sel).forEach((el) => {
+      el.style.left = `${normX * 100}%`;
+      el.style.top  = `${normY * 100}%`;
+    })
+  );
+
+  // Label: empujar hacia el borde de la imagen desde el centro
+  const dx = normX - 0.5, dy = normY - 0.5;
+  const L  = Math.sqrt(dx * dx + dy * dy) || 0.01;
+  const push = 0.18;
+  const lx = Math.max(0.02, Math.min(0.82, normX + (dx / L) * push));
+  const ly = Math.max(0.03, Math.min(0.94, normY + (dy / L) * push));
+  const label = document.getElementById("zone-pin-label");
+  if (label) {
+    label.textContent = zone.displayName.toUpperCase();
+    label.style.left = `${lx * 100}%`;
+    label.style.top  = `${ly * 100}%`;
+  }
+  pin.classList.add("visible");
+}
+
 function showDavinciOverlay(zone) {
   const overlay = document.getElementById("davinci-overlay");
   if (!overlay) return;
@@ -4853,13 +4883,14 @@ function showDavinciOverlay(zone) {
   const annotEl   = overlay.querySelector(".davinci-annotation");
 
   if (zone) {
-    // Zona anatómica específica
-    const imgSlug = _zoneImageSlug(zone.name);
+    // Zona anatómica: imagen base de la vista correspondiente
+    const marker = (typeof ZONE_MARKERS !== "undefined") ? ZONE_MARKERS[zone.name] : null;
+    const view   = marker ? marker[0] : "lateral";
     if (imgEl) {
-      imgEl.onerror = () => console.error(`[OSB] zone image 404: ./Imagenes/zones/${imgSlug}.jpg`);
-      imgEl.src = `./Imagenes/zones/${imgSlug}.jpg?v=${ZONE_IMG_V}`;
+      imgEl.src = `./Imagenes/zones/base_${view}.jpg?v=${ZONE_IMG_V}`;
       imgEl.alt = zone.displayName;
     }
+    _showZonePin(zone);
     const eyebrowText = `${zone.displayName} · ${zone.hemisphere === "RH" ? "HD" : "HI"}`;
     // Usa el texto de función principal ya calculado por selectZone
     const annotText = document.getElementById("experiment-copy")?.textContent?.trim()
@@ -4904,6 +4935,7 @@ function hideDavinciOverlay() {
   if (_davinciTyperTimer) { clearTimeout(_davinciTyperTimer); _davinciTyperTimer = null; }
   overlay.classList.remove("visible");
   overlay.setAttribute("aria-hidden", "true");
+  document.getElementById("zone-pin")?.classList.remove("visible");
 }
 
 document.getElementById("davinci-close")?.addEventListener("click", hideDavinciOverlay);

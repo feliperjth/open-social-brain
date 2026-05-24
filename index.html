@@ -165,6 +165,12 @@
         <button class="davinci-close" id="davinci-close" aria-label="Cerrar anotación anatómica">×</button>
         <div class="davinci-sketch-wrap">
           <img class="davinci-sketch-img" src="./Imagenes/brain_lateral.jpg" alt="Ilustración anatómica del cerebro — vista lateral" />
+          <div class="zone-pin" id="zone-pin" aria-hidden="true">
+            <div class="zone-pin__ring zone-pin__ring--a"></div>
+            <div class="zone-pin__ring zone-pin__ring--b"></div>
+            <div class="zone-pin__dot"></div>
+            <p class="zone-pin__label" id="zone-pin-label"></p>
+          </div>
         </div>
         <div class="davinci-caption">
           <span class="davinci-eyebrow">Área Fusiforme · BA 37</span>
@@ -189,6 +195,7 @@
       </div>
     </main>
 
+    <script src="./zone_markers.js"></script>
     <script type="importmap">
       {
         "imports": {
