@@ -4249,6 +4249,9 @@ function setView(view) {
     lateral: cameraPose(new THREE.Vector3(1, 0.02, 0)),
     "medial-left": cameraPose(new THREE.Vector3(1, 0.02, 0), 1.42),
     "medial-right": cameraPose(new THREE.Vector3(-1, 0.02, 0), 1.42),
+    dorsal:  cameraPose(new THREE.Vector3(0, 1, 0.04), 1.72),
+    ventral: cameraPose(new THREE.Vector3(0, -1, 0.04), 1.72),
+    coronal: cameraPose(new THREE.Vector3(0, 0.06, 1), 1.65),
     center: cameraPose(new THREE.Vector3(0, 0.02, 1), 1.58),
     reset: cameraPose(new THREE.Vector3(0, 0.02, 1), 1.58)
   };
