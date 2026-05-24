@@ -1,48 +1,28 @@
 #!/usr/bin/env python3
 """
-Open Social Brain — Zone Image Generator v5 (hybrid)
-=====================================================
-Posición del marcador:  nilearn plot_glass_brain (coordenadas MNI exactas)
-Base visual:            PNG originales de alta calidad (Lateral/Medial/etc.)
-
-Flujo por zona:
-  1. Renderizar glass brain con marcador rojo en imagen temporal
-  2. Detectar centroide del marcador y bounding-box del cerebro en esa imagen
-  3. Calcular fracción (fx, fy) dentro de los límites del cerebro nilearn
-  4. Mapear esa fracción a píxel en la PNG original usando su propio bounding-box
-  5. Dibujar marcador artístico (halo + mira + etiqueta) sobre la PNG original
+Open Social Brain — Zone Image Generator v6 (MNI152 base images)
+=================================================================
+Base visual:   Proyecciones del template MNI152 T1 1mm (mismo espacio que nilearn).
+Posicion:      Calculada DIRECTAMENTE desde la affine del template — sin calibracion.
+               pixel = inv(affine) @ [x_mni, y_mni, z_mni, 1]  → coordenada exacta.
+Marcador:      Artistico (halo + mira + etiqueta) sobre la proyeccion generada.
 """
 
-import os, re, io
+import os, re
 import numpy as np
-import matplotlib
-matplotlib.use("Agg")
-import matplotlib.pyplot as plt
-from nilearn import plotting
+from nilearn import datasets
 from PIL import Image, ImageDraw, ImageFont
+from scipy.ndimage import gaussian_filter
 
 # ── Rutas ────────────────────────────────────────────────────────────────────
 BASE_DIR = r"g:\Mi unidad\Analisis de Datos Script Oficiales\Atlas_Cerebro_3D"
-IMG_DIR  = os.path.join(BASE_DIR, "Imagenes")
-OUT_DIR  = os.path.join(IMG_DIR, "zones")
+OUT_DIR  = os.path.join(BASE_DIR, "Imagenes", "zones")
 os.makedirs(OUT_DIR, exist_ok=True)
 
-BASE_IMGS = {
-    "lateral": os.path.join(IMG_DIR, "Lateral.png"),
-    "medial":  os.path.join(IMG_DIR, "Medial.png"),
-    "ventral": os.path.join(IMG_DIR, "Ventral.png"),
-    "dorsal":  os.path.join(IMG_DIR, "Dorsal.png"),
-    "coronal": os.path.join(IMG_DIR, "Coronal.png"),
-}
-
 OUT_W, OUT_H = 560, 420
+ACCENT = (85, 194, 183)
+WHITE  = (240, 245, 243)
 
-# ── Paleta ────────────────────────────────────────────────────────────────────
-ACCENT     = (85, 194, 183)
-ACCENT_HEX = "#55c2b7"
-WHITE      = (240, 245, 243)
-
-# ── Tipografía ────────────────────────────────────────────────────────────────
 def _font(size):
     try:
         return ImageFont.truetype("C:/Windows/Fonts/courbd.ttf", size)
@@ -51,10 +31,10 @@ def _font(size):
 
 FONTS = {"bold": _font(12), "small": _font(10)}
 
-def slug(name: str) -> str:
+def slug(name):
     return re.sub(r"[^a-z0-9-]", "", name.lower().replace(" ", "-"))
 
-# ── Coordenadas MNI por zona (x, y, z, vista) ────────────────────────────────
+# ── Coordenadas MNI por zona ──────────────────────────────────────────────────
 ZONE_MNI = {
     # ── FRONTAL ───────────────────────────────────────────────────────────
     "Superior Frontal":           (15,  30,  52, "lateral"),
@@ -124,124 +104,201 @@ ZONE_MNI = {
     "Optic Chiasm":               ( 0,   4, -16, "ventral"),
 }
 
-# nilearn display_mode por vista
-VIEW_MODE = {
-    "lateral": "r",
-    "medial":  "l",
-    "dorsal":  "z",
-    "ventral": "z",
-    "coronal": "y",
-}
+
+# ── Template MNI152 ───────────────────────────────────────────────────────────
+def load_template():
+    print("  Cargando template MNI152 T1 1mm (descarga ~25 MB si es primera vez)...")
+    tpl   = datasets.load_mni152_template(resolution=1)
+    data  = np.asarray(tpl.dataobj, dtype=np.float32)
+    affine = tpl.affine
+    inv_a  = np.linalg.inv(affine)
+    return data, inv_a
 
 
-# ── Detección de bounding-box del cerebro en imagen ──────────────────────────
-def _detect_brain_bbox(arr: np.ndarray, threshold: int = 22):
+def mni_to_vox(inv_a, x, y, z):
+    """Convierte coordenadas MNI (mm) a indices de voxel (float)."""
+    v = inv_a @ [x, y, z, 1.0]
+    return float(v[0]), float(v[1]), float(v[2])
+
+
+# ── Proyecciones ─────────────────────────────────────────────────────────────
+def _style(arr: np.ndarray) -> np.ndarray:
+    """Normaliza y aplica contraste a una proyeccion 2D."""
+    a = arr.astype(np.float32)
+    nonzero = a[a > 0]
+    if len(nonzero) == 0:
+        return a
+    lo = float(np.percentile(nonzero, 1))
+    hi = float(np.percentile(nonzero, 99))
+    a  = np.clip(a, lo, hi)
+    a  = (a - lo) / (hi - lo + 1e-9)
+    a  = np.power(a, 0.65)          # gamma: realza estructuras tenues
+    return a
+
+
+def build_projections(data: np.ndarray, inv_a: np.ndarray):
     """
-    Devuelve (x0, x1, y0, y1) en píxeles donde hay contenido brillante
-    (el cerebro) sobre fondo negro.
+    Genera proyecciones 2D del template MNI152 para cada vista.
+    Devuelve dict: {vista: (arr_HxW_float, pixel_fn)}
+    donde pixel_fn(x,y,z) -> (col, row) en la proyeccion.
+
+    Convencion de imagen resultante:
+      lateral/medial : anterior=IZQUIERDA  superior=ARRIBA  (estandar neurologico)
+      dorsal         : anterior=ARRIBA     derecha=DERECHA
+      ventral        : anterior=ARRIBA     derecha=IZQUIERDA (vista desde abajo)
+      coronal        : superior=ARRIBA     derecha=DERECHA   (estandar neurologico)
     """
-    bright = arr.max(axis=2) > threshold
-    rows = np.where(bright.any(axis=1))[0]
-    cols = np.where(bright.any(axis=0))[0]
-    if len(rows) == 0 or len(cols) == 0:
-        H, W = arr.shape[:2]
-        return (int(W * 0.1), int(W * 0.9), int(H * 0.1), int(H * 0.9))
-    return (int(cols[0]), int(cols[-1]), int(rows[0]), int(rows[-1]))
+    # Midline en espacio voxel (donde MNI x=0)
+    i0, j0, k0 = mni_to_vox(inv_a, 0, 0, 0)
+    i_mid = int(round(i0))
+
+    result = {}
+
+    # ── LATERAL: hemisferio derecho, proyeccion maximo a lo largo de x (eje i) ──
+    # Con affine[0,0]<0 (convencion radiologica), hemisferio derecho (x>0) esta
+    # en i < i_mid. Tomamos solo esa mitad.
+    rh   = data[:i_mid + 1, :, :]          # shape (i_mid+1, n_j, n_k)
+    proj = rh.max(axis=0)                  # shape (n_j, n_k)
+    nj, nk = proj.shape
+
+    # Orientar: filas = k (SI, superior→arriba), cols = j (AP, anterior→izquierda)
+    # arr[k, j] => imagen[row, col]:  row = (nk-1)-k,  col = (nj-1)-j
+    lat_arr = _style(proj.T[::-1, ::-1])   # shape (nk, nj)
+
+    def lat_px(x, y, z, _inv=inv_a, _nj=nj, _nk=nk):
+        _, j, k = mni_to_vox(_inv, x, y, z)
+        col = int(round((_nj - 1) - j))
+        row = int(round((_nk - 1) - k))
+        return (max(0, min(_nj - 1, col)),
+                max(0, min(_nk - 1, row)))
+
+    result["lateral"] = (lat_arr, lat_px)
+
+    # ── MEDIAL: slab fino cerca de la linea media del hemisferio derecho ──────
+    slab_start = max(0, i_mid - 6)
+    slab_end   = i_mid + 1
+    med_proj   = data[slab_start:slab_end, :, :].max(axis=0)
+    med_arr    = _style(med_proj.T[::-1, ::-1])   # mismo sistema de coords
+
+    result["medial"] = (med_arr, lat_px)   # misma funcion de pixel que lateral
+
+    # ── DORSAL: proyeccion desde arriba a lo largo de z (eje k) ──────────────
+    dor_proj = data.max(axis=2)            # shape (n_i, n_j)
+    ni, nj2  = dor_proj.shape
+
+    # Orientar: filas = j (AP, anterior→arriba = row 0 = j maximo)
+    #           cols  = i (x: con affine negativo i=0 → x=+90=derecha)
+    # Para neurologia: derecha (+x) a la derecha de imagen → invertir i
+    # (i=0 = x>0 = derecha del cerebro → debe quedar a la DERECHA = col grande)
+    dor_arr = _style(dor_proj.T[::-1, ::-1])  # shape (nj2, ni): fila=j flip, col=i flip
+
+    def dor_px(x, y, z, _inv=inv_a, _ni=ni, _nj=nj2):
+        i, j, _ = mni_to_vox(_inv, x, y, z)
+        col = int(round((_ni - 1) - i))   # flip i → derecha del cerebro a la derecha
+        row = int(round((_nj - 1) - j))   # flip j → anterior arriba
+        return (max(0, min(_ni - 1, col)),
+                max(0, min(_nj - 1, row)))
+
+    result["dorsal"] = (dor_arr, dor_px)
+
+    # ── VENTRAL: misma proyeccion axial, pero vista desde abajo ──────────────
+    # Desde abajo: izq/der se invierten respecto a dorsal.
+    ven_arr = _style(dor_proj.T[::-1, :])  # shape (nj2, ni): col=i SIN flip
+
+    def ven_px(x, y, z, _inv=inv_a, _ni=ni, _nj=nj2):
+        i, j, _ = mni_to_vox(_inv, x, y, z)
+        col = int(round(i))                # sin flip → der del cerebro a la izquierda
+        row = int(round((_nj - 1) - j))   # anterior arriba
+        return (max(0, min(_ni - 1, col)),
+                max(0, min(_nj - 1, row)))
+
+    result["ventral"] = (ven_arr, ven_px)
+
+    # ── CORONAL: proyeccion desde el frente a lo largo de y (eje j) ──────────
+    cor_proj = data.max(axis=1)            # shape (n_i, n_k)
+    ni2, nk2 = cor_proj.shape
+
+    # Orientar: filas = k (SI, superior→arriba = row 0 = k maximo)
+    #           cols  = i (x: flip → derecha a la derecha)
+    cor_arr = _style(cor_proj.T[::-1, ::-1])  # shape (nk2, ni2)
+
+    def cor_px(x, y, z, _inv=inv_a, _ni=ni2, _nk=nk2):
+        i, _, k = mni_to_vox(_inv, x, y, z)
+        col = int(round((_ni - 1) - i))
+        row = int(round((_nk - 1) - k))
+        return (max(0, min(_ni - 1, col)),
+                max(0, min(_nk - 1, row)))
+
+    result["coronal"] = (cor_arr, cor_px)
+
+    return result
 
 
-# ── Posición nilearn: fracción del marcador dentro del glass brain ────────────
-def _nilearn_fraction(x_mni: float, y_mni: float, z_mni: float, view: str):
+# ── Array → PIL Image estiilzada ─────────────────────────────────────────────
+def arr_to_pil(arr: np.ndarray, W: int, H: int) -> Image.Image:
     """
-    Renderiza un glass brain con marcador rojo interno, detecta dónde
-    queda el marcador dentro del contorno del cerebro y devuelve (fx, fy)
-    como fracción [0-1] × [0-1] del bounding-box del cerebro en nilearn.
+    Convierte un array float [0-1] a PIL RGB con fondo negro y cerebro blanco.
+    Aplica un suave glow para dar profundidad.
     """
-    mode = VIEW_MODE[view]
+    u8 = (arr * 255).astype(np.uint8)
+    gray = Image.fromarray(u8, mode="L")
 
-    fig = plt.figure(figsize=(8, 6), facecolor="black")
-    display = plotting.plot_glass_brain(
-        None, display_mode=mode, colorbar=False, figure=fig,
-        black_bg=True, annotate=False, draw_cross=False, alpha=0.75,
-    )
-    # Marcador rojo vivo para detección confiable
-    display.add_markers([(x_mni, y_mni, z_mni)], marker_color="#ff1111", marker_size=550)
+    # Glow suave: suma version desenfocada
+    blur  = gray.filter(__import__("PIL.ImageFilter", fromlist=["GaussianBlur"])
+                        .GaussianBlur(radius=1.8))
+    glow  = Image.blend(gray, blur, alpha=0.35)
 
-    buf = io.BytesIO()
-    plt.savefig(buf, format="png", facecolor="black",
-                dpi=110, bbox_inches="tight", pad_inches=0.03)
-    plt.close(fig)
-    buf.seek(0)
-
-    arr = np.array(Image.open(buf).convert("RGB"))
-
-    # Separar rojo (marcador) del gris (contorno cerebro)
-    is_red   = (arr[:,:,0] > 140) & (arr[:,:,1] < 90) & (arr[:,:,2] < 90)
-    is_brain = (arr.max(axis=2) > 18) & ~is_red
-
-    # Bounding-box del cerebro en esta imagen nilearn
-    brain_rows = np.where(is_brain.any(axis=1))[0]
-    brain_cols = np.where(is_brain.any(axis=0))[0]
-
-    if len(brain_rows) == 0 or len(brain_cols) == 0 or is_red.sum() == 0:
-        return 0.5, 0.5
-
-    bx0, bx1 = float(brain_cols[0]), float(brain_cols[-1])
-    by0, by1 = float(brain_rows[0]), float(brain_rows[-1])
-
-    ys, xs = np.where(is_red)
-    mx, my = float(xs.mean()), float(ys.mean())
-
-    fx = float(np.clip((mx - bx0) / max(bx1 - bx0, 1), 0.0, 1.0))
-    fy = float(np.clip((my - by0) / max(by1 - by0, 1), 0.0, 1.0))
-    return fx, fy
+    # Escalar a salida
+    pil = glow.convert("RGB").resize((W, H), Image.LANCZOS)
+    return pil
 
 
-# ── Marcador artístico sobre PIL Image ───────────────────────────────────────
+# ── Marcador artistico ───────────────────────────────────────────────────────
 def draw_marker(img: Image.Image, px: int, py: int, label: str) -> Image.Image:
     out = img.copy().convert("RGBA")
     W, H = out.size
 
-    offset_x = -120 if px > W * 0.55 else 18
+    offset_x = -122 if px > W * 0.55 else 18
     offset_y =  -28 if py > H * 0.55 else 10
-    tx = max(4, min(W - 140, px + offset_x))
+    tx = max(4, min(W - 144, px + offset_x))
     ty = max(4, min(H - 22,  py + offset_y))
 
     try:
         bbox = FONTS["bold"].getbbox(label)
-        tw = bbox[2] - bbox[0] + 10
+        tw   = bbox[2] - bbox[0] + 10
     except Exception:
-        tw = len(label) * 7 + 10
+        tw   = len(label) * 7 + 10
 
-    # Sombra de texto
+    # Sombra etiqueta
     shadow = Image.new("RGBA", out.size, (0, 0, 0, 0))
     sd = ImageDraw.Draw(shadow)
     pad = 3
     sd.rounded_rectangle([tx - pad, ty - pad, tx + tw + pad, ty + 16 + pad],
-                          radius=3, fill=(0, 0, 0, 175))
+                          radius=3, fill=(0, 0, 0, 180))
     out = Image.alpha_composite(out, shadow)
 
     draw = ImageDraw.Draw(out)
 
-    # Línea guía
+    # Linea guia
     r = 9
     cx_l, cy_l = tx + tw // 2, ty + 8
     dx, dy = cx_l - px, cy_l - py
     L = (dx**2 + dy**2) ** 0.5
     if L > 0:
         sx, sy = int(px + r * dx / L), int(py + r * dy / L)
-        draw.line([sx, sy, cx_l, cy_l], fill=(*ACCENT, 165), width=1)
+        draw.line([sx, sy, cx_l, cy_l], fill=(*ACCENT, 160), width=1)
 
     # Halo
     halo = Image.new("RGBA", out.size, (0, 0, 0, 0))
     hd   = ImageDraw.Draw(halo)
-    hd.ellipse([px - 18, py - 18, px + 18, py + 18], fill=(*ACCENT, 38))
+    hd.ellipse([px - 20, py - 20, px + 20, py + 20], fill=(*ACCENT, 40))
     out  = Image.alpha_composite(out, halo)
     draw = ImageDraw.Draw(out)
 
-    # Círculo + miras + punto central
+    # Circulo + miras + punto
     draw.ellipse([px - r, py - r, px + r, py + r],
-                 outline=(*ACCENT, 230), width=2)
-    for ddx, ddy in [(-r - 5, 0), (r + 5, 0), (0, -r - 5), (0, r + 5)]:
+                 outline=(*ACCENT, 235), width=2)
+    for ddx, ddy in [(-r - 6, 0), (r + 6, 0), (0, -r - 6), (0, r + 6)]:
         draw.line([px, py, px + ddx, py + ddy], fill=(*ACCENT, 155), width=1)
     draw.ellipse([px - 2, py - 2, px + 2, py + 2], fill=(*ACCENT, 255))
 
@@ -251,57 +308,49 @@ def draw_marker(img: Image.Image, px: int, py: int, label: str) -> Image.Image:
     return out.convert("RGB")
 
 
-# ── Generación principal ──────────────────────────────────────────────────────
-def make_zone_image(name: str, x: float, y: float, z: float, view: str) -> bool:
-    # 1. Posición exacta vía nilearn
-    fx, fy = _nilearn_fraction(x, y, z, view)
-
-    # 2. Cargar PNG base original
-    base_path = BASE_IMGS.get(view)
-    if not base_path or not os.path.exists(base_path):
-        print(f"  SKIP — PNG no encontrada para vista '{view}': {name}")
-        return False
-
-    base = Image.open(base_path).convert("RGB").resize((OUT_W, OUT_H), Image.LANCZOS)
-
-    # 3. Detectar bounding-box del cerebro en la PNG base
-    arr_base = np.array(base)
-    bx0, bx1, by0, by1 = _detect_brain_bbox(arr_base, threshold=22)
-
-    # 4. Mapear fracción nilearn → píxel sobre la PNG
-    # Nilearn 'r'/'l' (sagital) pone anterior=IZQUIERDA; los PNG tienen anterior=DERECHA
-    # → invertir eje horizontal solo para vistas sagitales
-    if view in ("lateral", "medial"):
-        fx = 1.0 - fx
-
-    px = int(bx0 + fx * (bx1 - bx0))
-    py = int(by0 + fy * (by1 - by0))
-    px = max(bx0 + 4, min(bx1 - 4, px))
-    py = max(by0 + 4, min(by1 - 4, py))
-
-    # 5. Dibujar marcador artístico
-    result = draw_marker(base, px, py, name.upper())
-
-    # 6. Guardar
-    out_path = os.path.join(OUT_DIR, slug(name) + ".jpg")
-    result.save(out_path, "JPEG", quality=87, optimize=True)
-    return True
-
-
 # ── Main ─────────────────────────────────────────────────────────────────────
 def main():
-    print("Open Social Brain — Generator v5 (nilearn posición + PNG artístico)")
-    print(f"Generando {len(ZONE_MNI)} imágenes...\n")
+    print("Open Social Brain — Generator v6 (MNI152 base images)")
+    print()
 
+    # 1. Cargar template y calcular proyecciones (una sola vez)
+    data, inv_a = load_template()
+    print("  Generando proyecciones por vista...")
+    projections = build_projections(data, inv_a)
+    print(f"  Proyecciones listas: {list(projections.keys())}\n")
+
+    # 2. Generar imagen por zona
     ok = err = 0
     for name, vals in ZONE_MNI.items():
         x, y, z, view = vals
         try:
-            make_zone_image(name, x, y, z, view)
-            print(f"  OK  {name:<36} [{view}]")
+            proj_arr, pixel_fn = projections[view]
+
+            # a) Imagen base desde la proyeccion MNI
+            base = arr_to_pil(proj_arr, OUT_W, OUT_H)
+
+            # b) Pixel exacto via affine
+            proj_H, proj_W = proj_arr.shape
+            col_raw, row_raw = pixel_fn(x, y, z)
+
+            # Escalar desde resolucion de proyeccion a OUT_W x OUT_H
+            px = int(col_raw / proj_W * OUT_W)
+            py = int(row_raw / proj_H * OUT_H)
+            px = max(4, min(OUT_W - 4, px))
+            py = max(4, min(OUT_H - 4, py))
+
+            # c) Dibujar marcador y guardar
+            result = draw_marker(base, px, py, name.upper())
+            result.save(os.path.join(OUT_DIR, slug(name) + ".jpg"),
+                        "JPEG", quality=87, optimize=True)
+
+            print(f"  OK  {name:<36} [{view}]  px=({px},{py})")
             ok += 1
+
         except Exception as e:
+            import traceback
             print(f"  ERR {name}: {e}")
+            traceback.print_exc()
             err += 1
 
     print(f"\nResultado: {ok} OK, {err} errores -> {OUT_DIR}")
