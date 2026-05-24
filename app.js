@@ -4189,7 +4189,8 @@ function selectZone(label) {
   renderZoneList();
   updateURL();
   openSheet();
-  showDavinciOverlay(zone);
+  // Use rAF so this always fires after any hideDavinciOverlay triggered by renderThemeTabs
+  requestAnimationFrame(() => showDavinciOverlay(zone));
 }
 
 function updateSelectionHalo(meshes, color) {
@@ -4855,6 +4856,7 @@ function showDavinciOverlay(zone) {
     // Zona anatómica específica
     const imgSlug = _zoneImageSlug(zone.name);
     if (imgEl) {
+      imgEl.onerror = () => console.error(`[OSB] zone image 404: ./Imagenes/zones/${imgSlug}.jpg`);
       imgEl.src = `./Imagenes/zones/${imgSlug}.jpg?v=${ZONE_IMG_V}`;
       imgEl.alt = zone.displayName;
     }
