@@ -269,6 +269,11 @@ def make_zone_image(name: str, x: float, y: float, z: float, view: str) -> bool:
     bx0, bx1, by0, by1 = _detect_brain_bbox(arr_base, threshold=22)
 
     # 4. Mapear fracción nilearn → píxel sobre la PNG
+    # Nilearn 'r'/'l' (sagital) pone anterior=IZQUIERDA; los PNG tienen anterior=DERECHA
+    # → invertir eje horizontal solo para vistas sagitales
+    if view in ("lateral", "medial"):
+        fx = 1.0 - fx
+
     px = int(bx0 + fx * (bx1 - bx0))
     py = int(by0 + fy * (by1 - by0))
     px = max(bx0 + 4, min(bx1 - 4, px))
