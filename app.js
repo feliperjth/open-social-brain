@@ -2363,7 +2363,17 @@ const zoneContentOverrides = {
   "Giro supramarginal": ["Atención y perspectiva corporal", "Participa en integración sensoriomotora y puede usarse para discutir perspectiva y cuerpo propio/ajeno."],
   "Parietal inferior": ["Atención social", "Integra atención, acción y significado de claves visuales como mirada, gestos o dirección."],
   "Precentral / motora primaria": ["Ejecución de acción", "Permite contrastar preparación/observación de acciones con ejecución motora directa."],
-  "Postcentral / somatosensorial": ["Cuerpo percibido", "Base para discutir tacto, cuerpo y representación somatosensorial en cognición social."]
+  "Postcentral / somatosensorial": ["Cuerpo percibido", "Base para discutir tacto, cuerpo y representación somatosensorial en cognición social."],
+
+  // Estructuras sin función social propia — [título, descripción, conceptos anatómicos]
+  "Quiasma óptico": ["Cruce de vías visuales", "Punto donde las fibras del nervio óptico de ambos ojos se entrecruzan parcialmente. Permite que cada hemisferio reciba señales del campo visual contralateral.", "Nervio óptico, decusación parcial, campo visual contralateral"],
+  "Tronco encefálico": ["Control de funciones vitales", "Conecta cerebro y médula espinal. Regula respiración, frecuencia cardíaca, ciclos de sueño-vigilia y reflejos autónomos esenciales para la supervivencia.", "Mesencéfalo, protuberancia, bulbo raquídeo, formación reticular"],
+  "Diencéfalo ventral": ["Homeostasis y regulación", "Incluye estructuras hipotalámicas y subtálamo. Controla temperatura, hambre, sed, ciclos circadianos y la respuesta al estrés mediante el eje hipotálamo-hipófisis.", "Hipotálamo, subtálamo, eje hipotálamo-hipófisis-suprarrenal"],
+  "Prosencéfalo basal": ["Sistema colinérgico", "Núcleos que proyectan acetilcolina hacia corteza e hipocampo. Modulan consolidación de memoria, atención sostenida y estado de alerta general.", "Núcleo basal de Meynert, banda diagonal de Broca, septum medial"],
+  "Ventrículo lateral": ["Circulación de líquido cefalorraquídeo", "Cavidad llena de LCR dentro de cada hemisferio. Produce y circula el fluido que protege al cerebro de impactos y regula la presión intracraneal.", "Plexo coroideo, LCR, presión intracraneal"],
+  "Ventrículo lateral inferior": ["Asta temporal del ventrículo lateral", "Extensión inferior del ventrículo lateral que rodea el hipocampo. Parte del sistema ventricular de circulación de LCR en el lóbulo temporal.", "Asta temporal, hipocampo adyacente, sistema ventricular"],
+  "Tercer ventrículo": ["Cavidad diencefálica", "Espacio estrecho entre los dos tálamos. Conecta los ventrículos laterales con el cuarto ventrículo a través del acueducto de Silvio.", "Acueducto de Silvio, tálamo, foramen de Monro"],
+  "Cuarto ventrículo": ["Vía de LCR hacia la médula", "Cavidad entre tronco encefálico y cerebelo. El LCR fluye desde aquí hacia el espacio subaracnoideo y el canal espinal central.", "Cerebelo, tronco encefálico, espacio subaracnoideo"]
 };
 
 const literalQuoteLibrary = {
@@ -3661,8 +3671,9 @@ function updateSocialContent(regionId, zone = null) {
   const override = zone ? zoneContentOverrides[zone.displayName] : null;
   socialTitleEl.textContent = override?.[0] ?? base.title;
   socialSummaryEl.textContent = override?.[1] ?? base.summary;
-  socialConceptsEl.textContent = base.concepts;
-  if (socialExampleEl) socialExampleEl.textContent = base.example;
+  // override[2]: lista de conceptos para estructuras no sociales; si no existe, usa la red de la región
+  socialConceptsEl.textContent = override?.[2] ?? base.concepts;
+  if (socialExampleEl) socialExampleEl.textContent = override?.[2] ? "" : base.example;
 }
 
 function updateDeepDive(regionId, zone = null) {
