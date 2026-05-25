@@ -3133,7 +3133,8 @@ function makeRegionButton(region) {
   const button = document.createElement("button");
   button.dataset.region = region.id;
   const role = currentLang === "en" ? regionNetworkRoleEn[region.id] : regionNetworkRoleEs[region.id];
-  button.innerHTML = `<strong>${copy.name}</strong><span>${copy.tag}</span><small>${role ?? copy.functions}</small>`;
+  const cite = regionRefs[region.id] ?? "";
+  button.innerHTML = `<strong>${copy.name}</strong><span>${copy.tag}</span><small>${role ?? copy.functions}</small>${cite ? `<cite class="card-cite">${cite}</cite>` : ""}`;
   button.addEventListener("click", () => selectRegion(region.id));
   return button;
 }
@@ -3193,6 +3194,27 @@ function asSentence(text) {
   const clean = `${text ?? ""}`.trim();
   if (!clean) return "";
   return /[.!?]$/.test(clean) ? clean : `${clean}.`;
+}
+
+function extractCitations(text) {
+  if (!text) return "";
+  const re = /(?:^|[;.]\s*)([^;.()\n]+?)\s*\((\d{4})\)/g;
+  const out = [];
+  let m;
+  while ((m = re.exec(text)) !== null) {
+    let author = m[1]
+      .replace(/^(?:Ref:|Referencia:|Guía:|Referencia\s+\d*:?\s*)/i, "")
+      .trim();
+    if (!author || author.length < 2) continue;
+    author = author.replace(/\s+(cap\.|caps\.|vol\.)\s*$/i, "").trim();
+    if (!author) continue;
+    const commaCount = (author.match(/,/g) || []).length;
+    if (commaCount >= 1 && !/et al/.test(author)) {
+      author = author.split(",")[0].trim() + " et al.";
+    }
+    out.push(`${author} (${m[2]})`);
+  }
+  return out.slice(0, 3).join(" · ");
 }
 
 function lowerFirst(text) {
@@ -3497,11 +3519,13 @@ function renderThemeTabs(sectionId = activeThemeId) {
       button.className = "social-function-card";
       button.dataset.theme = theme.id;
       button.classList.toggle("active", theme.id === section?.id);
+      const cite = extractCitations(theme.handbook);
       button.innerHTML = `
         <span class="function-icon">${theme.icon ?? "OS"}</span>
         <span>
           <strong>${copy.title}</strong>
           <small>${copy.hint}</small>
+          ${cite ? `<cite class="card-cite">${cite}</cite>` : ""}
         </span>
         <span class="function-count">${theme.regions.length}</span>
       `;
@@ -3889,6 +3913,25 @@ const themeNetworkDescriptionsEn = {
   "social-learning-memory": "Hippocampus binds face, context, emotion and episode; the default mode network integrates that experience into a social narrative; striatal circuits learn consequences of cooperation or cheating; and fusiform cortex helps recognize the relevant person again.",
   "rejection-exclusion": "Anterior cingulate and insula register social pain and bodily distress, amygdala increases vigilance to disapproval cues, the salience network prioritizes the event, and DLPFC can regulate the later response. Exclusion changes attention, emotion and behavior because it threatens belonging and social value.",
   "communication-health": "Auditory cortex extracts prosody and tone, insula and anterior cingulate register bodily and affective impact, DLPFC supports regulation during difficult messages, and the salience network decides whether the signal communicates support, threat or criticism."
+};
+
+const regionRefs = {
+  dlpfc:           "Miller & Cohen (2001) · Fuster (2008)",
+  insula:          "Craig (2009) · Damasio (1999)",
+  amygdala:        "LeDoux (1996) · Adolphs (2009)",
+  dmn:             "Buckner et al. (2008) · Andrews-Hanna et al. (2010)",
+  hippocampus:     "Squire (1992) · Maguire et al. (2000)",
+  acc:             "Botvinick et al. (2001) · Bush et al. (2000)",
+  vmPfc:           "Damasio (1994) · Bechara et al. (2000)",
+  salience:        "Seeley et al. (2007) · Menon & Uddin (2010)",
+  ventralAttention:"Corbetta & Shulman (2002) · Corbetta et al. (2008)",
+  fusiformFace:    "Kanwisher et al. (1997) · Haxby et al. (2001)",
+  thalamostriatal: "Schultz et al. (1997) · Delgado (2007)",
+  parietal:        "Culham & Kanwisher (2001) · Corbetta & Shulman (2002)",
+  premotor:        "Rizzolatti & Craighero (2004) · Fadiga et al. (1995)",
+  auditory:        "Zatorre & Salimpoor (2013) · Scott & Johnsrude (2003)",
+  visual:          "Livingstone & Hubel (1988) · Ungerleider & Mishkin (1982)",
+  cerebellum:      "Schmahmann (2004) · Buckner (2013)"
 };
 
 const regionNetworkRoleEs = {
