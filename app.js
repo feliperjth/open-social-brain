@@ -2345,25 +2345,25 @@ const socialThemeGroupTextEn = {
 };
 
 const zoneContentOverrides = {
-  "Cíngulo anterior caudal": ["Monitoreo de conflicto", "Evalúa conflicto entre respuestas y ayuda a ajustar control cuando una tarea social exige corregir errores o inhibir impulsos."],
-  "Cíngulo anterior rostral": ["Regulación afectiva", "Conecta evaluación emocional y control, útil para discutir dolor social, monitoreo afectivo y regulación."],
-  "Cíngulo posterior": ["Autorreferencia", "Forma parte de circuitos de memoria autobiográfica y pensamiento interno relacionados con red por defecto."],
-  "Precúneo": ["Simulación mental", "Participa en imaginería, memoria episódica y cambio entre perspectiva propia y escenarios imaginados."],
-  "Temporal superior": ["Señales sociales dinámicas", "Relevante para voz, movimiento biológico y señales audiovisuales usadas al interpretar a otras personas."],
-  "Temporal transverso / Heschl": ["Audición temprana", "Punto de entrada cortical para sonidos; permite conectar tonos, voz y prosodia en tareas auditivas."],
-  "Ínsula": ["Cuerpo y emoción", "Integra estados corporales con relevancia emocional, una vía concreta para hablar de interocepción y empatía."],
-  "Amígdala": ["Saliencia emocional", "Prioriza señales afectivas, especialmente caras y estímulos con valor emocional o amenaza."],
-  "Hipocampo": ["Memoria social contextual", "Vincula persona, lugar, emoción y episodio, clave para recordar interacciones sociales."],
-  "Parahipocampal": ["Contexto de la escena", "Aporta contexto espacial y ambiental para interpretar eventos y recuerdos."],
-  "Orbitofrontal medial": ["Valor y decisión social", "Relaciona recompensa, valoración y ajuste de decisiones en escenarios sociales."],
-  "Orbitofrontal lateral": ["Cambio de valor", "Ayuda a actualizar decisiones cuando una conducta deja de ser apropiada o recompensante."],
-  "Frontal medio rostral": ["Metas y reglas", "Sostiene reglas abstractas y metas durante tareas de decisión social."],
-  "Frontal medio caudal": ["Control de tarea", "Apoya selección de respuestas y control cognitivo durante demandas complejas."],
-  "Frontal superior": ["Control sostenido", "Contribuye al mantenimiento de metas y control atencional prolongado."],
-  "Giro supramarginal": ["Atención y perspectiva corporal", "Participa en integración sensoriomotora y puede usarse para discutir perspectiva y cuerpo propio/ajeno."],
-  "Parietal inferior": ["Atención social", "Integra atención, acción y significado de claves visuales como mirada, gestos o dirección."],
-  "Precentral / motora primaria": ["Ejecución de acción", "Permite contrastar preparación/observación de acciones con ejecución motora directa."],
-  "Postcentral / somatosensorial": ["Cuerpo percibido", "Base para discutir tacto, cuerpo y representación somatosensorial en cognición social."],
+  "Cíngulo anterior caudal": ["Monitoreo de conflicto", "Cuando dos respuestas compiten o un error social exige corrección, aquí se registra la tensión y se activa el ajuste. Clave para frenar impulsos en momentos interpersonales delicados."],
+  "Cíngulo anterior rostral": ["Regulación afectiva", "Media entre lo que se siente y lo que conviene hacer. Activo cuando el dolor social —rechazo, crítica— necesita ser procesado sin desbordar la conducta."],
+  "Cíngulo posterior": ["Autorreferencia", "Parte del tejido que sostiene el yo: recuerdos personales, evaluación de uno mismo y el ruido de fondo del pensamiento interno cuando la mente divaga."],
+  "Precúneo": ["Simulación mental", "Simula: revive un momento vivido, anticipa cómo será algo, o cambia de perspectiva para ver el mundo con los ojos de otra persona."],
+  "Temporal superior": ["Señales sociales dinámicas", "Capta lo que se mueve y suena como humano: voces, pasos, gestos. Transforma señales dinámicas en información sobre intención o estado de otra persona."],
+  "Temporal transverso / Heschl": ["Audición temprana", "Primera estación cortical del sonido. Todo lo auditivo —tono, timbre, ritmo, voz— entra por aquí antes de ser analizado como emoción o lenguaje."],
+  "Ínsula": ["Cuerpo y emoción", "El cuerpo siente antes de que el pensamiento alcance el estado: esa sensación visceral de incomodidad, peligro o emoción nace en gran parte aquí. Base de la empatía encarnada."],
+  "Amígdala": ["Saliencia emocional", "No espera: escanea continuamente lo que importa emocionalmente. Una expresión de miedo, un tono amenazante o un contexto de incertidumbre la activan antes de que se tome ninguna decisión consciente."],
+  "Hipocampo": ["Memoria social contextual", "Guarda episodios completos: quién estaba, dónde, qué se sintió. Hace posible no solo reconocer a alguien, sino recordar la historia que comparten."],
+  "Parahipocampal": ["Contexto de la escena", "Cuando un recuerdo llega, viene con lugar. Esta región ancla personas y eventos en sus escenas espaciales y ambientales."],
+  "Orbitofrontal medial": ["Valor y decisión social", "Calcula cuánto vale algo —una relación, una aprobación, una recompensa compartida— y ese valor guía las decisiones en tiempo real."],
+  "Orbitofrontal lateral": ["Cambio de valor", "Cuando algo que antes valía ya no vale, o una estrategia dejó de funcionar, aquí se activa el cambio. Esencial para ajustar la conducta social ante contextos cambiantes."],
+  "Frontal medio rostral": ["Metas y reglas", "Mantiene activa la regla del juego aunque no esté visible. Permite seguir una norma social, respetar un turno o perseguir una meta cuando hay distractores."],
+  "Frontal medio caudal": ["Control de tarea", "Selecciona qué hacer entre varias opciones posibles. Más activo cuando la situación es exigente y no hay una respuesta automática clara."],
+  "Frontal superior": ["Control sostenido", "Sostiene el esfuerzo cuando la atención tiende a dispersarse. Necesario para mantener metas a largo plazo en presencia de distracciones sociales."],
+  "Giro supramarginal": ["Atención y perspectiva corporal", "Integra información sobre el espacio propio y ajeno. Ayuda a distinguir mi mano de la tuya y a tomar perspectiva sobre cuerpos y acciones en el espacio compartido."],
+  "Parietal inferior": ["Atención social", "Una mirada desplazada, un gesto que señala, una postura que advierte: estas claves reclutan esta región para redirigir la atención y dar significado a lo que se ve."],
+  "Precentral / motora primaria": ["Ejecución de acción", "Convierte intención en movimiento. También activa al observar acciones ajenas, abriendo la posibilidad de entender el gesto desde la propia experiencia motora."],
+  "Postcentral / somatosensorial": ["Cuerpo percibido", "El mapa del cuerpo propio. Procesa tacto, posición y sensación, y contribuye a representar el cuerpo ajeno cuando se simula la experiencia de otra persona."],
 
   // Estructuras sin función social propia — [título, descripción, conceptos anatómicos]
   "Quiasma óptico": ["Cruce de vías visuales", "Punto donde las fibras del nervio óptico de ambos ojos se entrecruzan parcialmente. Permite que cada hemisferio reciba señales del campo visual contralateral.", "Nervio óptico, decusación parcial, campo visual contralateral"],
@@ -2956,7 +2956,7 @@ const deepDiveByZoneKey = new Map(Object.entries({
 const socialFunctionProfiles = {
   dlpfc: {
     title: "Control social dirigido a metas",
-    summary: "La corteza dorsolateral prefrontal permite sostener reglas sociales activas, inhibir respuestas impulsivas y elegir conductas coherentes con metas de largo plazo. En interacción social participa cuando una persona debe regular lo que dice, cambiar de estrategia, resistir presión del grupo o resolver conflicto entre interés propio y norma.",
+    summary: "Saber una norma no basta: hay que mantenerla activa y aplicarla en el momento exacto. Esta región sostiene reglas sociales en mente, inhibe respuestas impulsivas y permite elegir conductas coherentes con metas a largo plazo, especialmente cuando hay presión grupal, conflicto de intereses o necesidad de cambiar estrategia.",
     concepts: "Autocontrol, normas, reputación, flexibilidad, memoria de trabajo social.",
     example: "Comparar una respuesta espontánea con una respuesta regulada ante crítica, rechazo o presión de pares.",
     deep: "Desde el esquema del handbook, esta región conecta capítulos sobre corteza prefrontal y conducta social dirigida a metas, autorregulación y déficits sociales por daño frontal. Es una zona clave para explicar por qué saber una norma no basta: hay que mantenerla activa y aplicarla en el momento correcto.",
@@ -2965,7 +2965,7 @@ const socialFunctionProfiles = {
   },
   vmPfc: {
     title: "Valor social y significado personal",
-    summary: "La corteza ventromedial/orbitofrontal integra recompensa, preferencia, normas, daño/beneficio para otros y significado personal. Es central para decisiones donde importan confianza, reputación, culpa, cooperación o valor afectivo de una persona.",
+    summary: "La misma recompensa material puede valer más o menos según quién esté presente, qué relación existe o qué dice de uno mismo. Esta región integra recompensa, preferencia, normas, daño y beneficio para otros, y es central cuando en juego están la confianza, la reputación, la culpa o el valor afectivo de una persona.",
     concepts: "Valor social, recompensa, reputación, juicio moral, preferencia.",
     example: "Elegir entre ganancia propia y ganancia compartida bajo anonimato o mirada de otros.",
     deep: "Relaciona los temas del handbook sobre recompensa social, altruismo, evaluación motivacional y conducta social dirigida a metas. Ayuda a explicar por qué la misma recompensa material puede cambiar de valor según contexto, vínculo o reputación.",
@@ -2974,7 +2974,7 @@ const socialFunctionProfiles = {
   },
   acc: {
     title: "Conflicto, error y dolor social",
-    summary: "El cíngulo anterior monitorea conflicto, error, esfuerzo y señales aversivas. En lo social es útil para explicar dolor por rechazo, incomodidad por evaluación, necesidad de control y ajustes después de errores interpersonales.",
+    summary: "Los errores sociales no son solo cognitivos: duelen, incomodan y exigen corrección. Esta región monitorea conflicto, esfuerzo y señales aversivas, y en lo social participa cuando hay rechazo, presión evaluativa o necesidad de ajustar conducta tras un error interpersonal.",
     concepts: "Conflicto, error, esfuerzo, rechazo social, ajuste conductual.",
     example: "Observar si el feedback social negativo aumenta cautela o cambia tiempos de respuesta.",
     deep: "Se vincula con los capítulos sobre autorregulación, rechazo social y regulación emocional. Permite presentar una idea poderosa: los errores sociales no son solo cognitivos, también tienen costo afectivo y corporal.",
@@ -2983,7 +2983,7 @@ const socialFunctionProfiles = {
   },
   dmn: {
     title: "Yo, memoria autobiográfica y mentalización",
-    summary: "La red por defecto sostiene autorreferencia, memoria autobiográfica, simulación del futuro y reflexión sobre estados mentales propios y ajenos. Es una red fundamental para identidad, narrativa personal y teoría de la mente.",
+    summary: "Pensar en uno mismo, recordar una interacción pasada y preguntarse qué piensa otra persona activan regiones parcialmente compartidas. Esta red sostiene identidad, narrativa personal y la capacidad de simular estados mentales propios y ajenos —la base de la teoría de la mente.",
     concepts: "Self, autobiografía, prospección, mentalización, impresión social.",
     example: "Comparar juicios sobre rasgos propios, rasgos de un amigo y rasgos de un desconocido.",
     deep: "El handbook incluye self-awareness, note to self, person perception e impression formation. Esta red permite unir esos temas: pensar en mí, recordar interacciones y proyectar intenciones de otros usan recursos parcialmente compartidos.",
@@ -2992,7 +2992,7 @@ const socialFunctionProfiles = {
   },
   ventralAttention: {
     title: "Reorientación hacia claves sociales",
-    summary: "La red ventral de atención y la unión temporoparietal ayudan a cambiar el foco cuando aparece una señal relevante: mirada, voz, gesto, sorpresa o intención inesperada. Es importante para atención conjunta y perspectiva social.",
+    summary: "Una mirada inesperada, una voz fuera de lugar, un gesto que no cuadra: el cerebro abandona lo que está haciendo para procesar esa señal. Esta red reorienta la atención hacia estímulos socialmente relevantes y es fundamental para atención conjunta y toma de perspectiva.",
     concepts: "TPJ, mirada, atención conjunta, novedad, perspectiva.",
     example: "Una mirada ajena orienta la atención incluso si no predice correctamente el objetivo.",
     deep: "Conecta temas de person perception, teoría de la mente, voz y señales sociales dinámicas. Sirve para mostrar cómo el cerebro abandona una meta actual cuando otra persona entrega una señal relevante.",
@@ -3001,7 +3001,7 @@ const socialFunctionProfiles = {
   },
   salience: {
     title: "Detección de relevancia social",
-    summary: "La red de saliencia, con ínsula anterior y cíngulo anterior, detecta eventos importantes para el organismo y ayuda a cambiar entre introspección, control y acción. En lo social prioriza amenaza, rechazo, dolor ajeno, sorpresa y señales corporales relevantes.",
+    summary: "Algo socialmente significativo —una amenaza, un rechazo, el dolor de otro, una sorpresa— convierte a esa señal en prioridad y desencadena atención y acción. Esta red detecta lo que importa para el organismo y activa el cambio entre introspección, control y respuesta.",
     concepts: "Saliencia, cambio de red, interocepción, alerta, relevancia social.",
     example: "Un estímulo emocional inesperado interrumpe una tarea neutra y recluta control.",
     deep: "Articula capítulos sobre emoción, conciencia, empatía, rechazo social y regulación. Es una red puente: convierte algo socialmente significativo en una demanda de atención y acción.",
@@ -3010,7 +3010,7 @@ const socialFunctionProfiles = {
   },
   insula: {
     title: "Interocepción y empatía afectiva",
-    summary: "La ínsula integra señales internas del cuerpo con emoción y conciencia subjetiva. En neurociencia social es clave para empatía afectiva, asco, dolor observado, ansiedad social y sensación corporal durante vínculos o rechazo.",
+    summary: "Comprender al otro no siempre es inferencia fría: muchas veces implica sentir algo en el propio cuerpo. Esta región integra señales internas con emoción y conciencia subjetiva, y es clave para empatía afectiva, asco, dolor observado, ansiedad social y la sensación corporal que acompaña al vínculo o al rechazo.",
     concepts: "Interocepción, empatía, asco, dolor observado, conciencia corporal.",
     example: "Relacionar precisión respiratoria o cardíaca percibida con intensidad emocional reportada.",
     deep: "Desde el handbook se conecta con emoción, empatía, rechazo social y alexitimia. Permite discutir que comprender al otro no siempre es inferencia fría: muchas veces implica representar cambios corporales propios y ajenos.",
@@ -3019,7 +3019,7 @@ const socialFunctionProfiles = {
   },
   amygdala: {
     title: "Relevancia emocional y aprendizaje social",
-    summary: "La amígdala evalúa amenaza, incertidumbre, valor emocional y aprendizaje afectivo. En lo social participa en expresión emocional, vigilancia de caras, aprendizaje de confianza/desconfianza y memoria modulada por emoción.",
+    summary: "No hay que decidir si algo es peligroso o importante para que esta región ya esté respondiendo. Evalúa amenaza, incertidumbre y valor emocional de forma rápida, y en lo social participa en vigilancia de caras, aprendizaje de confianza o desconfianza y en la memoria que persiste porque algo importó afectivamente.",
     concepts: "Amenaza, emoción facial, vigilancia, confianza, aprendizaje afectivo.",
     example: "Detectar más rápido expresiones amenazantes o ambiguas que expresiones neutras.",
     deep: "Se alinea con capítulos de emoción, reconocimiento emocional, social bonding y comportamiento social primate. No debe reducirse a miedo: ayuda a priorizar estímulos con valor social o biológico.",
@@ -3028,7 +3028,7 @@ const socialFunctionProfiles = {
   },
   hippocampus: {
     title: "Memoria episódica de personas y contextos",
-    summary: "El hipocampo une persona, lugar, emoción, momento y contexto. En lo social permite recordar quién hizo qué, dónde ocurrió, qué emoción se asoció al episodio y cómo usar esa memoria para predecir futuras interacciones.",
+    summary: "No solo reconocer una cara: recordar la historia que hay detrás. Esta región une persona, lugar, emoción y momento en episodios completos, haciendo posible recordar quién hizo qué, dónde ocurrió y qué se sintió —información que usamos para predecir y dar sentido a futuras interacciones.",
     concepts: "Contexto social, memoria episódica, reputación, asociación, autobiografía.",
     example: "Recordar qué rostro apareció con qué escena y qué emoción.",
     deep: "Conecta memoria, self, person perception y aprendizaje social. Es central para diferenciar familiaridad simple de recuerdo contextual: no solo conozco la cara, recuerdo la historia asociada.",
@@ -3037,7 +3037,7 @@ const socialFunctionProfiles = {
   },
   fusiformFace: {
     title: "Identidad facial y lectura social visual",
-    summary: "El giro fusiforme participa en reconocimiento de caras e identidad visual experta. En lo social permite estabilizar quién es la persona, diferenciar identidades y conectar percepción facial con emoción, memoria y expectativas.",
+    summary: "Una cara no es solo una imagen: es una señal social rica que activa identidad, emoción y memoria. Esta región permite estabilizar quién es la persona que se ve, diferenciar identidades y conectar percepción facial con expectativas y experiencias previas sobre ese individuo.",
     concepts: "Identidad facial, procesamiento configural, familiaridad, rostro, vía ventral.",
     example: "La inversión de una cara afecta mucho más el reconocimiento que la inversión de muchos objetos.",
     deep: "Se vincula con emotion recognition, person perception y first impressions. Sirve para explicar que una cara no es solo una imagen: es una señal social rica que activa identidad, emoción y memoria.",
@@ -3046,7 +3046,7 @@ const socialFunctionProfiles = {
   },
   auditory: {
     title: "Voz, prosodia y comunicación social",
-    summary: "La corteza auditiva y regiones temporales superiores permiten analizar tono, ritmo, intensidad y cambios de la voz. En lo social son esenciales para prosodia emocional, intención comunicativa, atención a voces y aprendizaje del lenguaje.",
+    summary: "Una misma frase neutra puede sonar amenazante, cálida o irónica según cómo se diga. Estas regiones analizan tono, ritmo e intensidad vocal, y en lo social son esenciales para leer intención comunicativa, prosodia emocional y todo lo que se transmite sin cambiar las palabras.",
     concepts: "Voz humana, prosodia, emoción vocal, comunicación, novedad auditiva.",
     example: "Una misma frase neutra cambia de significado social según prosodia.",
     deep: "El handbook incluye Hearing Voices, melody, language and communication. Esta pestaña muestra cómo el cerebro pasa de sonido a señal social: quién habla, cómo lo dice y qué emoción o intención transmite.",
@@ -3055,7 +3055,7 @@ const socialFunctionProfiles = {
   },
   visual: {
     title: "Entrada visual para señales sociales",
-    summary: "La corteza visual primaria entrega el análisis básico de contraste, bordes y orientación necesario para procesar caras, gestos, escenas y movimiento social. Es la base perceptiva sobre la cual se construye reconocimiento social.",
+    summary: "Todo reconocimiento social empieza como contraste, bordes y orientación. Esta región entrega el análisis perceptivo básico de caras, gestos y escenas, y si esa entrada es ambigua o degradada, las inferencias sociales posteriores también lo serán.",
     concepts: "Contraste, forma, escena, atención visual, señal social temprana.",
     example: "Bajar contraste o duración de un rostro reduce reconocimiento emocional.",
     deep: "Aunque parece una zona sensorial básica, es importante para person perception y first impressions: si la entrada visual es ambigua, las inferencias sociales posteriores también cambian.",
@@ -3064,7 +3064,7 @@ const socialFunctionProfiles = {
   },
   premotor: {
     title: "Preparación de acciones e imitación social",
-    summary: "La corteza premotora transforma señales observadas en planes de acción. En lo social sostiene imitación, aprendizaje por observación, preparación de gestos, contagio motor y control de respuestas imitativas.",
+    summary: "Ver una acción puede preparar al cuerpo para ejecutarla —o para inhibirla. Esta región transforma señales observadas en planes motores, y en lo social sostiene imitación, aprendizaje por observación, preparación de gestos y el contagio motor que ocurre al ver moverse a otra persona.",
     concepts: "Imitación, acción observada, sistema espejo, gestos, preparación motora.",
     example: "Ver una mano moverse facilita o interfiere con la respuesta propia.",
     deep: "Se relaciona con mirror neuron system, imitation y comunicación. Permite mostrar que entender una acción puede implicar mapearla en sistemas motores propios.",
@@ -3073,7 +3073,7 @@ const socialFunctionProfiles = {
   },
   parietal: {
     title: "Perspectiva, cuerpo y atención social",
-    summary: "La corteza parietal integra espacio, cuerpo, atención y acción. En lo social contribuye a seguir mirada, transformar perspectiva, representar cuerpo propio/ajeno y coordinar acciones con otros.",
+    summary: "¿Dónde estoy yo y dónde está el otro? ¿Desde qué perspectiva lo veo? Esta región integra espacio, cuerpo, atención y acción, y en lo social permite seguir la mirada ajena, transformar perspectiva, distinguir el cuerpo propio del observado y coordinar acciones con otros.",
     concepts: "Atención espacial, perspectiva, cuerpo, mirada, integración sensoriomotora.",
     example: "Juzgar una mano desde mi perspectiva o desde la perspectiva de otra persona.",
     deep: "Se vincula con person perception, mirror system y theory of mind. Es un puente entre percepción espacial, acción y comprensión de señales corporales de otros.",
@@ -3082,7 +3082,7 @@ const socialFunctionProfiles = {
   },
   cerebellum: {
     title: "Timing, predicción y sincronía interpersonal",
-    summary: "El cerebelo ajusta precisión temporal, predicción y aprendizaje por error. En lo social ayuda a coordinar turnos conversacionales, sincronía motora, ritmo compartido e inferencias temporales sobre acciones de otros.",
+    summary: "Conversar, moverse juntos o anticipar cuándo responder requieren precisión temporal que va más allá de la intención. Esta región ajusta timing, predicción y aprendizaje por error, y en lo social coordina turnos, sincronía motora y la anticipación del momento en que actúa otra persona.",
     concepts: "Timing, predicción, sincronía, error, coordinación interpersonal.",
     example: "Dos personas sincronizan golpes o ritmo al conversar y moverse juntas.",
     deep: "Aunque históricamente se presentó como motor, hoy sirve para discutir predicción temporal y coordinación social. Aporta a comprender cómo anticipamos el momento de respuesta del otro.",
@@ -3091,7 +3091,7 @@ const socialFunctionProfiles = {
   },
   thalamostriatal: {
     title: "Recompensa social, hábitos y motivación",
-    summary: "Los circuitos tálamo-estriatales participan en aprendizaje por recompensa, selección de acciones, hábitos y motivación. En lo social permiten aprender de aprobación, rechazo, estatus, cooperación y refuerzo grupal.",
+    summary: "Las normas sociales no solo se razonan: también se aprenden por refuerzo. Estos circuitos participan en aprendizaje por recompensa, selección de acciones y motivación, y en lo social procesan aprobación, rechazo, estatus, cooperación y el refuerzo grupal que convierte una elección en hábito.",
     concepts: "Recompensa social, hábito, motivación, aprendizaje por refuerzo, estatus.",
     example: "Una conducta se repite más si recibe aprobación social o aumenta reputación.",
     deep: "Se conecta con social bonding, reward, altruism, hierarchy y group processes. Permite explicar cómo las normas sociales se aprenden también por refuerzo y no solo por razonamiento explícito.",
