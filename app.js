@@ -3132,7 +3132,8 @@ function makeRegionButton(region) {
   const copy = getRegionCopy(region);
   const button = document.createElement("button");
   button.dataset.region = region.id;
-  button.innerHTML = `<strong>${copy.name}</strong><span>${copy.tag}</span><small>${copy.functions}</small>`;
+  const role = currentLang === "en" ? regionNetworkRoleEn[region.id] : regionNetworkRoleEs[region.id];
+  button.innerHTML = `<strong>${copy.name}</strong><span>${copy.tag}</span><small>${role ?? copy.functions}</small>`;
   button.addEventListener("click", () => selectRegion(region.id));
   return button;
 }
