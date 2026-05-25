@@ -1123,6 +1123,8 @@ const uiText = {
     networks: "Redes",
     subcortex: "Subcorteza",
     selectedStructure: "Estructura seleccionada",
+    selectedFunction: "Función explorada",
+    selectedCategory: "Categoría social",
     location: "Localización",
     functions: "Funciones",
     cerebraLabel: "Etiqueta CerebrA",
@@ -1175,7 +1177,9 @@ const uiText = {
     cleanStart: "Clean initial window: the brain remains unmarked until you choose a category and then a specific function.",
     domainSelected: "Selected social category",
     chooseSpecificFunction: "Choose a specific function to highlight the associated cortical and subcortical areas in the brain.",
-    approximation: "Functional approximation; load the CerebrA GLB to inspect anatomical labels."
+    approximation: "Functional approximation; load the CerebrA GLB to inspect anatomical labels.",
+    selectedFunction: "Exploring function",
+    selectedCategory: "Social category"
   }
 };
 
@@ -3237,16 +3241,14 @@ function quoteKeyForRegion(regionId) {
 function buildGroupNarrative(group, groupCopy, themeCopies, regionIds) {
   const names = listPreview(themeCopies.map((theme) => theme.title), 5);
   if (currentLang === "en") {
-    return `${asSentence(groupCopy.description)} This category opens a route through ${group.themes.length} related functions, including ${names}. Together they show how ${groupCopy.title.toLowerCase()} depends on coordinated activity across ${regionIds.length} atlas systems rather than on a single isolated area.`;
+    return `${asSentence(groupCopy.description)} Includes functions such as ${names}.`;
   }
-  return `${asSentence(groupCopy.description)} Esta categoría abre una ruta por ${group.themes.length} funciones relacionadas, como ${names}. En conjunto muestran que ${groupCopy.title.toLowerCase()} depende de la coordinación de ${regionIds.length} sistemas del atlas, no de una sola zona aislada.`;
+  return `${asSentence(groupCopy.description)} Incluye funciones como ${names}.`;
 }
 
 function buildThemeLead(section, themeCopy) {
-  if (currentLang === "en") {
-    return `When you explore ${themeCopy.title.toLowerCase()}, the atlas highlights ${section.regions.length} associated systems and follows how they work together in social life. ${asSentence(themeCopy.description)}`;
-  }
-  return `Al explorar ${themeCopy.title.toLowerCase()}, el atlas ilumina ${section.regions.length} sistemas asociados y permite seguir cómo se coordinan en la vida social. ${asSentence(themeCopy.description)}`;
+  const guide = themeCopy.guide ? " " + asSentence(themeCopy.guide) : "";
+  return asSentence(themeCopy.description) + guide;
 }
 
 function buildTeachingNarrative(themeCopy) {
@@ -3332,6 +3334,8 @@ function showSocialGroupOverview(group) {
   const regionIds = uniqueGroupRegionIds(group);
   const groupNarrative = buildGroupNarrative(group, groupCopy, themeCopies, regionIds);
   title.textContent = groupCopy.title;
+  const groupEyebrow = document.querySelector(".panel-section:nth-of-type(1) .eyebrow");
+  if (groupEyebrow) groupEyebrow.textContent = uiText[currentLang].selectedCategory;
   summary.textContent = groupNarrative;
   locationEl.textContent = currentLang === "en" ? "Main social category." : "Categoría social principal.";
   functionsEl.textContent = groupCopy.hint;
@@ -3994,6 +3998,8 @@ function selectTheme(sectionId, options = {}) {
   if (renderTabs) renderThemeTabs(section.id);
 
   const themeCopy = currentLang === "en" ? (themeTextEn[section.id] ?? section) : section;
+  const panelEyebrow = document.querySelector(".panel-section:nth-of-type(1) .eyebrow");
+  if (panelEyebrow) panelEyebrow.textContent = uiText[currentLang].selectedFunction;
   title.textContent = themeCopy.title;
   summary.textContent = buildThemeLead(section, themeCopy);
   locationEl.textContent = currentLang === "en" ? "Distributed social network." : "Red social distribuida.";
@@ -4155,6 +4161,8 @@ function selectZone(label) {
   selected = regions.find((region) => region.id === regionId) ?? selected;
   const selectedCopy = getRegionCopy(selected);
 
+  const zoneEyebrow = document.querySelector(".panel-section:nth-of-type(1) .eyebrow");
+  if (zoneEyebrow) zoneEyebrow.textContent = uiText[currentLang].selectedStructure;
   title.textContent = zoneLabelText(zone);
   summary.textContent = zone.notes || `Etiqueta anatómica CerebrA correspondiente a ${zone.name}.`;
   locationEl.textContent = `${groupName(zone.group)}, ${zone.hemisphere === "RH" ? "hemisferio derecho" : "hemisferio izquierdo"}.`;
