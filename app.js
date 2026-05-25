@@ -1982,11 +1982,6 @@ networkPairs.forEach(([a, b]) => {
 });
 
 const proceduralMeshes = brain.children.slice();
-{
-  const _b = new THREE.Box3().setFromObject(brain);
-  const _s = _b.getSize(new THREE.Vector3());
-  atlasBounds.boxHalf.set(_s.x / 2, _s.y / 2, _s.z / 2);
-}
 const regionMarkerSet = new Set(regionMeshes.values());
 const networkLineMeshes = proceduralMeshes.filter((m) => m.isLine && m.material?.color?.getHex() === 0x55c2b7);
 // cortexShellMeshes = everything except region markers and network connection lines
@@ -2031,6 +2026,11 @@ const atlasBounds = {
   radius: 3.25,
   boxHalf: new THREE.Vector3(1.2, 1.5, 1.5)
 };
+{
+  const _b = new THREE.Box3().setFromObject(brain);
+  const _s = _b.getSize(new THREE.Vector3());
+  atlasBounds.boxHalf.set(_s.x / 2, _s.y / 2, _s.z / 2);
+}
 
 const title = document.querySelector("#region-title");
 const summary = document.querySelector("#region-summary");
@@ -4709,9 +4709,9 @@ function buildCoronalGroup() {
   // ── CUERPO CALLOSO ─────────────────────────────────────────────────
   const ccBody = s([[-0.32,0.44],[-0.32,0.55],[0.32,0.55],[0.32,0.44]]);
   g.add(_cshape(ccBody, COL.cc, COL.ccOut));
-  const ccGenu = s([[0.30,0.44],[0.30,0.55],[0.36,0.53],[0.38,0.46],[0.34,0.41]]);
-  g.add(_cshape(ccGenu, COL.cc, COL.ccOut));
-  g.add(_cshape(mX(ccGenu.map(([x,y])=>[x/sX,y/sY])).map(([x,y])=>[x*sX,y*sY]), COL.cc, COL.ccOut));
+  const ccGenuRaw = [[0.30,0.44],[0.30,0.55],[0.36,0.53],[0.38,0.46],[0.34,0.41]];
+  g.add(_cshape(s(ccGenuRaw),      COL.cc, COL.ccOut));
+  g.add(_cshape(s(mX(ccGenuRaw)), COL.cc, COL.ccOut));
 
   // ── SEPTO PELÚCIDO ─────────────────────────────────────────────────
   g.add(_cshape(s([[-0.02,0.31],[-0.02,0.44],[0.02,0.44],[0.02,0.31]]), COL.sep));
