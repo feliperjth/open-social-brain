@@ -4734,10 +4734,17 @@ function showCoronalSection() {
   if (coronalSectionActive) return;
   coronalSectionActive = true;
   coronalGroup = buildCoronalGroup();
-  const brainGroup = importedBrain ?? brain;
-  // Place flat group slightly in front of the cut face (toward viewer)
-  coronalGroup.position.set(0, 0, 0.12);
-  brainGroup.add(coronalGroup);
+  // Add to scene (world space) so orientation is independent of brain's anatomical rotation.
+  // Shapes are in the XY plane = world coronal plane. Center vertically on the brain's
+  // bounding-box center; place slightly in front of the cut (toward camera, +Z) so the
+  // shapes occlude the raw cut edge via depth testing.
+  const R = atlasBounds.radius;
+  coronalGroup.position.set(
+    atlasBounds.center.x,
+    atlasBounds.center.y - R * 0.215,   // shift down so shape centroid aligns with brain centroid
+    atlasBounds.center.z + R * 0.02     // slightly toward camera (+Z) to sit on the cut face
+  );
+  scene.add(coronalGroup);
   updateCoronalClipPlane();
   applyCoronalClipping(true);
 }
@@ -4746,7 +4753,7 @@ function hideCoronalSection() {
   if (!coronalSectionActive) return;
   coronalSectionActive = false;
   if (coronalGroup) {
-    (importedBrain ?? brain).remove(coronalGroup);
+    scene.remove(coronalGroup);
     coronalGroup = null;
   }
   applyCoronalClipping(false);
@@ -4773,9 +4780,10 @@ function applyCoronalClipping(enable) {
 
 function updateCoronalClipPlane() {
   if (!coronalSectionActive) return;
-  const brainGroup = importedBrain ?? brain;
-  const normal = coronalLocalAxis.clone().applyQuaternion(brainGroup.quaternion).normalize();
-  coronalClipPlane.setFromNormalAndCoplanarPoint(normal, atlasBounds.center);
+  // The anatomicalRotation is Rx(-π/2): local-Z → world-Y, local-Y → world-(-Z).
+  // Coronal cut clips the posterior half (world +Z = near the camera).
+  // Keep world z < center.z (anterior half) → normal points in -Z direction.
+  coronalClipPlane.setFromNormalAndCoplanarPoint(new THREE.Vector3(0, 0, -1), atlasBounds.center);
 }
 
 function prepareImportedAtlas(root, label) {
