@@ -4773,15 +4773,12 @@ function buildCoronalGroup() {
 }
 
 function _setBrainVisible(visible) {
-  // Procedural brain.
-  brain.visible = visible;
-  brain.traverse((child) => { child.visible = visible; });
-  // Imported atlas brain + all child meshes.
   if (importedBrain) {
     importedBrain.visible = visible;
-    importedBrain.traverse((child) => { child.visible = visible; });
+  } else {
+    brain.visible = visible;
+    if (visible) applyLayerVisibility();
   }
-  if (visible && !importedBrain) applyLayerVisibility();
 }
 
 function showCoronalSection() {
