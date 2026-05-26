@@ -4401,6 +4401,9 @@ function setView(view) {
   resetSelectionVisibility();
   const medialMode = view === "medial-left" ? "LH" : view === "medial-right" ? "RH" : null;
   setMedialCut(medialMode);
+  // Medial views: world -Z = anatomical superior, so use it as camera up for standard orientation
+  if (medialMode) camera.up.set(0, 0, -1); else camera.up.set(0, 1, 0);
+  controls.update();
   const views = {
     lateral: cameraPose(new THREE.Vector3(1, 0.02, 0)),
     "medial-left": cameraPose(new THREE.Vector3(1, 0.02, 0), 1.42),
