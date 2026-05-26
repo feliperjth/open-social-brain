@@ -4429,17 +4429,19 @@ if (spinToggleBtn) {
 
 function applyLayerVisibility() {
   if (!proceduralVisible) return;
-  // Hide cortex shell (lobes, stem, callosum, sulcus lines)
-  if (!layerCortexOn) cortexShellMeshes.forEach((m) => { m.visible = false; });
-  // Hide network connection lines
-  if (!layerNetworkOn) networkLineMeshes.forEach((m) => { m.visible = false; });
-  // Hide / show region markers by category; apply scale boost when cortex is off
+  // Cortex shell (lobes, stem, callosum, sulcus lines) — explicit show AND hide
+  cortexShellMeshes.forEach((m) => { m.visible = layerCortexOn; });
+  // Network connection lines
+  networkLineMeshes.forEach((m) => { m.visible = layerNetworkOn; });
+  // Region markers — always set visibility in both directions
   regionMeshes.forEach((mesh, id) => {
     const isSub = subcortexRegionIds.has(id);
     const isNet = networkRegionIds.has(id);
-    if (isSub && !layerSubcortexOn) { mesh.visible = false; return; }
-    if (isNet && !layerNetworkOn)   { mesh.visible = false; return; }
-    if (!isSub && !isNet && !layerCortexOn) { mesh.visible = false; return; }
+    let shouldShow;
+    if (isSub) shouldShow = layerSubcortexOn;
+    else if (isNet) shouldShow = layerNetworkOn;
+    else shouldShow = layerCortexOn;
+    mesh.visible = shouldShow;
     if (isSub) {
       const s = regions.find((r) => r.id === id)?.scale ?? [1, 1, 1];
       const b = layerCortexOn ? 1 : 1.5;
@@ -4501,20 +4503,26 @@ function updateHoverTooltip(event) {
       return worldNormal.dot(raycaster.ray.direction) < 0;
     });
   const shellDist = hoverHits.find((h) => shellForRay.includes(h.object))?.distance ?? Infinity;
+  // In medial view the cut plane exposes subcortical regions — use wider threshold so they aren't blocked
+  const blockThreshold = medialCutEnabled ? 0.4 : 0.05;
   const hit = hoverHits.find((h) => {
-    if (!h.object.userData.regionId) return false;
-    // Block subcortical hits when cortex shell is in front
-    return !(subcortexRegionIds.has(h.object.userData.regionId) && shellDist < h.distance - 0.05);
+    const { regionId, cerebraLabel } = h.object.userData;
+    // Must have at least one identifier; skip shell and unlabelled meshes
+    if (!regionId && !cerebraLabel) return false;
+    // Block subcortical that are still behind the cortex shell
+    if (regionId && subcortexRegionIds.has(regionId) && shellDist < h.distance - blockThreshold) return false;
+    return true;
   });
   if (hit) {
     const cerebraLabel = hit.object.userData.cerebraLabel;
     const regionId = hit.object.userData.regionId;
     const region = regions.find((r) => r.id === regionId);
     const name = cerebraLabel ? cerebraLabel.displayName : (region ? getRegionCopy(region).name : "");
+    if (!name) { tooltipEl.classList.remove("visible"); return; }
     const tag = cerebraLabel
       ? ({ frontal: "Lóbulo frontal", temporal: "Lóbulo temporal", parietal: "Lóbulo parietal", occipital: "Lóbulo occipital", limbic: "Sistema límbico", subcortex: "Subcorteza", cerebellum: "Cerebelo" }[cerebraLabel.group] ?? cerebraLabel.group)
       : (region ? getRegionCopy(region).tag : "");
-    tooltipEl.innerHTML = `<strong>${name}</strong>${tag}`;
+    tooltipEl.innerHTML = `<strong>${name}</strong>${tag ? `<br><small>${tag}</small>` : ""}`;
     const tipX = Math.min(event.clientX + 16, window.innerWidth - 200);
     const tipY = Math.max(event.clientY - 12, 8);
     tooltipEl.style.left = `${tipX}px`;
