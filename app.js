@@ -4506,13 +4506,12 @@ function updateHoverTooltip(event) {
       return worldNormal.dot(raycaster.ray.direction) < facingThreshold;
     });
   const shellDist = hoverHits.find((h) => shellForRay.includes(h.object))?.distance ?? Infinity;
-  // In medial view the cut plane exposes subcortical regions — use wider threshold so they aren't blocked
   const blockThreshold = medialCutEnabled ? 0.4 : 0.05;
   const hit = hoverHits.find((h) => {
     const { regionId, cerebraLabel } = h.object.userData;
-    // Must have at least one identifier; skip shell and unlabelled meshes
     if (!regionId && !cerebraLabel) return false;
-    // Block subcortical that are still behind the cortex shell
+    // Reject hits on the clipped (invisible) side — raycaster ignores material clipping planes
+    if (medialCutEnabled && medialClipPlane.distanceToPoint(h.point) < -0.05) return false;
     if (regionId && subcortexRegionIds.has(regionId) && shellDist < h.distance - blockThreshold) return false;
     return true;
   });
@@ -4597,6 +4596,7 @@ renderer.domElement.addEventListener("pointerup", (event) => {
   const clickShellDist = hits.find((h) => shellForClick.includes(h.object))?.distance ?? Infinity;
   const regionHit = hits.find((hit) => {
     if (!hit.object.userData.regionId) return false;
+    if (medialCutEnabled && medialClipPlane.distanceToPoint(hit.point) < -0.05) return false;
     return !(subcortexRegionIds.has(hit.object.userData.regionId) && clickShellDist < hit.distance - 0.05);
   });
   if (regionHit) {
