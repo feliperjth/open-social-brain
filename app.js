@@ -4203,8 +4203,7 @@ function selectTheme(sectionId, options = {}) {
   updateSelectionHalo(selectedAtlasMeshes, 0x55c2b7);
   setMedialCut(medialHemisphere);
   renderZoneList();
-  if (sectionId === "person-perception") showDavinciOverlay();
-  else hideDavinciOverlay();
+  hideDavinciOverlay();
   resetTask();
   updateURL();
   openSheet();
@@ -4978,17 +4977,6 @@ function restoreFromURL() {
   if (theme) selectTheme(theme);
 }
 
-// ── Da Vinci anatomical overlay ────────────────────────
-const davinciCopy = {
-  es: {
-    eyebrow: "Área Fusiforme · BA 37",
-    annotation: "Reconocimiento facial, expresión e identidad. Vía ventral temporal, activa en ~170 ms."
-  },
-  en: {
-    eyebrow: "Fusiform Area · BA 37",
-    annotation: "Facial identity, expression and recognition. Ventral temporal pathway, active at ~170 ms."
-  }
-};
 
 function _zoneImageSlug(name) {
   return name.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "");
@@ -5070,21 +5058,6 @@ function showDavinciOverlay(zone) {
     setTimeout(() => {
       if (eyebrowEl) _typewriter(eyebrowEl, eyebrowText, 45, () => {
         if (annotEl) _typewriter(annotEl, annotText, 22);
-      });
-    }, 220);
-  } else {
-    // Modo temático (Percepción de personas)
-    const t = davinciCopy[currentLang] ?? davinciCopy.es;
-    if (imgEl) {
-      imgEl.src = "./Imagenes/brain_lateral.jpg";
-      imgEl.alt = "Ilustración anatómica del cerebro — vista lateral";
-    }
-    overlay.classList.add("visible");
-    overlay.removeAttribute("aria-hidden");
-    if (_davinciTyperTimer) { clearTimeout(_davinciTyperTimer); _davinciTyperTimer = null; }
-    setTimeout(() => {
-      if (eyebrowEl) _typewriter(eyebrowEl, t.eyebrow, 55, () => {
-        if (annotEl) _typewriter(annotEl, t.annotation, 28);
       });
     }, 220);
   }
