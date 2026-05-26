@@ -269,12 +269,12 @@ button:active {
   display: flex;
   align-items: center;
   gap: 6px;
-  margin: 6px 0 4px;
-  padding: 5px 10px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--line);
+  margin: 0 0 12px;
+  padding: 6px 12px;
+  background: rgba(85, 194, 183, 0.08);
+  border: 1px solid rgba(85, 194, 183, 0.25);
   border-radius: 6px;
-  color: var(--muted);
+  color: var(--accent);
   font-size: 0.78rem;
   font-weight: 600;
   cursor: pointer;

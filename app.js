@@ -3359,6 +3359,10 @@ function _updateBackBtn() {
     : '← Inicio';
 }
 
+function _scrollPanelTop() {
+  document.querySelector('.panel')?.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
 function goHome() {
   activeSocialGroupId = null;
   activeThemeId = null;
@@ -3387,6 +3391,7 @@ function _showFacts() {
   const eyebrow = document.querySelector('.panel-section:nth-of-type(1) .eyebrow');
   if (eyebrow) eyebrow.textContent = uiText[currentLang]?.selectedStructure ?? 'Estructura seleccionada';
   _updateBackBtn();
+  _scrollPanelTop();
 }
 
 function showInitialOverviewCopy() {
@@ -3455,6 +3460,7 @@ function showInitialOverviewCopy() {
   experimentTitle.textContent = currentLang === "en" ? "Guided social exploration" : "Exploración social guiada";
   experimentCopy.textContent = uiText[currentLang].chooseMainDomain;
   _updateBackBtn();
+  _scrollPanelTop();
 }
 
 function showSocialGroupOverview(group) {
