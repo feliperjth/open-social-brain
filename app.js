@@ -3337,32 +3337,100 @@ function applyLanguage(lang) {
   renderZoneList();
 }
 
+const _CAT_COLORS = {
+  'social-perception':             '#3a7fc1',
+  'social-emotions':               '#c84850',
+  'social-communication':          '#55c2b7',
+  'social-learning':               '#4ea86a',
+  'control-norms-morality':        '#c8783a',
+  'social-decision-rationality':   '#8050c0',
+  'bonding-cooperation':           '#c05878',
+  'group-culture-status':          '#c0a030',
+  'social-cognition-mental-health':'#708890'
+};
+
+function _removeCatGrid() {
+  const g = document.getElementById('_cat_grid_initial');
+  if (g) g.remove();
+}
+
+function _showFacts() {
+  _removeCatGrid();
+  const factsEl = document.querySelector('.facts');
+  if (factsEl) factsEl.style.display = '';
+  const eyebrow = document.querySelector('.panel-section:nth-of-type(1) .eyebrow');
+  if (eyebrow) eyebrow.textContent = uiText[currentLang]?.selectedStructure ?? 'Estructura seleccionada';
+}
+
 function showInitialOverviewCopy() {
-  const groupTitles = socialThemeGroups.map((group) => getSocialGroupCopy(group).title);
-  title.textContent = "Open Social Brain";
-  summary.textContent = uiText[currentLang].cleanStart;
-  locationEl.textContent = currentLang === "en" ? "Whole-brain social atlas." : "Atlas social de cerebro completo.";
-  functionsEl.textContent = uiText[currentLang].mainDomains;
-  networkEl.textContent = groupTitles.join(", ");
-  labelEl.textContent = currentLang === "en"
-    ? `${regionSections.length} social functions organized into ${socialThemeGroups.length} categories.`
-    : `${regionSections.length} funciones sociales organizadas en ${socialThemeGroups.length} categorías.`;
+  // Hide the dl.facts detail fields — irrelevant when no region is selected
+  const factsEl = document.querySelector('.facts');
+  if (factsEl) factsEl.style.display = 'none';
+
+  const eyebrow = document.querySelector('.panel-section:nth-of-type(1) .eyebrow');
+  if (eyebrow) eyebrow.textContent = currentLang === 'en' ? 'Explore by domain' : 'Explorar por dominio';
+
+  title.textContent = currentLang === 'en' ? 'Social categories' : 'Categorías sociales';
+  summary.textContent = currentLang === 'en'
+    ? `${socialThemeGroups.length} domains · ${regionSections.length} functions. Select a category to highlight its brain network.`
+    : `${socialThemeGroups.length} dominios · ${regionSections.length} funciones. Selecciona una categoría para iluminar su red cerebral.`;
+
+  // Remove any old grid before rebuilding
+  _removeCatGrid();
+
+  // Build the 9-category clickable list
+  const grid = document.createElement('div');
+  grid.id = '_cat_grid_initial';
+  grid.className = 'cat-grid';
+
+  socialThemeGroups.forEach((group) => {
+    const copy = getSocialGroupCopy(group);
+    const btn = document.createElement('button');
+    btn.className = 'cat-card';
+    btn.type = 'button';
+
+    const iconEl = document.createElement('span');
+    iconEl.className = 'cat-icon';
+    iconEl.textContent = group.icon;
+    iconEl.style.background = _CAT_COLORS[group.id] ?? 'var(--accent)';
+
+    const textEl = document.createElement('span');
+    textEl.className = 'cat-text';
+
+    const nameEl = document.createElement('span');
+    nameEl.className = 'cat-name';
+    nameEl.textContent = copy.title;
+
+    const hintEl = document.createElement('span');
+    hintEl.className = 'cat-hint';
+    hintEl.textContent = copy.hint;
+
+    textEl.appendChild(nameEl);
+    textEl.appendChild(hintEl);
+    btn.appendChild(iconEl);
+    btn.appendChild(textEl);
+    btn.addEventListener('click', () => selectMainThemeGroup(group.id));
+    grid.appendChild(btn);
+  });
+
+  summary.insertAdjacentElement('afterend', grid);
+
   socialTitleEl.textContent = currentLang === "en" ? "Exploration by social category" : "Exploración por categoría social";
   socialSummaryEl.textContent = currentLang === "en"
-    ? "The first layer is intentionally clean: choose a main category, then a specific function to highlight its brain network."
-    : "La primera capa queda limpia: elige una categoría principal y luego una función específica para iluminar su red cerebral.";
-  socialConceptsEl.textContent = groupTitles.join(" · ");
+    ? "Choose a main category, then a specific function to highlight its brain network."
+    : "Elige una categoría principal y luego una función específica para iluminar su red cerebral.";
   showLiteralQuote("socialSpecies", {
     label: currentLang === "en" ? "the social brain" : "el cerebro social",
     importance: currentLang === "en"
-      ? "The first view is intentionally open: before choosing a function, the atlas frames the brain as a system prepared for life with others."
-      : "La primera vista queda abierta a propósito: antes de elegir una función, el atlas presenta el cerebro como un sistema preparado para vivir con otros."
+      ? "Before choosing a function, the atlas frames the brain as a system prepared for life with others."
+      : "Antes de elegir una función, el atlas presenta el cerebro como un sistema preparado para vivir con otros."
   });
   experimentTitle.textContent = currentLang === "en" ? "Guided social exploration" : "Exploración social guiada";
   experimentCopy.textContent = uiText[currentLang].chooseMainDomain;
 }
 
 function showSocialGroupOverview(group) {
+  _showFacts();
   const groupCopy = getSocialGroupCopy(group);
   const themeCopies = group.themes.map(themeById).filter(Boolean).map(getThemeCopy);
   const regionIds = uniqueGroupRegionIds(group);
@@ -4045,6 +4113,7 @@ function selectTheme(sectionId, options = {}) {
   const { renderTabs = true } = options;
   const section = regionSections.find((item) => item.id === sectionId);
   if (!section) return;
+  _showFacts();
 
   selectionMode = "theme";
   selectedZoneLabel = null;
@@ -4120,6 +4189,7 @@ function selectTheme(sectionId, options = {}) {
 
 function selectRegion(id, options = {}) {
   const { revealMenu = true } = options;
+  _showFacts();
   selectionMode = "region";
   hideDavinciOverlay();
   selected = regions.find((region) => region.id === id) ?? regions[0];
