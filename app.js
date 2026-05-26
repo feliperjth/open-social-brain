@@ -5,6 +5,7 @@ import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
 import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
 import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
 import { UnrealBloomPass } from "three/addons/postprocessing/UnrealBloomPass.js";
+import { mergeVertices } from "three/addons/utils/BufferGeometryUtils.js";
 
 const regions = [
   {
@@ -4496,11 +4497,13 @@ function updateHoverTooltip(event) {
   raycaster.setFromCamera(hoverPointer, camera);
   const atlasTargets = [...atlasMeshes.values()].flat();
   const shellForRay = layerCortexOn ? cortexShellSolidMeshes.filter((m) => m.visible) : [];
+  // In medial view use a stricter facing threshold to avoid glancing voxel-edge faces
+  const facingThreshold = medialCutEnabled ? -0.18 : 0;
   const hoverHits = raycaster.intersectObjects([...atlasTargets, ...regionMeshes.values(), ...shellForRay], false)
     .filter((h) => {
       if (!h.face) return true;
       const worldNormal = h.face.normal.clone().transformDirection(h.object.matrixWorld);
-      return worldNormal.dot(raycaster.ray.direction) < 0;
+      return worldNormal.dot(raycaster.ray.direction) < facingThreshold;
     });
   const shellDist = hoverHits.find((h) => shellForRay.includes(h.object))?.distance ?? Infinity;
   // In medial view the cut plane exposes subcortical regions — use wider threshold so they aren't blocked
@@ -4740,7 +4743,9 @@ function prepareImportedAtlas(root, label) {
     allAtlasMeshes.push(child);
     child.castShadow = true;
     child.frustumCulled = false;
+    // Merge duplicate voxel-boundary vertices so smooth normals can interpolate across them
     child.geometry.deleteAttribute?.("normal");
+    child.geometry = mergeVertices(child.geometry, 1e-4);
     child.geometry.computeVertexNormals();
     const regionId = regionForMeshName(child.name);
     const region = regions.find((item) => item.id === regionId);
