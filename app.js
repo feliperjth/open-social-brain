@@ -2003,7 +2003,6 @@ let pointerDown = null;
 let dragState = null;
 let lastInteractionAt = 0;
 let spinPaused = false;
-let coronalSavedSpin = false;
 let viewLockedUntil = 0;
 let medialCutEnabled = false;
 let medialHemisphere = null;
@@ -2017,20 +2016,10 @@ const worldUpAxis = new THREE.Vector3(0, 1, 0);
 const worldRightAxis = new THREE.Vector3(1, 0, 0);
 const medialClipPlane = new THREE.Plane(new THREE.Vector3(1, 0, 0), 0);
 const medialLocalAxis = new THREE.Vector3(1, 0, 0);
-const coronalClipPlane = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0);
-const coronalLocalAxis = new THREE.Vector3(0, 0, 1);
-let coronalSectionActive = false;
-let coronalGroup = null;
 const atlasBounds = {
   center: new THREE.Vector3(0, 0, 0),
-  radius: 3.25,
-  boxHalf: new THREE.Vector3(1.2, 1.5, 1.5)
+  radius: 3.25
 };
-{
-  const _b = new THREE.Box3().setFromObject(brain);
-  const _s = _b.getSize(new THREE.Vector3());
-  atlasBounds.boxHalf.set(_s.x / 2, _s.y / 2, _s.z / 2);
-}
 
 const title = document.querySelector("#region-title");
 const summary = document.querySelector("#region-summary");
@@ -4412,18 +4401,12 @@ function setView(view) {
   resetSelectionVisibility();
   const medialMode = view === "medial-left" ? "LH" : view === "medial-right" ? "RH" : null;
   setMedialCut(medialMode);
-  if (view === "coronal") {
-    showCoronalSection();
-  } else {
-    hideCoronalSection();
-  }
   const views = {
     lateral: cameraPose(new THREE.Vector3(1, 0.02, 0)),
     "medial-left": cameraPose(new THREE.Vector3(1, 0.02, 0), 1.42),
     "medial-right": cameraPose(new THREE.Vector3(-1, 0.02, 0), 1.42),
     dorsal:  cameraPose(new THREE.Vector3(0, 1, 0.04), 1.72),
     ventral: cameraPose(new THREE.Vector3(0, -1, 0.04), 1.72),
-    coronal: { position: atlasBounds.center.clone().add(new THREE.Vector3(0, 0.05, 3.0)), target: atlasBounds.center.clone() },
     center: cameraPose(new THREE.Vector3(0, 0.02, 1), 1.58),
     reset: cameraPose(new THREE.Vector3(0, 0.02, 1), 1.58)
   };
@@ -4703,7 +4686,6 @@ function applyModelRotation() {
   const pitch = new THREE.Quaternion().setFromAxisAngle(worldRightAxis, modelRotation.pitch);
   importedBrain.quaternion.copy(yaw).multiply(pitch).multiply(anatomicalQuaternion);
   updateMedialClipPlane();
-  updateCoronalClipPlane();
 }
 
 function updateMedialClipPlane() {
@@ -4713,252 +4695,7 @@ function updateMedialClipPlane() {
   medialClipPlane.setFromNormalAndCoplanarPoint(normal, atlasBounds.center);
 }
 
-// ════════════════════════════════════════════════════════════════════
-// CORTE CORONAL — geometrías 2D de estructuras internas
-// ════════════════════════════════════════════════════════════════════
-
-function _cshape(pts, color, outlineColor, z = 0) {
-  const shape = new THREE.Shape(pts.map(([x, y]) => new THREE.Vector2(x, y)));
-  const geo = new THREE.ShapeGeometry(shape, 32);
-  const mat = new THREE.MeshBasicMaterial({ color, side: THREE.DoubleSide, depthWrite: true });
-  const mesh = new THREE.Mesh(geo, mat);
-  mesh.position.z = z;
-  mesh.renderOrder = 2;
-  if (outlineColor !== undefined) {
-    const linePts = [...pts, pts[0]].map(([x, y]) => new THREE.Vector3(x, y, 0.002));
-    const lineGeo = new THREE.BufferGeometry().setFromPoints(linePts);
-    const lineMat = new THREE.LineBasicMaterial({ color: outlineColor });
-    const line = new THREE.Line(lineGeo, lineMat);
-    line.renderOrder = 3;
-    mesh.add(line);
-  }
-  return mesh;
-}
-
-function buildCoronalGroup() {
-  // Normalised coords [−1..+1]; 0.82 = outer cortex half-span → maps to real brain extents.
-  const W  = atlasBounds.boxHalf.x;
-  const H  = atlasBounds.boxHalf.y;
-  const sX = W / 0.82;
-  const sY = H / 0.82;
-  const g  = new THREE.Group();
-  const s  = (pts) => pts.map(([x, y]) => [x * sX, y * sY]);
-  const mX = (pts) => pts.map(([x, y]) => [-x, y]);
-
-  // z-layer counter: each call to z() gives the next depth level (closer to camera)
-  let _z = 0;
-  const z = () => { _z += 0.004; return _z; };
-
-  // Atlas color palette — high contrast between anatomically adjacent structures
-  const COL = {
-    bg:        0x060c16,   // fondo oscuro
-    cortex:    0xd4956a,   // corteza gris (salmon)
-    cortexOut: 0x4a1a08,   // borde corteza (café oscuro)
-    wm:        0xf0ece2,   // sustancia blanca (marfil brillante)
-    wmOut:     0x909080,
-    cc:        0xffffff,   // cuerpo calloso (blanco puro)
-    ccOut:     0x606058,
-    sep:       0xd8cdb8,   // septo pelúcido
-    vent:      0x020c1e,   // ventrículos (casi negro)
-    ventOut:   0x2060b0,   // borde azul brillante
-    caudate:   0xe86820,   // caudado (naranja vivo)
-    caudOut:   0x7a2c08,
-    putamen:   0xc03818,   // putamen (rojo ladrillo)
-    putOut:    0x601008,
-    gp:        0xc89010,   // globo pálido (oro oscuro)
-    gpOut:     0x5a3c00,
-    ic:        0xe8e4d8,   // cápsula interna (crema muy claro)
-    icOut:     0x888070,
-    ec:        0xcfc8b8,   // cápsula externa
-    ecOut:     0x807860,
-    claust:    0xb8c010,   // claustrum (verde-amarillo)
-    claustOut: 0x505000,
-    insula:    0x10c8c0,   // ínsula (teal brillante)
-    insulaOut: 0x006060,
-    thal:      0x9050cc,   // tálamo (violeta)
-    thalOut:   0x401858,
-    hypo:      0x5030a0,   // hipotálamo (azul violeta)
-    hypoOut:   0x201040,
-    v3:        0x020c1e,   // 3er ventrículo
-    v3Out:     0x2060b0
-  };
-
-  // ── FONDO OSCURO ──────────────────────────────────────────────────────
-  const bg = new THREE.Mesh(
-    new THREE.PlaneGeometry(W * 2.8, H * 2.8),
-    new THREE.MeshBasicMaterial({ color: COL.bg, side: THREE.DoubleSide })
-  );
-  bg.position.set(0, 0, -0.01);
-  bg.renderOrder = 1;
-  g.add(bg);
-
-  // ── CORTEZA GRIS (silueta exterior) ──────────────────────────────────
-  const cortR = [
-    [0,    0.82],
-    [0.14, 0.84], [0.28, 0.81], [0.40, 0.75],
-    [0.50, 0.64], [0.56, 0.50],
-    [0.60, 0.34], [0.63, 0.18], [0.62, 0.04],
-    [0.57,-0.06], [0.50,-0.17], [0.42,-0.27],
-    [0.30,-0.35], [0.15,-0.39], [0,   -0.40]
-  ];
-  const cortL = mX(cortR.slice(1, -1)).reverse();
-  g.add(_cshape(s([...cortR, ...cortL]), COL.cortex, COL.cortexOut, z()));
-
-  // ── SUSTANCIA BLANCA ─────────────────────────────────────────────────
-  const wmR = [
-    [0,    0.72],
-    [0.12, 0.73], [0.24, 0.70], [0.34, 0.64],
-    [0.41, 0.53], [0.45, 0.42],
-    [0.46, 0.29], [0.47, 0.17], [0.43, 0.05],
-    [0.37,-0.04], [0.27,-0.13], [0.14,-0.16],
-    [0,   -0.17]
-  ];
-  const wmL = mX(wmR.slice(1, -1)).reverse();
-  g.add(_cshape(s([...wmR, ...wmL]), COL.wm, COL.wmOut, z()));
-
-  // ── CUERPO CALLOSO ───────────────────────────────────────────────────
-  const zCC = z();
-  g.add(_cshape(s([[-0.33,0.43],[-0.33,0.56],[0.33,0.56],[0.33,0.43]]), COL.cc, COL.ccOut, zCC));
-  const ccGenuRaw = [[0.31,0.43],[0.31,0.56],[0.37,0.54],[0.39,0.46],[0.35,0.41]];
-  g.add(_cshape(s(ccGenuRaw),      COL.cc, COL.ccOut, zCC));
-  g.add(_cshape(s(mX(ccGenuRaw)), COL.cc, COL.ccOut, zCC));
-
-  // ── SEPTO PELÚCIDO ───────────────────────────────────────────────────
-  g.add(_cshape(s([[-0.022,0.31],[-0.022,0.43],[0.022,0.43],[0.022,0.31]]), COL.sep, COL.wmOut, z()));
-
-  // ── VENTRÍCULOS LATERALES ────────────────────────────────────────────
-  const zV = z();
-  const ventR = [[0.03,0.31],[0.03,0.43],[0.21,0.43],[0.23,0.36],[0.19,0.31]];
-  g.add(_cshape(s(ventR),     COL.vent, COL.ventOut, zV));
-  g.add(_cshape(s(mX(ventR)), COL.vent, COL.ventOut, zV));
-
-  // ── TÁLAMO (amplio, base del telencéfalo) ────────────────────────────
-  const zTh = z();
-  const thalR = [[0.04,-0.20],[0.03,0.15],[0.24,0.17],[0.31,0.06],[0.28,-0.18],[0.12,-0.22]];
-  g.add(_cshape(s(thalR),     COL.thal, COL.thalOut, zTh));
-  g.add(_cshape(s(mX(thalR)), COL.thal, COL.thalOut, zTh));
-
-  // ── TERCER VENTRÍCULO ────────────────────────────────────────────────
-  g.add(_cshape(s([[-0.022,-0.18],[-0.022,0.13],[0.022,0.13],[0.022,-0.18]]), COL.v3, COL.v3Out, z()));
-
-  // ── NÚCLEO CAUDADO ───────────────────────────────────────────────────
-  const zCa = z();
-  const caudR = [[0.22,0.19],[0.22,0.42],[0.36,0.42],[0.38,0.30],[0.34,0.19]];
-  g.add(_cshape(s(caudR),     COL.caudate, COL.caudOut, zCa));
-  g.add(_cshape(s(mX(caudR)), COL.caudate, COL.caudOut, zCa));
-
-  // ── CÁPSULA INTERNA ──────────────────────────────────────────────────
-  const zIC = z();
-  const icR = [[0.22,-0.09],[0.25,0.19],[0.32,0.19],[0.29,-0.09]];
-  g.add(_cshape(s(icR),     COL.ic, COL.icOut, zIC));
-  g.add(_cshape(s(mX(icR)), COL.ic, COL.icOut, zIC));
-
-  // ── GLOBO PÁLIDO ─────────────────────────────────────────────────────
-  const zGP = z();
-  const gpR = [[0.29,-0.08],[0.29,0.19],[0.37,0.19],[0.37,-0.08]];
-  g.add(_cshape(s(gpR),     COL.gp, COL.gpOut, zGP));
-  g.add(_cshape(s(mX(gpR)), COL.gp, COL.gpOut, zGP));
-
-  // ── PUTAMEN ──────────────────────────────────────────────────────────
-  const zPu = z();
-  const putR = [[0.37,-0.10],[0.37,0.29],[0.52,0.25],[0.54,0.08],[0.50,-0.10]];
-  g.add(_cshape(s(putR),     COL.putamen, COL.putOut, zPu));
-  g.add(_cshape(s(mX(putR)), COL.putamen, COL.putOut, zPu));
-
-  // ── CÁPSULA EXTERNA ──────────────────────────────────────────────────
-  const zEC = z();
-  const ecR = [[0.52,-0.12],[0.52,0.27],[0.55,0.27],[0.55,-0.12]];
-  g.add(_cshape(s(ecR),     COL.ec, COL.ecOut, zEC));
-  g.add(_cshape(s(mX(ecR)), COL.ec, COL.ecOut, zEC));
-
-  // ── CLAUSTRUM ────────────────────────────────────────────────────────
-  const zCl = z();
-  const clR = [[0.55,-0.14],[0.55,0.25],[0.58,0.25],[0.58,-0.14]];
-  g.add(_cshape(s(clR),     COL.claust, COL.claustOut, zCl));
-  g.add(_cshape(s(mX(clR)), COL.claust, COL.claustOut, zCl));
-
-  // ── ÍNSULA ───────────────────────────────────────────────────────────
-  const zIn = z();
-  const insulR = [
-    [0.58,-0.16],[0.56,0.00],[0.58,0.16],[0.62,0.24],
-    [0.64,0.14],[0.64,0.00],[0.62,-0.10],[0.60,-0.16]
-  ];
-  g.add(_cshape(s(insulR),     COL.insula, COL.insulaOut, zIn));
-  g.add(_cshape(s(mX(insulR)), COL.insula, COL.insulaOut, zIn));
-
-  // ── HIPOTÁLAMO ───────────────────────────────────────────────────────
-  g.add(_cshape(
-    s([[-0.14,-0.32],[-0.14,-0.20],[0.14,-0.20],[0.14,-0.32]]),
-    COL.hypo, COL.hypoOut, z()
-  ));
-
-  return g;
-}
-
-function _setBrainVisible(visible) {
-  brain.visible = visible;
-  if (importedBrain) importedBrain.visible = visible;
-  if (visible) applyLayerVisibility();
-}
-
-function showCoronalSection() {
-  if (coronalSectionActive) return;
-  coronalSectionActive = true;
-
-  // Pause auto-spin.
-  coronalSavedSpin = spinPaused;
-  spinPaused = true;
-
-  coronalGroup = buildCoronalGroup();
-  coronalGroup.position.set(atlasBounds.center.x, atlasBounds.center.y, atlasBounds.center.z);
-  scene.add(coronalGroup);
-
-  // Hide everything else after adding the group so _setBrainVisible skips it.
-  _setBrainVisible(false);
-}
-
-function hideCoronalSection() {
-  if (!coronalSectionActive) return;
-  coronalSectionActive = false;
-
-  if (coronalGroup) {
-    scene.remove(coronalGroup);
-    coronalGroup = null;
-  }
-
-  _setBrainVisible(true);
-  spinPaused = coronalSavedSpin;
-}
-
-function applyCoronalClipping(enable) {
-  const planes = enable ? [coronalClipPlane] : [];
-  allAtlasMeshes.forEach((mesh) => {
-    if (mesh.material) {
-      mesh.material.clippingPlanes = planes;
-      mesh.material.clipShadows = false;
-      mesh.material.needsUpdate = true;
-    }
-  });
-  if (!importedBrain) {
-    proceduralMeshes.forEach((child) => {
-      if (child.material) {
-        child.material.clippingPlanes = planes;
-        child.material.needsUpdate = true;
-      }
-    });
-  }
-}
-
-function updateCoronalClipPlane() {
-  if (!coronalSectionActive) return;
-  // The anatomicalRotation is Rx(-π/2): local-Z → world-Y, local-Y → world-(-Z).
-  // Coronal cut clips the posterior half (world +Z = near the camera).
-  // Keep world z < center.z (anterior half) → normal points in -Z direction.
-  coronalClipPlane.setFromNormalAndCoplanarPoint(new THREE.Vector3(0, 0, -1), atlasBounds.center);
-}
-
 function prepareImportedAtlas(root, label) {
-  hideCoronalSection();
   if (importedBrain) {
     scene.remove(importedBrain);
     internalAtlasMeshes.forEach((mesh) => scene.remove(mesh));
@@ -5053,9 +4790,7 @@ function prepareImportedAtlas(root, label) {
 
   const box = new THREE.Box3().setFromObject(importedBrain);
   box.getCenter(atlasBounds.center);
-  const _bsz = box.getSize(new THREE.Vector3());
-  atlasBounds.boxHalf.set(_bsz.x / 2, _bsz.y / 2, _bsz.z / 2);
-  atlasBounds.radius = Math.max(2.8, _bsz.length() * 0.5);
+  atlasBounds.radius = Math.max(2.8, box.getSize(new THREE.Vector3()).length() * 0.5);
   controls.target.copy(atlasBounds.center);
 
   modelStatus.textContent = matched
@@ -5199,7 +4934,6 @@ function animate() {
     if (camera.position.distanceTo(targetCamera.position) < 0.03) targetCamera = null;
   }
   updateMedialClipPlane();
-  updateCoronalClipPlane();
   controls.update();
   composer.render();
 }
