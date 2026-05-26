@@ -249,6 +249,44 @@ button:active {
   gap: 14px;
 }
 
+.home-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  text-shadow: inherit;
+  transition: opacity 0.15s;
+}
+.home-btn:hover { opacity: 0.75; }
+
+.back-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 6px 0 4px;
+  padding: 5px 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 0.14s, background 0.14s, border-color 0.14s;
+  width: fit-content;
+}
+.back-btn:hover {
+  color: var(--text);
+  background: rgba(85, 194, 183, 0.10);
+  border-color: rgba(85, 194, 183, 0.30);
+}
+
 .creator-credit {
   margin: 8px 0 0 64px;
   max-width: min(520px, 52vw);

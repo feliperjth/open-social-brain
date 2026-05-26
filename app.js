@@ -3349,6 +3349,32 @@ const _CAT_COLORS = {
   'social-cognition-mental-health':'#708890'
 };
 
+function _updateBackBtn() {
+  const btn = document.getElementById('back-btn');
+  if (!btn) return;
+  const atHome = selectionMode === 'none' && !activeSocialGroupId;
+  btn.style.display = atHome ? 'none' : 'flex';
+  btn.textContent = (selectionMode === 'region' || selectionMode === 'theme')
+    ? '← Categoría'
+    : '← Inicio';
+}
+
+function goHome() {
+  activeSocialGroupId = null;
+  activeThemeId = null;
+  clearSelectionDisplay();
+}
+
+function navigateBack() {
+  if (selectionMode === 'region' || selectionMode === 'theme') {
+    const group = socialThemeGroups.find((g) => g.id === activeSocialGroupId);
+    if (group) selectMainThemeGroup(group.id, { renderTabs: true });
+    else goHome();
+  } else {
+    goHome();
+  }
+}
+
 function _removeCatGrid() {
   const g = document.getElementById('_cat_grid_initial');
   if (g) g.remove();
@@ -3360,6 +3386,7 @@ function _showFacts() {
   if (factsEl) factsEl.style.display = '';
   const eyebrow = document.querySelector('.panel-section:nth-of-type(1) .eyebrow');
   if (eyebrow) eyebrow.textContent = uiText[currentLang]?.selectedStructure ?? 'Estructura seleccionada';
+  _updateBackBtn();
 }
 
 function showInitialOverviewCopy() {
@@ -3427,6 +3454,7 @@ function showInitialOverviewCopy() {
   });
   experimentTitle.textContent = currentLang === "en" ? "Guided social exploration" : "Exploración social guiada";
   experimentCopy.textContent = uiText[currentLang].chooseMainDomain;
+  _updateBackBtn();
 }
 
 function showSocialGroupOverview(group) {
@@ -5340,6 +5368,8 @@ function hideDavinciOverlay() {
 }
 
 document.getElementById("davinci-close")?.addEventListener("click", hideDavinciOverlay);
+document.getElementById("home-btn")?.addEventListener("click", goHome);
+document.getElementById("back-btn")?.addEventListener("click", navigateBack);
 
 const aboutOverlay = document.querySelector("#about-overlay");
 const aboutBtn = document.querySelector("#about-btn");
