@@ -4628,6 +4628,8 @@ renderer.domElement.addEventListener("pointermove", (event) => {
   modelRotation.yaw += dx * 0.0038;
   modelRotation.pitch += dy * 0.0026;
   modelRotation.pitch = THREE.MathUtils.clamp(modelRotation.pitch, -0.72, 0.72);
+  // In medial view, limit yaw so ventral-zone face normals never flip away from camera
+  if (medialCutEnabled) modelRotation.yaw = THREE.MathUtils.clamp(modelRotation.yaw, -0.30, 0.30);
   if (importedBrain) {
     applyModelRotation();
   } else {
