@@ -1878,13 +1878,84 @@ function makeLobe(name, position, scale, color = 0xd78374) {
   return mesh;
 }
 
+// Per-region base colors — anatomically grouped
+// Frontal: blues · Temporal: greens · Parietal: ambers · Occipital: reds
+// Limbic: purples · Subcortex: golds · Cerebellum: corals
+const _CEREBRA_PALETTE = {
+  // FRONTAL — blue family
+  "Superior Frontal":           0x3460a0,
+  "Rostral Middle Frontal":     0x4653b3,
+  "Caudal Middle Frontal":      0x3b5ba6,
+  "Precentral":                 0x2e6ca0,
+  "Paracentral":                0x2c5993,
+  "Pars Opercularis":           0x404099,
+  "Pars Triangularis":          0x4e5bac,
+  "Pars Orbitalis":             0x4679ac,
+  "Lateral Orbitofrontal":      0x396099,
+  "Medial Orbitofrontal":       0x4879a0,
+  // TEMPORAL — green family
+  "Superior Temporal":          0x2e895b,
+  "Middle Temporal":            0x267646,
+  "Inferior Temporal":          0x347949,
+  "Transverse Temporal":        0x33896e,
+  "Fusiform":                   0x488860,
+  // PARIETAL — amber / orange family
+  "Postcentral":                0xa9612e,
+  "Superior Parietal":          0x995320,
+  "Inferior Parietal":          0xb06c2c,
+  "Supramarginal":              0xa05b33,
+  "Precuneus":                  0x8c5b20,
+  // OCCIPITAL — red / coral family
+  "Lateral Occipital":          0xa34639,
+  "Cuneus":                     0x993333,
+  "Lingual":                    0x933e40,
+  "Pericalcarine":              0x862c33,
+  // LIMBIC — purple / violet family
+  "Caudal Anterior Cingulate":  0x734c99,
+  "Rostral Anterior Cingulate": 0x8059a0,
+  "Posterior Cingulate":        0x614086,
+  "Isthmus Cingulate":          0x69468c,
+  "Insula":                     0x8c4c79,
+  "Entorhinal":                 0x795386,
+  "Parahippocampal":            0x8c5993,
+  "Hippocampus":                0x533980,
+  "Amygdala":                   0x794c86,
+  // SUBCORTEX — warm gold family
+  "Thalamus":                   0x937333,
+  "Caudate":                    0x80602c,
+  "Putamen":                    0x8c6626,
+  "Pallidum":                   0x997939,
+  "Accumbens Area":             0x79592c,
+  "Ventral Diencephalon":       0x806033,
+  "Basal Forebrain":            0x8c6e3b,
+  "Brainstem":                  0x666659,
+  "Third Ventricle":            0x405366,
+  "Fourth Ventricle":           0x40606c,
+  "Optic Chiasm":               0x4c6c79,
+  "Lateral Ventricle":          0x4c7386,
+  "Inferior Lateral Ventricle": 0x59798c,
+  // CEREBELLUM — coral / brick family
+  "Cerebellum Gray Matter":     0x93594c,
+  "Cerebellum White Matter":    0xa06c60,
+  "Vermal lobules I-V":         0x864c46,
+  "Vermal lobules VI-VII":      0x8c534c,
+  "Vermal lobules VIII-X":      0x804640,
+};
+
 function colorForCerebraLabel(label, region) {
-  if ([5, 29, 37, 41, 56, 80, 88, 92].includes(label)) return 0x6f93a4;
-  if ([11, 62].includes(label)) return 0x9a7659;
-  if ([39, 46, 90, 97, 2, 20, 50, 53, 71, 101].includes(label)) return 0xb88962;
-  if ([40, 49, 91, 100, 21, 72, 27, 78, 4, 55, 25, 76, 26, 77].includes(label)) return 0xb8a06d;
-  if ([48, 99, 19, 70, 18, 69, 36, 87].includes(label)) return 0xc99a67;
-  if (region) return new THREE.Color(region.color).lerp(new THREE.Color(0xd08a7c), 0.58).getHex();
+  const info = cerebraByLabel.get(label);
+  if (info) {
+    const base = _CEREBRA_PALETTE[info.name];
+    if (base !== undefined) {
+      return base;
+    }
+    // Unlisted region → procedural fallback by group hue
+    const GROUP_HUE = { frontal: 215, temporal: 145, parietal: 28, occipital: 5, limbic: 285, subcortex: 42, cerebellum: 10 };
+    const hue = GROUP_HUE[info.group] ?? 200;
+    const t = (info.mindboggleId % 10) / 9;
+    return new THREE.Color().setHSL((hue + t * 25) / 360, 0.52, 0.46).getHex();
+  }
+  if (region) return new THREE.Color(region.color).lerp(new THREE.Color(0xd08a7c), 0.45).getHex();
   return label <= 51 ? 0xc98278 : 0xb97986;
 }
 
@@ -4722,16 +4793,16 @@ function prepareImportedAtlas(root, label) {
   let matched = 0;
   const neutral = new THREE.MeshPhysicalMaterial({
     color: 0xc98778,
-    map: tissueMap,
+    // No map: tissueMap here — it multiplies with base color and shifts all hues toward warm brown
     bumpMap,
-    bumpScale: 0.055,
-    roughness: 0.72,
+    bumpScale: 0.06,
+    roughness: 0.68,
     metalness: 0.0,
-    clearcoat: 0.28,
-    clearcoatRoughness: 0.52,
-    envMapIntensity: 0.55,
-    sheen: 0.38,
-    sheenRoughness: 0.88,
+    clearcoat: 0.32,
+    clearcoatRoughness: 0.48,
+    envMapIntensity: 0.65,
+    sheen: 0.30,
+    sheenRoughness: 0.82,
     transparent: false,
     opacity: 1,
     depthWrite: false
