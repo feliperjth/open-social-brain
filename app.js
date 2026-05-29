@@ -4710,9 +4710,21 @@ function setMedialCut(hemisphere) {
     if (mesh.material) {
       mesh.material.clippingPlanes = clippingPlanes;
       mesh.material.clipShadows = false;
-      mesh.material.side = THREE.FrontSide;
+      // DoubleSide in medial view: ventral zone faces stay visible during rotation
+      // regardless of whether their outward normal faces the camera.
+      // FrontSide in other views: normal behaviour, no inner-face bleed.
+      mesh.material.side = medialCutEnabled ? THREE.DoubleSide : THREE.FrontSide;
       mesh.material.needsUpdate = true;
-      syncInternalSurface(mesh);
+    }
+    // Inner surface (BackSide) meshes z-fight with DoubleSide outer mesh — hide them
+    // in medial view; restore via syncInternalSurface when leaving medial.
+    const inner = mesh.userData.innerMesh;
+    if (inner) {
+      if (medialCutEnabled) {
+        inner.visible = false;
+      } else {
+        syncInternalSurface(mesh);
+      }
     }
   });
 }
